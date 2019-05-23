@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "org.seraph.demo"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //ARouter 框架配置
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+
+        sourceCompatibility JavaVersion.VERSION_1_8
+
+        targetCompatibility JavaVersion.VERSION_1_8
+
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+greendao {
+    schemaVersion 1
+    daoPackage 'org.seraph.demo.data.db.gen'
+    targetGenDir 'src/main/java'
+}
+
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    kapt "com.android.databinding:compiler:3.2.0-alpha10"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation project(':base_mvvm_lib')
+
+    //dagger2
+    implementation 'com.google.dagger:dagger:2.22.1'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    implementation 'com.google.dagger:dagger-android:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+    implementation 'com.google.dagger:dagger-android-support:2.22.1'
+
+    //glide图片加载
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    //glide图片加载的OkHttp集成库的依赖
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
+    //Glide 的注解和注解解析器的依赖
+    implementation 'com.github.bumptech.glide:annotations:4.9.0'
+
+    //ARouter路由框架
+    implementation 'com.alibaba:arouter-api:1.4.1'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+
+    //解决分包兼容
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //greenDao数据库
+    implementation 'org.greenrobot:greendao:3.2.2'
+    //green数据库升级帮助类
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+    //事件总线
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //viewpager切换
+    implementation('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
+}

@@ -1,0 +1,50 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.seraph.lib">
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application android:networkSecurityConfig="@xml/network_security_config">
+
+        <!--图片预览-->
+        <activity
+                android:name=".ui.comm.photopreview.PhotoPreviewActivity"
+                android:screenOrientation="portrait"/>
+        <!--微信apk安装-->
+        <activity
+                android:name=".ui.comm.wxapkinstall.WxApkInstallActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <data
+                        android:host="com.tencent.mm.external.fileprovider"
+                        android:scheme="content"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+        </activity>
+
+        <!--通过uri唤起-->
+        <activity
+                android:name=".ui.comm.SchameFilterActivity"
+                android:screenOrientation="portrait">
+            <!-- Schame -->
+            <intent-filter>
+                <data
+                        android:host="app"
+                        android:scheme="searph"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

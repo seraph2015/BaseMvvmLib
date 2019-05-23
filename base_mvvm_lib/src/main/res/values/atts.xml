@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义长宽比图片控件 -->
+    <declare-styleable name="CustomWHImageView">
+        <attr name="h" format="integer"/>
+        <attr name="w" format="integer"/>
+    </declare-styleable>
+
+    <!-- 流式布局 -->
+    <declare-styleable name="DynamicLayout">
+        <attr name="columnSpacing" format="dimension"/>
+        <attr name="rowSpacing" format="dimension"/>
+    </declare-styleable>
+</resources>
