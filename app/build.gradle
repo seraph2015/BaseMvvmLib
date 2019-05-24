@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'org.greenrobot.greendao'
 
+apply plugin: 'com.alibaba.arouter'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -79,7 +81,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.9.0'
 
     //ARouter路由框架
-    implementation 'com.alibaba:arouter-api:1.4.1'
+    implementation 'com.alibaba:arouter-api:1.5.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
 
     //解决分包兼容

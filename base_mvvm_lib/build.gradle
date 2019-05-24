@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.alibaba.arouter'
+
 //apply plugin: 'com.github.dcendents.android-maven'
 //group='com.github.seraph2015'
 
@@ -85,7 +87,7 @@ dependencies {
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
 
     //ARouter路由框架
-    implementation 'com.alibaba:arouter-api:1.4.1'
+    implementation 'com.alibaba:arouter-api:1.5.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
 
     //dagger2
