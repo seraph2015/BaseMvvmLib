@@ -2,11 +2,11 @@
 # MvvmDemo
 ### mvvm模式框架demo  
 #### 一.主要第三方框架使用：  
-dagger2,rxjava2,okhttp3,retrofit2,arouter,glide4.0+,databinding...
+dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
 
 #### 二.框架使用：(kotlin)  
 
-##### 1.导入lib(后续进行发布在线依赖)  
+##### 1.导入lib
 
 `implementation project(':base_mvvm_lib')`
 
