@@ -9,7 +9,7 @@ class AppConfig {
         /**
          * 是否调试模式
          */
-        const val DEBUG = false
+        const val DEBUG = true
 
         /**
          * 默认数据查询数量
