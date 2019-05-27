@@ -25,7 +25,7 @@ interface ApiBaiduService {
      * @param pageSize 反正数据条数
      */
     @GET("search/avatarjson")
-    fun doSearch(@Query("tn") tn: String, @Query("word") word: String, @Query("pn") start: Int?, @Query("rn") pageSize: Int?): Deferred<ImageBaiduBean>
+    fun doSearchAsync(@Query("tn") tn: String, @Query("word") word: String, @Query("pn") start: Int?, @Query("rn") pageSize: Int?): Deferred<ImageBaiduBean>
 
 
 }

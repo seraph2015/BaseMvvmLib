@@ -26,7 +26,7 @@ class OtherRepository @Inject constructor(
      * 获取一句话
      */
     suspend fun getYiYan(): YiYanBean {
-        return apiIoCall { apiYiYanService.getYiYan("?c=").await() }
+        return apiIoCall { apiYiYanService.getYiYanAsync("?c=").await() }
     }
 
 
@@ -35,7 +35,7 @@ class OtherRepository @Inject constructor(
      */
     suspend fun doSearch(pageNo: Int, pageSize: Int, keyWordStr: String): List<ImageBaiduBean.BaiduImage> {
         return apiIoCall {
-            apiBaiduService.doSearch(
+            apiBaiduService.doSearchAsync(
                 "resultjsonavatarnew",
                 keyWordStr,
                 (pageNo - 1) * pageSize,
