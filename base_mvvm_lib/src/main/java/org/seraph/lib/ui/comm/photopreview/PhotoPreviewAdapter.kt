@@ -11,7 +11,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import io.reactivex.Flowable
 import org.seraph.lib.R
 import org.seraph.lib.network.glide.GlideApp
-import org.seraph.lib.network.rx.RxSchedulers
+import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.ui.base.ABasePagerAdapter
 import org.seraph.lib.ui.base.ABaseSubscriber
 import java.io.File

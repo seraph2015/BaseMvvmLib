@@ -1,4 +1,4 @@
-package org.seraph.lib.network.rx
+package org.seraph.lib.utlis
 
 import io.reactivex.FlowableTransformer
 import io.reactivex.ObservableTransformer

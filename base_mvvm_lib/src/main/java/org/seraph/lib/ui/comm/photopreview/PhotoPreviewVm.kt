@@ -11,7 +11,7 @@ import io.reactivex.Flowable
 import io.reactivex.functions.Function
 import org.reactivestreams.Publisher
 import org.seraph.lib.network.glide.GlideApp
-import org.seraph.lib.network.rx.RxSchedulers
+import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.ui.base.ABaseSubscriber
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.utlis.LibUtils
