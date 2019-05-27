@@ -70,9 +70,6 @@ class MainVm @Inject constructor(
 
 
     override fun start() {
-        mException.observeForever {
-            imageList.value = null
-        }
     }
 
 
@@ -162,9 +159,11 @@ class MainVm @Inject constructor(
      * 获取数据
      */
     private fun doSearch(pageNo: Int) {
-        launchOnUI {
+        launchOnUI ({
             imageList.value = otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
-        }
+        },{
+            imageList.value = null
+        })
     }
 
     fun getOnePage() {
