@@ -54,12 +54,12 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
                 }
             }
         })
-        ultra_viewpager.setOffscreenPageLimit(3)
-        ultra_viewpager.adapter = vm.guidePagerAdapter
+        binding.ultraViewpager.setOffscreenPageLimit(3)
+        binding.ultraViewpager.adapter = vm.guidePagerAdapter
         //内置indicator初始化
-        ultra_viewpager.initIndicator()
+        binding.ultraViewpager.initIndicator()
         //设置indicator样式
-        ultra_viewpager.indicator
+        binding.ultraViewpager.indicator
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(Color.WHITE)
                 .setNormalColor(Color.GRAY)
@@ -71,10 +71,10 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
                         ).toInt()
                 )
         //设置indicator对齐方式
-        ultra_viewpager.indicator.setMargin(10, 10, 10, ConvertUtils.dp2px(15f))
-        ultra_viewpager.indicator.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+        binding.ultraViewpager.indicator.setMargin(10, 10, 10, ConvertUtils.dp2px(15f))
+        binding.ultraViewpager.indicator.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
         //构造indicator,绑定到UltraViewPager
-        ultra_viewpager.indicator.build()
+        binding.ultraViewpager.indicator.build()
 
     }
 

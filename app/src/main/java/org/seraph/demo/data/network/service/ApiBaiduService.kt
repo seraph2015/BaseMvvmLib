@@ -1,10 +1,9 @@
 package org.seraph.demo.data.network.service
 
-import io.reactivex.Flowable
+import kotlinx.coroutines.Deferred
 import org.seraph.demo.ui.main.b.ImageBaiduBean
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 /**
  * 度娘api
@@ -19,9 +18,6 @@ interface ApiBaiduService {
         const val BASE_URL: String = "https://image.baidu.com/"
     }
 
-    @GET
-    fun doBaiduImageUrl(@Url url: String): Flowable<ImageBaiduBean>
-
     /**
      * @param tn       固定参数 resultjsonavatarnew
      * @param word     搜索关键字
@@ -29,7 +25,7 @@ interface ApiBaiduService {
      * @param pageSize 反正数据条数
      */
     @GET("search/avatarjson")
-    fun doSearch(@Query("tn") tn: String, @Query("word") word: String, @Query("pn") start: Int?, @Query("rn") pageSize: Int?): Flowable<ImageBaiduBean>
+    fun doSearch(@Query("tn") tn: String, @Query("word") word: String, @Query("pn") start: Int?, @Query("rn") pageSize: Int?): Deferred<ImageBaiduBean>
 
 
 }

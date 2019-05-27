@@ -25,13 +25,13 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 class MainVm @Inject constructor(
-        application: Application,
-        private var otherRepository: OtherRepository,
-        private var dbRepository: DBRepository,
-        var mAdapter: ImageListBaiduAdapter,
-        var searchListAdapter: SearchListAdapter
+    application: Application,
+    private var otherRepository: OtherRepository,
+    private var dbRepository: DBRepository,
+    var mAdapter: ImageListBaiduAdapter,
+    var searchListAdapter: SearchListAdapter
 ) :
-        ABaseViewModel(application) {
+    ABaseViewModel(application) {
 
     /**
      * 获取到的图片列表
@@ -70,7 +70,9 @@ class MainVm @Inject constructor(
 
 
     override fun start() {
-
+        mException.observeForever {
+            imageList.value = null
+        }
     }
 
 
@@ -126,9 +128,9 @@ class MainVm @Inject constructor(
     fun showSearchHistory() {
         showSearch.value = true
         //查询本地数据搜索历史（时间倒叙）
-        dbRepository.getBaiduSearchToDB().observeForever {
-            val searchDBList = it
-            if (searchDBList != null && searchDBList.isNotEmpty()) {
+        launchOnUI {
+            val searchDBList = dbRepository.getBaiduSearch()
+            if (searchDBList.isNotEmpty()) {
                 searchDBList.add("清除历史记录")
             }
             searchList.value = searchDBList
@@ -160,7 +162,9 @@ class MainVm @Inject constructor(
      * 获取数据
      */
     private fun doSearch(pageNo: Int) {
-        otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!).observeForever { imageList.value = it }
+        launchOnUI {
+            imageList.value = otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
+        }
     }
 
     fun getOnePage() {

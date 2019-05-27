@@ -2,6 +2,13 @@ package org.seraph.lib.ui.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.LogUtils
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import org.seraph.lib.LibConfig
 
 /**
  * ABaseViewModel
@@ -11,32 +18,38 @@ import androidx.lifecycle.AndroidViewModel
  **/
 abstract class ABaseViewModel constructor(application: Application) : AndroidViewModel(application) {
 
-    //    /**
-//     * 事件集合
-//     */
-//    private var listDisposable: List<Disposable> = ArrayList()
-//
-//
-    abstract fun start()
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        for (disposable in listDisposable) {
-//            if (!disposable.isDisposed) {
-//                disposable.dispose()
-//            }
-//        }
-//    }
-//
-//    /**
-//     * 添加到集合
-//     */
-//    fun addDisposable(disposable: Disposable?) {
-//        if (disposable == null) {
-//            return
-//        }
-//        listDisposable.plus(disposable)
-//    }
+    val mException: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
 
+    abstract fun start()
+
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch { block() }
+    }
+
+    fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
+        launchOnUI(block, {
+            if (LibConfig.DEBUG) {
+                LogUtils.i(it.message)
+            }
+        })
+    }
+
+    fun launchOnUI(
+        block: suspend CoroutineScope.() -> Unit,
+        exBlock: suspend CoroutineScope.(Throwable) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (e: Exception) {
+                //如果是取消导致的异常，则不进行通知
+                if (e !is CancellationException) {
+                    mException.value = e
+                    exBlock(e)
+                }
+            }
+        }
+    }
 
 }

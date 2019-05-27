@@ -1,13 +1,10 @@
 package org.seraph.demo.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import org.seraph.demo.data.network.service.ApiBaiduService
 import org.seraph.demo.data.network.service.ApiYiYanService
 import org.seraph.demo.ui.main.b.ImageBaiduBean
 import org.seraph.demo.ui.welcome.b.YiYanBean
-import org.seraph.lib.network.rx.RxSchedulers
-import org.seraph.lib.ui.base.ABaseSubscriber
+import org.seraph.lib.ui.base.ABaseRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,49 +18,30 @@ import javax.inject.Singleton
 class OtherRepository @Inject constructor(
     private val apiYiYanService: ApiYiYanService,
     private val apiBaiduService: ApiBaiduService
-) {
+) : ABaseRepository() {
+
 
 
     /**
      * 获取一句话
      */
-    fun getYiYan(): LiveData<YiYanBean> {
-        val liveData = MutableLiveData<YiYanBean>()
-        apiYiYanService.getYiYan("?c=")
-            .compose(RxSchedulers.io_main())
-            .subscribe(object : ABaseSubscriber<YiYanBean>() {
-
-                override fun onSuccess(t: YiYanBean) {
-                    //获取到广告图片地址存起来
-                    liveData.value = t
-                }
-
-                override fun onError(err: String?) {
-                }
-            })
-        return liveData
+    suspend fun getYiYan(): YiYanBean {
+        return apiIoCall { apiYiYanService.getYiYan("?c=").await() }
     }
 
 
     /**
      * 度娘搜索图片
      */
-    fun doSearch(pageNo: Int, pageSize: Int, keyWordStr: String): LiveData<List<ImageBaiduBean.BaiduImage>> {
-        val liveData = MutableLiveData<List<ImageBaiduBean.BaiduImage>>()
-        val start = (pageNo - 1) * pageSize //开始查询的数据
-        apiBaiduService.doSearch("resultjsonavatarnew", keyWordStr, start, pageSize)
-            .map { t: ImageBaiduBean -> t.imgs }
-            .compose(RxSchedulers.io_main())
-            .subscribe(object : ABaseSubscriber<List<ImageBaiduBean.BaiduImage>>() {
-                override fun onSuccess(t: List<ImageBaiduBean.BaiduImage>) {
-                    liveData.value = t
-                }
-
-                override fun onError(err: String?) {
-                    liveData.value = null
-                }
-            })
-        return liveData
+    suspend fun doSearch(pageNo: Int, pageSize: Int, keyWordStr: String): List<ImageBaiduBean.BaiduImage> {
+        return apiIoCall {
+            apiBaiduService.doSearch(
+                "resultjsonavatarnew",
+                keyWordStr,
+                (pageNo - 1) * pageSize,
+                pageSize
+            ).await().imgs
+        }
     }
 
 

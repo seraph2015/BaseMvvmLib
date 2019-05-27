@@ -1,6 +1,6 @@
 package org.seraph.demo.data.network.service
 
-import io.reactivex.Flowable
+import kotlinx.coroutines.Deferred
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import retrofit2.http.GET
 import retrofit2.http.Url
@@ -25,7 +25,7 @@ interface ApiYiYanService {
      * @param encode 可选 (text - 纯净文本  json - 不进行unicode转码的json文本  js-指定选择器(默认.hitokoto)的同步执行函数  默认 - 返回unicode转码的json文本 )
      */
     @GET
-    fun getYiYan(@Url url: String): Flowable<YiYanBean>
+    fun getYiYan(@Url url: String): Deferred<YiYanBean>
 
 
 }

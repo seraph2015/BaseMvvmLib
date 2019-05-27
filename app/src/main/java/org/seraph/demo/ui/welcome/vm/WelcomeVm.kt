@@ -9,14 +9,15 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
-import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 import org.seraph.demo.AppConstants
 import org.seraph.demo.data.repository.OtherRepository
 import org.seraph.demo.ui.welcome.WelcomeActivity
 import org.seraph.demo.ui.welcome.b.YiYanBean
-import org.seraph.lib.network.rx.RxSchedulers
 import org.seraph.lib.ui.base.ABaseViewModel
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -26,11 +27,11 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 class WelcomeVm @Inject constructor(
-        application: Application,
-        private val yiyanRepository: OtherRepository,
-        private val welcomeActivity: WelcomeActivity
+    application: Application,
+    private val yiyanRepository: OtherRepository,
+    private val welcomeActivity: WelcomeActivity
 ) :
-        ABaseViewModel(application) {
+    ABaseViewModel(application) {
 
     private val spUtils: SPUtils = SPUtils.getInstance(AppConstants.SP_NAME)
 
@@ -67,10 +68,16 @@ class WelcomeVm @Inject constructor(
      * 3秒倒计时转跳
      */
     private fun countDown() {
-        Observable.intervalRange(0, 6, 0, 1, TimeUnit.SECONDS)
-                .compose(RxSchedulers.io_main_o())
-                .`as`(welcomeActivity.bindLifecycle())
-                .subscribe { aLong -> count.value = (5 - aLong).toInt() }
+        launchOnUI {
+            withContext(Dispatchers.IO) {
+                var i = 5
+                while (isActive) {
+                    count.postValue(i)
+                    delay(1000L)
+                    i -= 1
+                }
+            }
+        }
     }
 
 
@@ -84,15 +91,14 @@ class WelcomeVm @Inject constructor(
         }
     }
 
+
     /**
      * 获取信息
      */
     private fun updateInfo() {
-        yiyanRepository.getYiYan().observeForever {
-            if (it != null) {
-                spUtils.put(AppConstants.SP_W_INFO, GsonUtils.toJson(it))
-            }
-
+        launchOnUI {
+            val it = yiyanRepository.getYiYan()
+            spUtils.put(AppConstants.SP_W_INFO, GsonUtils.toJson(it))
         }
     }
 
@@ -102,7 +108,7 @@ class WelcomeVm @Inject constructor(
      */
     fun copyYiYan() {
         val clipboardManager: ClipboardManager =
-                getApplication<Application>().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            getApplication<Application>().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData: ClipData = ClipData.newPlainText("text", yiYanBean.value?.hitokoto)
         clipboardManager.primaryClip = clipData
         ToastUtils.showShort("复制文字成功")

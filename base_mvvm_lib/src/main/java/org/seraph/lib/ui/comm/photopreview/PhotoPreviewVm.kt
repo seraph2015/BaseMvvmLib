@@ -206,7 +206,6 @@ class PhotoPreviewVm @Inject constructor(
                     ToastUtils.showShort("缺少SD卡权限，保存图片失败")
                 }
             }
-        // addDisposable(subscribe)
     }
 
 
