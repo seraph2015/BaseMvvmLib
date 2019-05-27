@@ -2,10 +2,10 @@ package org.seraph.lib.ui.base
 
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
-import org.seraph.lib.network.exception.ServerErrorCode
+import org.seraph.lib.utlis.onCodeToMessage
 
 /**
- * rxjava网络数据接收
+ * rxjava数据接收
  * date：2019/4/19 13:39
  * author：xiongj
  * mail：417753393@qq.com
@@ -21,7 +21,7 @@ abstract class ABaseSubscriber<T> : Subscriber<T> {
     }
 
     override fun onError(t: Throwable?) {
-        onError(ServerErrorCode.errorCodeToMessageShow(t))
+        onError(t.onCodeToMessage())
     }
 
     abstract fun onSuccess(t: T)

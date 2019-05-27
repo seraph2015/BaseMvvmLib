@@ -20,25 +20,6 @@ object LibUtils {
 
 
     /**
-     * 去掉指定开头和结尾之间的字符串
-     */
-    @JvmStatic
-    fun stringReplace(str: String, beginStr: String, endStr: String): String {
-        val begin = str.indexOf(beginStr)
-        if (begin == -1) {
-            return str
-        }
-        val end = str.lastIndexOf(endStr)
-        if (end == -1) {
-            return str
-        }
-        return if (begin > end) {
-            str
-        } else str.replace(str.substring(begin, end + 1), "")
-    }
-
-
-    /**
      * 保存图片文件到磁盘
      * @param tempFile 图片文件源
      * @param imageUrl 图片网络地址
