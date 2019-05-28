@@ -2,11 +2,11 @@
 # MvvmDemo
 ### mvvm模式框架demo  
 #### 一.主要第三方框架使用：  
-dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
+dagger2,RxKotlin,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
 
 #### 二.框架使用：(kotlin)  
 
-##### 1.导入lib
+##### 1.导入lib(后续进行发布在线依赖)  
 
 `implementation project(':base_mvvm_lib')`
 
@@ -24,7 +24,7 @@ dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
     ...
     dependencies{
 	    ...
-	    kapt "com.android.databinding:compiler:3.2.0-alpha10"
+	    kapt "com.android.databinding:compiler:$databinding_version"
     }
 
 ##### 3.导入第三方依赖
@@ -32,9 +32,9 @@ dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
 ##### dagger2依赖注入：
 
     dependencies{
-	...
-	kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    	kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+		...
+	    kapt "com.google.dagger:dagger-compiler:$dagger_version"  
+	    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     }
 
 ##### glide图片加载：
@@ -143,8 +143,3 @@ dagger2相关：
         }
     
     }
-
-
-
-
-
