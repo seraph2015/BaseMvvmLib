@@ -6,7 +6,7 @@ dagger2,RxKotlin,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
 
 #### 二.框架使用：(kotlin)  
 
-##### 1.导入lib(后续进行发布在线依赖)  
+##### 1.导入lib
 
 `implementation project(':base_mvvm_lib')`
 
