@@ -9,12 +9,14 @@ import com.bumptech.glide.request.FutureTarget
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.functions.Function
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.reactivestreams.Publisher
 import org.seraph.lib.network.glide.GlideApp
-import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.ui.base.ABaseSubscriber
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.utlis.LibUtils
+import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.view.CustomLoadingDialog
 import java.io.File
 import javax.inject.Inject
@@ -146,6 +148,27 @@ class PhotoPreviewVm @Inject constructor(
         }
     }
 
+
+//    /**
+//     * 判断是否有原图缓存，进行查看原图按钮的显示
+//     */
+//    private fun isOriginalImageOk() {
+//        val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
+//        if (mSavePhoto.imageUrl.isNotEmpty() && mSavePhoto.imageUrl != mSavePhoto.objURL) {
+//            launchOnUI {
+//                showMaxImage.value = withContext(Dispatchers.IO) {
+//                    val futureTarget =  GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true).submit()
+//                    val file = futureTarget.get()
+//                    GlideApp.with(act).clear(futureTarget)
+//                    return@withContext file == null
+//                }
+//            }
+//        } else {
+//            showMaxImage.value = false
+//        }
+//    }
+
+
     /**
      * 现在显示原图
      */
@@ -195,8 +218,8 @@ class PhotoPreviewVm @Inject constructor(
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
             .`as`(act.bindLifecycle())
-            .subscribe { t ->
-                if (t) {
+            .subscribe {
+                if (it) {
                     //获取权限成功
                     val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
                     //先尝试保存大图
@@ -258,43 +281,70 @@ class PhotoPreviewVm @Inject constructor(
 
 
     //保存当前图片
-    private fun saveMinPhoto(previewBean: PhotoPreviewBean) {
-        //获取原图片的file（后台线程）
-        val fileFutureTarget = GlideApp.with(act)
-            .asFile()
-            .load(previewBean.objURL)
-            .onlyRetrieveFromCache(true)
-            .submit()
-        Flowable.just<FutureTarget<File>>(fileFutureTarget)
-            .flatMap(object : Function<FutureTarget<File>, Publisher<String>> {
-                override fun apply(t: FutureTarget<File>): Publisher<String> {
-                    if (t.get() != null) {
-                        val tis = LibUtils.saveFileToDisk(t.get(), previewBean.objURL!!, act)
-                        return Flowable.just<String>(tis)
-                    }
-                    return Flowable.error<String>(Throwable("没有原图片缓存"))
-                }
-            })
-            .compose(RxSchedulers.io_main())
-            .doOnSubscribe { subscription ->
-                customLoadingDialog.start().setOnDismissListener {
-                    GlideApp.with(act).clear(fileFutureTarget)
-                    subscription.cancel()
-                }
-            }
-            .subscribe(object : ABaseSubscriber<String>() {
-                override fun onSuccess(t: String) {
-                    GlideApp.with(act).clear(fileFutureTarget)
-                    customLoadingDialog.dismiss()
-                    ToastUtils.showShort(t)
-                }
+//    private fun saveMinPhoto(previewBean: PhotoPreviewBean) {
+//
+//        //获取原图片的file（后台线程）
+//        val fileFutureTarget = GlideApp.with(act)
+//            .asFile()
+//            .load(previewBean.objURL)
+//            .onlyRetrieveFromCache(true)
+//            .submit()
+//        Flowable.just<FutureTarget<File>>(fileFutureTarget)
+//            .flatMap(object : Function<FutureTarget<File>, Publisher<String>> {
+//                override fun apply(t: FutureTarget<File>): Publisher<String> {
+//                    LogUtils.i("apply ： ${Thread.currentThread().name}")
+//                    if (t.get() != null) {
+//                        val tis = LibUtils.saveFileToDisk(t.get(), previewBean.objURL!!, act)
+//                        return Flowable.just<String>(tis)
+//                    }
+//                    return Flowable.error<String>(Throwable("没有原图片缓存"))
+//                }
+//            })
+//            .compose(RxSchedulers.io_main())
+//            .doOnSubscribe { subscription ->
+//                customLoadingDialog.start().setOnDismissListener {
+//                    GlideApp.with(act).clear(fileFutureTarget)
+//                    subscription.cancel()
+//                    LogUtils.i("doOnSubscribe ： ${Thread.currentThread().name}")
+//                }
+//            }
+//            .subscribe(object : ABaseSubscriber<String>() {
+//                override fun onSuccess(t: String) {
+//                    GlideApp.with(act).clear(fileFutureTarget)
+//                    customLoadingDialog.dismiss()
+//                    ToastUtils.showShort(t)
+//                }
+//
+//                override fun onError(err: String?) {
+//                    GlideApp.with(act).clear(fileFutureTarget)
+//                    customLoadingDialog.dismiss()
+//                    ToastUtils.showShort("保存失败")
+//                }
+//            })
+//    }
 
-                override fun onError(err: String?) {
-                    GlideApp.with(act).clear(fileFutureTarget)
-                    customLoadingDialog.dismiss()
-                    ToastUtils.showShort("保存失败")
-                }
-            })
+    //保存当前图片
+    private fun saveMinPhoto(previewBean: PhotoPreviewBean) {
+        val job = launchOnUI({
+            val fileFutureTarget = GlideApp.with(act)
+                .asFile()
+                .load(previewBean.objURL)
+                .onlyRetrieveFromCache(true)
+                .submit()
+            //获取原图片的file（后台线程）
+            val msg = withContext(Dispatchers.IO) {
+                val file = fileFutureTarget.get()
+                return@withContext  LibUtils.saveFileToDisk(file, previewBean.objURL!!, act)
+            }
+            ToastUtils.showShort(msg)
+        }, {
+            ToastUtils.showShort("保存失败")
+        },{
+            customLoadingDialog.dismiss()
+        })
+        customLoadingDialog.start().setOnDismissListener {
+            job.cancel()
+        }
     }
 
 

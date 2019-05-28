@@ -11,8 +11,8 @@ import com.blankj.utilcode.util.PathUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.seraph.lib.LibConfig
 import org.seraph.lib.R
-import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.ui.base.ABaseViewModel
+import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.view.NoDataView
 import java.io.File
 import javax.inject.Inject
@@ -75,6 +75,9 @@ class WxApkInstallVm @Inject constructor(
         }
     }
 
+
+
+
     /**
      * 请求读写权限
      */
@@ -98,6 +101,7 @@ class WxApkInstallVm @Inject constructor(
                 { activity.setNoDataInfo(NoDataView.NO_DATE, "加载程序失败") }
             )
     }
+
 
     //初始化获取apk路径
     private fun initApkPath(): File? {

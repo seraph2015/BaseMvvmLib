@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -17,19 +18,27 @@ abstract class ABaseViewModel constructor(application: Application) : AndroidVie
 
     abstract fun start()
 
-    private fun launch(block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope.launch { block() }
+    private fun launch(block: suspend CoroutineScope.() -> Unit): Job {
+        return viewModelScope.launch { block() }
     }
 
-    fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
-        launchOnUI(block, {})
+    fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
+        return launchOnUI(block, {}, {})
     }
 
     fun launchOnUI(
         block: suspend CoroutineScope.() -> Unit,
         exBlock: suspend CoroutineScope.(Throwable) -> Unit
-    ) {
-        viewModelScope.launch {
+    ): Job {
+        return launchOnUI(block, exBlock, {})
+    }
+
+    fun launchOnUI(
+        block: suspend CoroutineScope.() -> Unit,
+        exBlock: suspend CoroutineScope.(Throwable) -> Unit,
+        finallyBlock: suspend CoroutineScope.() -> Unit
+    ): Job {
+        return viewModelScope.launch {
             try {
                 block()
             } catch (e: Exception) {
@@ -37,6 +46,8 @@ abstract class ABaseViewModel constructor(application: Application) : AndroidVie
                 if (e !is CancellationException) {
                     exBlock(e)
                 }
+            } finally {
+                finallyBlock()
             }
         }
     }
