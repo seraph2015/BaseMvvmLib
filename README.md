@@ -32,24 +32,16 @@ dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
 ##### dagger2依赖注入：
 
     dependencies{
-		 ...
-	    implementation 'com.google.dagger:dagger :2.22.1'
-	    kapt 'com.google.dagger:dagger-compiler:2.22.1'
-	    implementation 'com.google.dagger:dagger-android:2.22.1'
-	    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
-	    implementation 'com.google.dagger:dagger-android-support:2.22.1'
+	...
+	kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    	kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     }
 
 ##### glide图片加载：
 
     dependencies{
 	    ...
-	    implementation 'com.github.bumptech.glide:glide:4.9.0'
-        kapt 'com.github.bumptech.glide:compiler:4.9.0'
-        //glide图片加载的OkHttp集成库的依赖
-        implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-        //Glide 的注解和注解解析器的依赖
-        implementation 'com.github.bumptech.glide:annotations:4.9.0'
+	    kapt "com.github.bumptech.glide:compiler:$glide_version"
     }
 
 ##### ARouter路由：
@@ -70,8 +62,7 @@ dagger2,RxKotlin,okhttp3,retrofit2,arouter,glide4.0+,databinding...
     
     dependencies{
 	    ...
-	    implementation 'com.alibaba:arouter-api:1.4.1'
-	    kapt 'com.alibaba:arouter-compiler:1.2.2'
+	    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
     }
 
 ##### 4.初始化sdk
