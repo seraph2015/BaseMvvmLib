@@ -30,6 +30,31 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
 
         initView()
 
+        //是否输入状态
+        vm.showSearch.observe(this, Observer {
+            //图片列表
+            binding.rvImage.visibility = if(it) View.GONE else View.VISIBLE
+            //输入历史列表
+            binding.rvSearch.visibility = if(it) View.VISIBLE else View.GONE
+            //设置输入框可聚集
+            binding.etSearchInput.isFocusable = it
+            //设置触摸聚焦
+            binding.etSearchInput.isFocusableInTouchMode = it
+            if (it){
+                //请求焦点
+                binding.etSearchInput.requestFocus()
+                //获取焦点
+                binding.etSearchInput.findFocus()
+                //请求历史数据
+                vm.showSearchHistory()
+                //展示软键盘
+                KeyboardUtils.showSoftInput(binding.etSearchInput)
+            }else{
+                //失去关闭键盘
+                KeyboardUtils.hideSoftInput(binding.etSearchInput)
+            }
+        })
+
         //刷新搜索数据
         vm.searchList.observe(this, Observer { t ->
             vm.searchListAdapter.onUpdateList(t, 1)
@@ -37,12 +62,6 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         //刷新图片数据
         vm.imageList.observe(this, Observer { t ->
             vm.mAdapter.onUpdateList(t)
-        })
-        //如果是图片展示则去掉焦点
-        vm.showSearch.observe(this, Observer {
-            if (!it) {
-                binding.etSearchInput.clearFocus()
-            }
         })
         //搜索的文字内容
         vm.inputStr.observe(this, Observer { t ->
@@ -86,17 +105,6 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
             vm.getNextPage()
         }, binding.rvImage)
 
-        //通过焦点进行键盘关闭和搜索界面
-        binding.etSearchInput.onFocusChangeListener =
-                View.OnFocusChangeListener { v, hasFocus ->
-                    if (hasFocus) {
-                        //获取焦点显示搜索ui
-                        vm.showSearchHistory()
-                    } else {
-                        //失去关闭键盘
-                        KeyboardUtils.hideSoftInput(v)
-                    }
-                }
         //软键盘搜索
         binding.etSearchInput.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {

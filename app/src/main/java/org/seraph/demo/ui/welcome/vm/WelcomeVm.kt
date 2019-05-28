@@ -9,10 +9,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
 import org.seraph.demo.AppConstants
 import org.seraph.demo.data.repository.OtherRepository
 import org.seraph.demo.ui.welcome.WelcomeActivity
@@ -69,13 +67,11 @@ class WelcomeVm @Inject constructor(
      */
     private fun countDown() {
         launchOnUI {
-            withContext(Dispatchers.IO) {
-                var i = 5
-                while (isActive) {
-                    count.postValue(i)
-                    delay(1000L)
-                    i -= 1
-                }
+            var i = 5
+            while (isActive && i>=0) {
+                count.value = i
+                delay(1000L)
+                i -= 1
             }
         }
     }

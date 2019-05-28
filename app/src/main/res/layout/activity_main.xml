@@ -48,6 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="64dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:background="@drawable/comm_bg_search_gary"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:onClick='@{vm::onClick}'
                     android:ellipsize="end"
                     android:hint="请输入搜索的图片名称"
                     android:imeOptions="actionSearch"
@@ -117,15 +120,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility='@{vm.showSearch ? "visible" : "gone"}' />
+            android:layout_height="match_parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:visibility='@{vm.showSearch ? "gone" : "visible"}' />
+            android:scrollbars="vertical"/>
     </LinearLayout>
 
 

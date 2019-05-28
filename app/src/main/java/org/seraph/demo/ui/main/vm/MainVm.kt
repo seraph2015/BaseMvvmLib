@@ -49,7 +49,7 @@ class MainVm @Inject constructor(
     }
 
     /**
-     * 是否显示搜索框
+     * 是否输入状态
      */
     val showSearch: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
@@ -70,6 +70,8 @@ class MainVm @Inject constructor(
 
 
     override fun start() {
+        //设置为非输入状态
+        showSearch.value = false
     }
 
 
@@ -84,6 +86,8 @@ class MainVm @Inject constructor(
             R.id.tv_cancel -> showSearch.value = false//取消当前的输入状态
 
             R.id.iv_search -> startSearchImage()  //开始搜索
+
+            R.id.et_search_input -> showSearch.value = true  //设置输入状态
         }
     }
 
@@ -123,7 +127,6 @@ class MainVm @Inject constructor(
      * 搜索数据库
      */
     fun showSearchHistory() {
-        showSearch.value = true
         //查询本地数据搜索历史（时间倒叙）
         launchOnUI {
             val searchDBList = dbRepository.getBaiduSearch()
@@ -145,6 +148,7 @@ class MainVm @Inject constructor(
         }
         dbRepository.saveBaiduSearchToDB(inputStr.value!!)
 
+        //关闭输入状态
         showSearch.value = false
 
         mAdapter.setNewData(null)
@@ -159,9 +163,9 @@ class MainVm @Inject constructor(
      * 获取数据
      */
     private fun doSearch(pageNo: Int) {
-        launchOnUI ({
+        launchOnUI({
             imageList.value = otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
-        },{
+        }, {
             imageList.value = null
         })
     }
