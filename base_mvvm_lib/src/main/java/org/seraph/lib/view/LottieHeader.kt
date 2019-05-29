@@ -21,7 +21,11 @@ import com.scwang.smartrefresh.layout.internal.InternalAbstract
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class LottieHeader @JvmOverloads protected constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = -1) :
+class LottieHeader @JvmOverloads protected constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = -1
+) :
     InternalAbstract(context, attrs, defStyleAttr), RefreshHeader {
 
     private var animator: ValueAnimator? = null
@@ -33,8 +37,6 @@ class LottieHeader @JvmOverloads protected constructor(context: Context, attrs: 
 
     //头高度dp
     private val LayoutDPH = 60
-
-    constructor(context: Context) : this(context, null)
 
     init {
         val rootLayout = LinearLayout(context)

@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.internal.InternalAbstract
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class LottieFoot @JvmOverloads protected constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = -1) :
+class LottieFoot @JvmOverloads protected constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = -1) :
     InternalAbstract(context, attrs, defStyleAttr), RefreshFooter {
 
     private var mLottieAnimationView: LottieAnimationView? = null
@@ -29,8 +29,6 @@ class LottieFoot @JvmOverloads protected constructor(context: Context, attrs: At
 
     //头高度dp
     private val LayoutDPH = 48
-
-    constructor(context: Context) : this(context, null)
 
     init {
         val rootLayout = LinearLayout(context)

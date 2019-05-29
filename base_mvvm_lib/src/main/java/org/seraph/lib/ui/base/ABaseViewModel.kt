@@ -18,25 +18,14 @@ abstract class ABaseViewModel constructor(application: Application) : AndroidVie
 
     abstract fun start()
 
-    private fun launch(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch { block() }
-    }
-
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
         return launchOnUI(block, {}, {})
     }
 
     fun launchOnUI(
         block: suspend CoroutineScope.() -> Unit,
-        exBlock: suspend CoroutineScope.(Throwable) -> Unit
-    ): Job {
-        return launchOnUI(block, exBlock, {})
-    }
-
-    fun launchOnUI(
-        block: suspend CoroutineScope.() -> Unit,
-        exBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit
+        exBlock: suspend CoroutineScope.(Throwable) -> Unit  = {},
+        finallyBlock: suspend CoroutineScope.() -> Unit  = {}
     ): Job {
         return viewModelScope.launch {
             try {

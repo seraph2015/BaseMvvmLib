@@ -16,9 +16,9 @@ import org.seraph.lib.R
  **/
 class NoDataView constructor(
     context: Context,
-    attrs: AttributeSet?,
+    attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    private var type: Int = 1
+    private var type: Int = LOADING
 ) :
     LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
@@ -58,13 +58,11 @@ class NoDataView constructor(
      */
     private var noDateIsListener = true
 
-    constructor(context: Context) : this(context, null)
-
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 1)
-
     constructor(context: Context, type: Int) : this(context, null, type)
 
-    constructor(context: Context, attrs: AttributeSet?, type: Int) : this(context, attrs, 0, type)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, LOADING)
+
+    constructor(context: Context, attrs: AttributeSet? = null, type: Int = 1) : this(context, attrs, 0, type)
 
     private var v: View? = null
 
@@ -110,12 +108,6 @@ class NoDataView constructor(
         return this
     }
 
-    /**
-     * 设置没有数据时候提示
-     */
-    fun setNoDataMsg(noDataResId: Int): NoDataView {
-        return setNoDataMsg(noDataResId, null)
-    }
 
     /**
      * 设置没有数据时候提示
@@ -127,7 +119,7 @@ class NoDataView constructor(
     /**
      * 设置没有数据的的信息展示
      */
-    fun setNoDataMsg(noDataResId: Int, noDataMsg: CharSequence?): NoDataView {
+    fun setNoDataMsg(noDataResId: Int, noDataMsg: CharSequence? = null): NoDataView {
         this.noDataResId = noDataResId
         this.noDataMsg = noDataMsg
         setType()

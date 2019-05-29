@@ -9,11 +9,11 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.seraph.lib.LibConfig
 import org.seraph.lib.R
 import org.seraph.lib.ui.base.ABaseViewModel
-import org.seraph.lib.utlis.RxSchedulers
-import org.seraph.lib.view.NoDataView
 import java.io.File
 import javax.inject.Inject
 
@@ -45,20 +45,6 @@ class WxApkInstallVm @Inject constructor(
         MutableLiveData<AppUtils.AppInfo>()
     }
 
-    /**
-     * apk提示信息
-     */
-    val installTis: MutableLiveData<String>  by lazy {
-        MutableLiveData<String>()
-    }
-
-    /**
-     * apk其它信息
-     */
-    val apkOtherInfo: MutableLiveData<String>  by lazy {
-        MutableLiveData<String>()
-    }
-
 
     init {
         wxPathStr = activity.intent.data?.path
@@ -67,15 +53,7 @@ class WxApkInstallVm @Inject constructor(
 
     override fun start() {
         onRequestPermissions()
-        appInfo.observeForever {
-            if (it != null) {
-                installTis.value = if (AppUtils.isAppInstalled(it.packageName)) "是否覆盖安装此应用？" else "是否继续安装此应用？"
-                apkOtherInfo.value = "应用包名：${it.packageName}\n\n应用版本：${it.versionName}\n\n应用位置：${it.packagePath}"
-            }
-        }
     }
-
-
 
 
     /**
@@ -84,22 +62,15 @@ class WxApkInstallVm @Inject constructor(
     fun onRequestPermissions() {
         //请求权限
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-            .map<File> { aBoolean ->
-                if (aBoolean) {
-                    return@map initApkPath()
-                } else {
-                    return@map null
+            .`as`(activity.bindLifecycle())
+            .subscribe {
+                launchOnUI {
+                    appInfo.value = withContext(Dispatchers.IO) {
+                        //获取app信息
+                        return@withContext if (it) AppUtils.getApkInfo(initApkPath()) else null
+                    }
                 }
             }
-            .compose(RxSchedulers.io_main_o())
-            .`as`(activity.bindLifecycle())
-            .subscribe({ file ->
-                activity.setNoDataInfo(NoDataView.LOADING_OK, "")
-                //获取app信息
-                appInfo.value = AppUtils.getApkInfo(file)
-            },
-                { activity.setNoDataInfo(NoDataView.NO_DATE, "加载程序失败") }
-            )
     }
 
 
@@ -126,7 +97,7 @@ class WxApkInstallVm @Inject constructor(
         return null
     }
 
-    fun onApkInstall() {
+    private fun onApkInstall() {
         AppUtils.installApp(appInfo.value!!.packagePath)
         activity.finish()
     }

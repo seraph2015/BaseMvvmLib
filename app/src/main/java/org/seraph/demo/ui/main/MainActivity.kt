@@ -88,7 +88,6 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         vm.searchListAdapter.setNoDataView(NoDataView(this, NoDataView.NO_DATE).setNoDataMsg("暂无搜索记录！"))
         vm.searchListAdapter.onItemClickListener =
                 BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
-
         vm.mAdapter.setNoDataView(
                 NoDataView(this, NoDataView.NO_DATE)
                         .setNoDataMsg("快来度娘一下你喜欢图片吧！")
