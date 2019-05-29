@@ -1,12 +1,11 @@
 package org.seraph.lib.ui.comm.photopreview
 
-import android.Manifest
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
@@ -75,15 +74,11 @@ class PhotoPreviewVm @Inject constructor(
      */
     private var currentPosition = 0
 
-    private var rxPermissions: RxPermissions
-
     private var customLoadingDialog: CustomLoadingDialog
 
     init {
         //默认显示功能栏
         showBar.value = true
-
-        rxPermissions = RxPermissions(act)
 
         customLoadingDialog = CustomLoadingDialog(act)
     }
@@ -144,9 +139,7 @@ class PhotoPreviewVm @Inject constructor(
      * 现在显示原图
      */
     fun onDownloadOriginalImage() {
-
         val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
-
         if (mSavePhoto.imageUrl.isEmpty()) {
             return
         }
@@ -170,32 +163,26 @@ class PhotoPreviewVm @Inject constructor(
     }
 
 
-    private var disposable: Disposable? = null
-
     /**
      * 保存图片
      */
     fun saveImage() {
-        disposable = rxPermissions.request(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ).subscribe {
-            if (it) {
+        //请求读写权限
+        PermissionUtils.permission(PermissionConstants.STORAGE).callback(object : PermissionUtils.SimpleCallback {
+
+            override fun onGranted() {
                 //获取权限成功
                 val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
                 //先尝试保存大图
                 saveMaxImage(mSavePhoto)
-            } else {
-                //获取权限失败
+            }
+
+            override fun onDenied() {
                 ToastUtils.showShort("缺少SD卡权限，保存图片失败")
             }
-        }
+        }).request()
     }
 
-    override fun onCleared() {
-        disposable?.dispose()
-        super.onCleared()
-    }
 
     /**
      * 保存当前原图片

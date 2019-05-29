@@ -1,15 +1,10 @@
 package org.seraph.lib.ui.comm.wxapkinstall
 
-import android.Manifest
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.EncryptUtils
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
-import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.disposables.Disposable
+import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.LibConfig
@@ -35,11 +30,6 @@ class WxApkInstallVm @Inject constructor(
     private var wxPathStr: String? = null
 
     /**
-     * 权限请求
-     */
-    private var rxPermissions: RxPermissions
-
-    /**
      * apk信息
      */
     val appInfo: MutableLiveData<AppUtils.AppInfo>  by lazy {
@@ -49,34 +39,31 @@ class WxApkInstallVm @Inject constructor(
 
     init {
         wxPathStr = activity.intent.data?.path
-        rxPermissions = RxPermissions(activity)
     }
 
     override fun start() {
         onRequestPermissions()
     }
 
-    private var disposable: Disposable? = null
-
     /**
      * 请求读写权限
      */
     fun onRequestPermissions() {
-        //请求权限
-        disposable = rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-            .subscribe {
+        //请求读写权限
+        PermissionUtils.permission(PermissionConstants.STORAGE).callback(object : PermissionUtils.SimpleCallback {
+            override fun onGranted() {
                 launchOnUI {
                     appInfo.value = withContext(Dispatchers.IO) {
                         //获取app信息
-                        return@withContext if (it) AppUtils.getApkInfo(initApkPath()) else null
+                        return@withContext AppUtils.getApkInfo(initApkPath())
                     }
                 }
             }
-    }
 
-    override fun onCleared() {
-        disposable?.dispose()
-        super.onCleared()
+            override fun onDenied() {
+                appInfo.value = null
+            }
+        }).request()
     }
 
 
