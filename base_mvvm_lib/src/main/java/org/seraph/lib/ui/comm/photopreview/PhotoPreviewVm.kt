@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
@@ -121,15 +122,16 @@ class PhotoPreviewVm @Inject constructor(
     private fun isOriginalImageOk() {
         val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
         if (mSavePhoto.imageUrl.isNotEmpty() && mSavePhoto.imageUrl != mSavePhoto.objURL) {
-            val futureTarget = GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true).submit()
+            val futureTarget =
+                GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true).submit()
             launchOnUI({
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     return@withContext futureTarget.get()
                 }
                 showMaxImage.value = false
-            },{
+            }, {
                 showMaxImage.value = true
-            },{
+            }, {
                 GlideApp.with(act).clear(futureTarget)
             })
         } else {
@@ -151,14 +153,14 @@ class PhotoPreviewVm @Inject constructor(
         val futureTarget = GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).submit()
         //图片下载完成了。刷新当前的图片
         val job = launchOnUI({
-           withContext(Dispatchers.IO){
-               return@withContext futureTarget.get()
+            withContext(Dispatchers.IO) {
+                return@withContext futureTarget.get()
             }
             photoPreviewAdapter.setUpdatePage(currentPosition)
             showMaxImage.value = false
-        },{
+        }, {
             ToastUtils.showShort(it)
-        },{
+        }, {
             customLoadingDialog.dismiss()
         })
         customLoadingDialog.start().setOnDismissListener {
@@ -167,28 +169,33 @@ class PhotoPreviewVm @Inject constructor(
         }
     }
 
+
+    private var disposable: Disposable? = null
+
     /**
      * 保存图片
      */
     fun saveImage() {
-        rxPermissions.request(
+        disposable = rxPermissions.request(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-            .`as`(act.bindLifecycle())
-            .subscribe {
-                if (it) {
-                    //获取权限成功
-                    val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
-                    //先尝试保存大图
-                    saveMaxImage(mSavePhoto)
-                } else {
-                    //获取权限失败
-                    ToastUtils.showShort("缺少SD卡权限，保存图片失败")
-                }
+        ).subscribe {
+            if (it) {
+                //获取权限成功
+                val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
+                //先尝试保存大图
+                saveMaxImage(mSavePhoto)
+            } else {
+                //获取权限失败
+                ToastUtils.showShort("缺少SD卡权限，保存图片失败")
             }
+        }
     }
 
+    override fun onCleared() {
+        disposable?.dispose()
+        super.onCleared()
+    }
 
     /**
      * 保存当前原图片

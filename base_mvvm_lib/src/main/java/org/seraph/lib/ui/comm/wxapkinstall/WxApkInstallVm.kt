@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.LibConfig
@@ -55,14 +56,14 @@ class WxApkInstallVm @Inject constructor(
         onRequestPermissions()
     }
 
+    private var disposable: Disposable? = null
 
     /**
      * 请求读写权限
      */
     fun onRequestPermissions() {
         //请求权限
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-            .`as`(activity.bindLifecycle())
+        disposable = rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
             .subscribe {
                 launchOnUI {
                     appInfo.value = withContext(Dispatchers.IO) {
@@ -71,6 +72,11 @@ class WxApkInstallVm @Inject constructor(
                     }
                 }
             }
+    }
+
+    override fun onCleared() {
+        disposable?.dispose()
+        super.onCleared()
     }
 
 

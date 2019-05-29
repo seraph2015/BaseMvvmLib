@@ -5,15 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.AutoDisposeConverter
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import dagger.android.AndroidInjection
 import org.seraph.lib.R
 import javax.inject.Inject
@@ -87,18 +83,18 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
         return toolbar
     }
 
-    /**
-     * 自动解绑rxjava（在指定的生命周期）
-     */
-    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
-        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
-    }
-
-    /**
-     * 自动解绑rxjava（在结束的时候）
-     */
-    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
-        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
-    }
+//    /**
+//     * 自动解绑rxjava（在指定的生命周期）
+//     */
+//    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
+//        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
+//    }
+//
+//    /**
+//     * 自动解绑rxjava（在结束的时候）
+//     */
+//    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
+//        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
+//    }
 
 }

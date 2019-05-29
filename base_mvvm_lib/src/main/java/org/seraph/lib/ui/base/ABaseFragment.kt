@@ -8,13 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.AutoDisposeConverter
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -67,18 +63,18 @@ abstract class ABaseFragment<T : ViewDataBinding, vm : ViewModel>(private val la
 
     abstract fun init()
 
-    /**
-     * 自动解绑rxjava（在指定的生命周期）
-     */
-    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
-        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
-    }
-
-    /**
-     * 自动解绑rxjava（在结束的时候）
-     */
-    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
-        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
-    }
+//    /**
+//     * 自动解绑rxjava（在指定的生命周期）
+//     */
+//    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
+//        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
+//    }
+//
+//    /**
+//     * 自动解绑rxjava（在结束的时候）
+//     */
+//    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
+//        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
+//    }
 
 }
