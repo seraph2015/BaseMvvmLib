@@ -157,7 +157,7 @@ class PhotoPreviewVm @Inject constructor(
             photoPreviewAdapter.setUpdatePage(currentPosition)
             showMaxImage.value = false
         },{
-            ToastUtils.showShort(it.message)
+            ToastUtils.showShort(it)
         },{
             customLoadingDialog.dismiss()
         })

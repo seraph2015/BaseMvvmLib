@@ -7,6 +7,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.seraph.lib.utlis.onCodeToMessage
 
 /**
  * ABaseViewModel
@@ -24,7 +25,7 @@ abstract class ABaseViewModel constructor(application: Application) : AndroidVie
 
     fun launchOnUI(
         block: suspend CoroutineScope.() -> Unit,
-        exBlock: suspend CoroutineScope.(Throwable) -> Unit  = {},
+        exBlock: suspend CoroutineScope.(String) -> Unit  = {},
         finallyBlock: suspend CoroutineScope.() -> Unit  = {}
     ): Job {
         return viewModelScope.launch {
@@ -33,7 +34,7 @@ abstract class ABaseViewModel constructor(application: Application) : AndroidVie
             } catch (e: Exception) {
                 //如果是取消导致的异常，则不进行通知
                 if (e !is CancellationException) {
-                    exBlock(e)
+                    exBlock(e.onCodeToMessage())
                 }
             } finally {
                 finallyBlock()

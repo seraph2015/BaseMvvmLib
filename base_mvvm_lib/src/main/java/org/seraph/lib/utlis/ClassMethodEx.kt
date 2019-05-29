@@ -1,6 +1,7 @@
 package org.seraph.lib.utlis
 
 import retrofit2.HttpException
+import java.net.UnknownHostException
 
 /**
  * 网络请求异常信息处理
@@ -15,6 +16,7 @@ import retrofit2.HttpException
 fun Throwable?.onCodeToMessage(): String {
     val message: String? = when (this) {
         is HttpException -> "网络异常:${this.code()}"
+        is UnknownHostException -> "解析服务器IP失败,请检查网络"
         else -> this?.message
     }
     return if (message.isNullOrBlank()) "未知异常" else message
