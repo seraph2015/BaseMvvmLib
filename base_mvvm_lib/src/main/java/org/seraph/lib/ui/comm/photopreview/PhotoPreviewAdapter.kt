@@ -1,20 +1,16 @@
 package org.seraph.lib.ui.comm.photopreview
 
-import android.graphics.Bitmap
 import android.graphics.PointF
 import android.view.View
 import androidx.viewpager.widget.PagerAdapter
-import com.bumptech.glide.request.FutureTarget
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import io.reactivex.Flowable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.seraph.lib.R
 import org.seraph.lib.network.glide.GlideApp
-import org.seraph.lib.utlis.RxSchedulers
 import org.seraph.lib.ui.base.ABasePagerAdapter
-import org.seraph.lib.ui.base.ABaseSubscriber
-import java.io.File
 import javax.inject.Inject
 
 
@@ -42,27 +38,22 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                 //此控件不支持gif。如果图片为gif.则会出现解析错误，把gif则转成bitmap
                 val bitmapFutureTarget =
                     GlideApp.with(activity).asBitmap().onlyRetrieveFromCache(true).load(t.objURL).submit()
-                Flowable.just<FutureTarget<Bitmap>>(bitmapFutureTarget)
-                    .map<Bitmap> { it.get() }
-                    .compose(RxSchedulers.io_main())
-                    .`as`(activity.bindLifecycle())
-                    .subscribe(object : ABaseSubscriber<Bitmap>() {
-                        override fun onSuccess(t: Bitmap) {
-                            GlideApp.with(activity).clear(bitmapFutureTarget)
-                            iv.setImage(
-                                ImageSource.cachedBitmap(t),
-                                ImageViewState(0f, PointF(0f, 0f), 0)
-                            )
-                        }
-
-                        override fun onError(err: String?) {
-                            GlideApp.with(activity).clear(bitmapFutureTarget)
-                            iv.setImage(
-                                ImageSource.resource(R.mipmap.ic_image_error),
-                                ImageViewState(0f, PointF(0f, 0f), 0)
-                            )
-                        }
-                    })
+                activity.vm.launchOnUI({
+                    val bitmap = withContext(Dispatchers.IO) {
+                        return@withContext bitmapFutureTarget.get()
+                    }
+                    iv.setImage(
+                        ImageSource.cachedBitmap(bitmap),
+                        ImageViewState(0f, PointF(0f, 0f), 0)
+                    )
+                }, {
+                    iv.setImage(
+                        ImageSource.resource(R.mipmap.ic_image_error),
+                        ImageViewState(0f, PointF(0f, 0f), 0)
+                    )
+                }, {
+                    GlideApp.with(activity).clear(bitmapFutureTarget)
+                })
             }
         })
         iv.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
@@ -86,14 +77,18 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
     }
 
 
-    //指定位置刷新
+    /**
+     * 指定位置刷新
+     */
     fun setUpdatePage(updatePage: Int) {
         this.updatePage = updatePage
         notifyDataSetChanged()
     }
 
 
-    //从缓存中加载原图
+    /**
+     * 从缓存中加载原图
+     */
     private fun onLoadMaxImage(previewBean: PhotoPreviewBean, scaleImageView: SubsamplingScaleImageView) {
         //如没有原始图片地址或者原始图片和当前图片一样，则加载小图片地址
         if (previewBean.imageUrl.isEmpty() || previewBean.imageUrl == previewBean.objURL) {
@@ -102,58 +97,46 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
             val fileFuture =
                 GlideApp.with(activity).asFile().load(previewBean.imageUrl).onlyRetrieveFromCache(true)
                     .submit()
-            Flowable.just<FutureTarget<File>>(fileFuture)
-                .map<File> { it.get() }
-                .compose(RxSchedulers.io_main())
-                .`as`(activity.bindLifecycle())
-                .subscribe(object : ABaseSubscriber<File>() {
-                    override fun onSuccess(t: File) {
-                        GlideApp.with(activity).clear(fileFuture)
-                        scaleImageView.setImage(
-                            ImageSource.uri(t.absolutePath),
-                            ImageViewState(0f, PointF(0f, 0f), 0)
-                        )
-                    }
-
-                    override fun onError(err: String?) {
-                        GlideApp.with(activity).clear(fileFuture)
-                        //图片没有缓存，显示下载原图，加载当前图片
-                        onLoadMinImage(previewBean.objURL, scaleImageView)
-                    }
-                })
-
+            activity.vm.launchOnUI({
+                val file = withContext(Dispatchers.IO) {
+                    return@withContext fileFuture.get()
+                }
+                scaleImageView.setImage(
+                    ImageSource.uri(file.absolutePath),
+                    ImageViewState(0f, PointF(0f, 0f), 0)
+                )
+            }, {
+                //图片没有缓存，显示下载原图，加载当前图片
+                onLoadMinImage(previewBean.objURL, scaleImageView)
+            }, {
+                GlideApp.with(activity).clear(fileFuture)
+            })
         }
     }
 
-    //加载默认图片
+    /**
+     * 加载默认图片
+     */
     private fun onLoadMinImage(objUrl: String?, scaleImageView: SubsamplingScaleImageView) {
+        scaleImageView.setImage(
+            ImageSource.resource(R.mipmap.ic_image_placeholder),
+            ImageViewState(0f, PointF(0f, 0f), 0)
+        )
         //使用后台线程下载
         val fileFuture = GlideApp.with(activity).asFile().load(objUrl).submit()
-        Flowable.just<FutureTarget<File>>(fileFuture)
-            .map<File> { it.get() }
-            .compose(RxSchedulers.io_main())
-            .doOnSubscribe {
-                scaleImageView.setImage(
-                    ImageSource.resource(R.mipmap.ic_image_placeholder),
-                    ImageViewState(0f, PointF(0f, 0f), 0)
-                )
+        activity.vm.launchOnUI({
+           val file = withContext(Dispatchers.IO){
+                return@withContext fileFuture.get()
             }
-            .`as`(activity.bindLifecycle())
-            .subscribe(object : ABaseSubscriber<File>() {
-                override fun onSuccess(t: File) {
-                    GlideApp.with(activity).clear(fileFuture)
-                    scaleImageView.setImage(ImageSource.uri(t.absolutePath), ImageViewState(0f, PointF(0f, 0f), 0))
-                }
-
-                override fun onError(err: String?) {
-                    GlideApp.with(activity).clear(fileFuture)
-                    scaleImageView.setImage(
-                        ImageSource.resource(R.mipmap.ic_image_error),
-                        ImageViewState(0f, PointF(0f, 0f), 0)
-                    )
-                }
-            })
-
+            scaleImageView.setImage(ImageSource.uri(file.absolutePath), ImageViewState(0f, PointF(0f, 0f), 0))
+        },{
+            scaleImageView.setImage(
+                ImageSource.resource(R.mipmap.ic_image_error),
+                ImageViewState(0f, PointF(0f, 0f), 0)
+            )
+        },{
+            GlideApp.with(activity).clear(fileFuture)
+        })
     }
 
 

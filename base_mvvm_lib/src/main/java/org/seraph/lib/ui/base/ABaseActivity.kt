@@ -30,11 +30,11 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
     /**
      * view
      */
-    protected lateinit var binding: T
+    lateinit var binding: T
     /**
      * vm
      */
-    protected lateinit var vm: vm
+    lateinit var vm: vm
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
