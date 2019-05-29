@@ -1,7 +1,9 @@
 package org.seraph.lib.utlis
 
+import com.bumptech.glide.load.engine.GlideException
 import retrofit2.HttpException
 import java.net.UnknownHostException
+import java.util.concurrent.ExecutionException
 
 /**
  * 网络请求异常信息处理
@@ -17,6 +19,10 @@ fun Throwable?.onCodeToMessage(): String {
     val message: String? = when (this) {
         is HttpException -> "网络异常:${this.code()}"
         is UnknownHostException -> "解析服务器IP失败,请检查网络"
+        is ExecutionException -> {
+            val t = this.cause
+            if (t is GlideException) "获取图片失败,请检查网络" else t?.message
+        }
         else -> this?.message
     }
     return if (message.isNullOrBlank()) "未知异常" else message
