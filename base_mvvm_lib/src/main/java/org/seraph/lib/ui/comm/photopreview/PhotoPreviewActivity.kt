@@ -112,12 +112,10 @@ class PhotoPreviewActivity :
         }
 
         /**
-         * 多图片预览
-         *
-         * @param currentPosition 当前第几个（从0开始)
+         * 多图片预览 当前第[currentPosition] (默认0)开始
          */
         @JvmStatic
-        fun <T> startPhotoPreview(imageList: ArrayList<T>, currentPosition: Int) {
+            fun <T> startPhotoPreview(imageList: ArrayList<T>, currentPosition: Int) {
             val beanList = ArrayList<PhotoPreviewBean>()
             for (t in imageList) {
                 if (t is String) {

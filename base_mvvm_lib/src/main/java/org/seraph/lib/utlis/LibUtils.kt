@@ -67,9 +67,7 @@ object LibUtils {
     }
 
     /**
-     * 添加照片到画廊
-     *
-     * @param currentPhotoPath 照片路径
+     * 添加照片到画廊 照片路径 [currentPhotoPath]
      */
     private fun galleryAddPic(context: Context, currentPhotoPath: String) {
         val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)

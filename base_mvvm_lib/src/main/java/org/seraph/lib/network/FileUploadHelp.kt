@@ -58,8 +58,7 @@ class FileUploadHelp {
 
 
     /**
-     * 初始化和生成公共构建部分
-     * @param params 表单
+     * 初始化和生成公共构建部分 表单[params]
      */
     private fun initParamsBuilder(params: Map<String, String>?): MultipartBody.Builder {
         val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
