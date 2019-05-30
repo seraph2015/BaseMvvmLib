@@ -16,9 +16,9 @@ import org.seraph.lib.R
  **/
 class NoDataView constructor(
     context: Context,
+    private var type: Int = LOADING,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    private var type: Int = LOADING
+    defStyleAttr: Int = 0
 ) :
     LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
@@ -58,11 +58,7 @@ class NoDataView constructor(
      */
     private var noDateIsListener = true
 
-    constructor(context: Context, type: Int) : this(context, null, type)
-
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, LOADING)
-
-    constructor(context: Context, attrs: AttributeSet? = null, type: Int = 1) : this(context, attrs, 0, type)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, LOADING, attrs)
 
     private var v: View? = null
 

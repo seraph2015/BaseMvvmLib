@@ -2,7 +2,6 @@ package org.seraph.lib.utlis
 
 import android.content.Context
 import android.graphics.Typeface
-import com.blankj.utilcode.util.StringUtils
 
 /**
  * 设置字体工具
@@ -15,9 +14,9 @@ object FontUtils {
 
     /*-----------------------------------更改系统字体代码部分开始-----------------------------*/
     fun replaceSystemDefaultFont(context: Context, fontPath: String?) {
-        fontPath?.let {
+        if (!fontPath.isNullOrEmpty()) {
             //這里我们修改的是MoNOSPACE,是因为我们在主题里给app设置的默认字体就是monospace，设置其他的也可以
-            replaceTypefaceField("MONOSPACE", createTypeface(context, it))
+            replaceTypefaceField("MONOSPACE", createTypeface(context, fontPath))
         }
     }
 
@@ -38,7 +37,7 @@ object FontUtils {
         }
 
     }
-    /*-----------------------------------更改系统字体代码部分结束-----------------------------*/
+/*-----------------------------------更改系统字体代码部分结束-----------------------------*/
 
 
 }
