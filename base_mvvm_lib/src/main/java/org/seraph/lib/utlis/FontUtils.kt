@@ -14,10 +14,10 @@ object FontUtils {
 
 
     /*-----------------------------------更改系统字体代码部分开始-----------------------------*/
-    fun replaceSystemDefaultFont(context: Context, fontPath: String) {
-        if (!StringUtils.isEmpty(fontPath)) {
+    fun replaceSystemDefaultFont(context: Context, fontPath: String?) {
+        fontPath?.let {
             //這里我们修改的是MoNOSPACE,是因为我们在主题里给app设置的默认字体就是monospace，设置其他的也可以
-            replaceTypefaceField("MONOSPACE", createTypeface(context, fontPath))
+            replaceTypefaceField("MONOSPACE", createTypeface(context, it))
         }
     }
 

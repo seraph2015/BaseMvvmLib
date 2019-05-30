@@ -28,10 +28,8 @@ object ViewBindingExt {
     @JvmStatic
     @BindingAdapter("android:src")
     fun setImageDrawable(view: ImageView, drawable: Drawable?) {
-        if (drawable != null) {
-            view.setImageDrawable(drawable)
+        drawable?.let {
+            view.setImageDrawable(it)
         }
     }
-
-
 }
