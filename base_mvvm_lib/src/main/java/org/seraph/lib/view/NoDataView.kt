@@ -129,31 +129,35 @@ class NoDataView constructor(
      * 加载成功
      */
     fun setLoadingOk() {
-        type = LOADING_OK
-        setType()
+        setLoadingType(LOADING_OK)
     }
 
     /**
      * 没有数据
      */
     fun setNoDate() {
-        type = NO_DATE
-        setType()
+        setLoadingType(NO_DATE)
     }
 
     /**
      * 加载失败（网络异常）
      */
     fun setNetErr() {
-        type = NET_ERR
-        setType()
+        setLoadingType(NET_ERR)
     }
 
     /**
      * 正在加载
      */
     fun setLoading() {
-        type = LOADING
+        setLoadingType(LOADING)
+    }
+
+    /**
+     * 正在加载
+     */
+    fun setLoadingType(type: Int) {
+        this.type = type
         setType()
     }
 
