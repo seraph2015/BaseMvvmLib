@@ -106,18 +106,11 @@ class NoDataView constructor(
 
 
     /**
-     * 设置没有数据时候提示
-     */
-    fun setNoDataMsg(noDataMsg: CharSequence): NoDataView {
-        return setNoDataMsg(-1, noDataMsg)
-    }
-
-    /**
      * 设置没有数据的的信息展示
      */
-    fun setNoDataMsg(noDataResId: Int, noDataMsg: CharSequence? = null): NoDataView {
-        this.noDataResId = noDataResId
-        this.noDataMsg = noDataMsg
+    fun setNoDataMsg(msg: CharSequence? = null, resId: Int = -1): NoDataView {
+        this.noDataMsg = msg
+        this.noDataResId = resId
         setType()
         return this
     }
