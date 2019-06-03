@@ -1,6 +1,7 @@
 package org.seraph.lib.ui.base
 
 import android.os.Bundle
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -21,7 +22,7 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val layoutResID: Int) :
-        AppCompatActivity() {
+    AppCompatActivity() {
 
     /**
      * view
@@ -67,17 +68,10 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
     /**
      * 初始化toolbar默认操作
      */
-    protected fun initToolbar(toolbar: Toolbar): Toolbar {
-        return initToolbar(toolbar, true)
-    }
-
-    /**
-     * 初始化toolbar默认操作
-     */
-    protected fun initToolbar(toolbar: Toolbar, isDef: Boolean): Toolbar {
+    protected fun initToolbar(toolbar: Toolbar, @DrawableRes resId: Int? = R.mipmap.comm_ic_back_gary): Toolbar {
         setSupportActionBar(toolbar)
-        if (isDef) {
-            toolbar.setNavigationIcon(R.mipmap.comm_ic_back_gary)
+        resId?.let {
+            toolbar.setNavigationIcon(it)
         }
         toolbar.setNavigationOnClickListener { onBackPressed() }
         return toolbar

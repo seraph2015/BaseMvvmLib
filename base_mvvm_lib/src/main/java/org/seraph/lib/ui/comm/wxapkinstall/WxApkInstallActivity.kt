@@ -24,7 +24,7 @@ class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding, WxApkInstallV
     override fun init() {
         binding.vm = vm
         BarUtils.setStatusBarLightMode(this, false)
-        initToolbar(binding.tbAppInstall, false)
+        initToolbar(binding.tbAppInstall, null)
         vm.appInfo.observe(this, Observer {
             if (it != null) {
                 setNoDataInfo(NoDataView.LOADING_OK)
