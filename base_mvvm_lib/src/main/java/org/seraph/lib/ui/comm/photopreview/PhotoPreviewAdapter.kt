@@ -135,7 +135,9 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                 ImageViewState(0f, PointF(0f, 0f), 0)
             )
         },{
-            GlideApp.with(activity).clear(fileFuture)
+            if (!activity.isDestroyed){
+                GlideApp.with(activity).clear(fileFuture)
+            }
         })
     }
 
