@@ -1,13 +1,10 @@
 package org.seraph.lib.di.module
 
-import androidx.lifecycle.ViewModelProvider
-import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import org.seraph.lib.di.module.act.PhotoPreviewVmModule
 import org.seraph.lib.di.module.act.WxApkInstallVmModule
 import org.seraph.lib.di.scope.ActivityScope
-import org.seraph.lib.di.vm.ViewModelFactory
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
 import org.seraph.lib.ui.comm.wxapkinstall.WxApkInstallActivity
 
@@ -20,8 +17,6 @@ import org.seraph.lib.ui.comm.wxapkinstall.WxApkInstallActivity
 @Module
 abstract class LibActivityBindingModule {
 
-    @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [PhotoPreviewVmModule::class])

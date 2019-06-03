@@ -9,9 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
+import org.seraph.lib.di.vm.ViewModelFactory
 import javax.inject.Inject
 
 /**
@@ -20,7 +20,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-abstract class ABaseFragment<T : ViewDataBinding, vm : ViewModel>(private val layoutResID: Int) :
+abstract class ABaseFragment<T : ViewDataBinding, VM : ViewModel>(private val layoutResID: Int) :
     Fragment() {
 
     override fun onAttach(context: Context) {
@@ -36,7 +36,7 @@ abstract class ABaseFragment<T : ViewDataBinding, vm : ViewModel>(private val la
     /**
      * vm
      */
-    protected lateinit var vm: vm
+    protected lateinit var vm: VM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // 初始化 Binding
@@ -45,7 +45,7 @@ abstract class ABaseFragment<T : ViewDataBinding, vm : ViewModel>(private val la
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,22 +59,9 @@ abstract class ABaseFragment<T : ViewDataBinding, vm : ViewModel>(private val la
     }
 
 
-    abstract fun getViewModelClass(): Class<vm>
+    abstract fun getViewModelClass(): Class<VM>
 
     abstract fun init()
 
-//    /**
-//     * 自动解绑rxjava（在指定的生命周期）
-//     */
-//    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
-//        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
-//    }
-//
-//    /**
-//     * 自动解绑rxjava（在结束的时候）
-//     */
-//    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
-//        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
-//    }
 
 }

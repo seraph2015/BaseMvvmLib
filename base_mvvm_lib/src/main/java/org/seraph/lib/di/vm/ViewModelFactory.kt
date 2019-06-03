@@ -12,7 +12,7 @@ import javax.inject.Provider
  * mail：417753393@qq.com
  **/
 class ViewModelFactory @Inject constructor(
-        private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+    private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -26,7 +26,7 @@ class ViewModelFactory @Inject constructor(
                 }
             }
         }
-        if (creator == null) throw IllegalArgumentException("unknown model class " + modelClass)
+        if (creator == null) throw IllegalArgumentException("unknown model class $modelClass")
         try {
             return creator.get() as T
         } catch (e: Exception) {

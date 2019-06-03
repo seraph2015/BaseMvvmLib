@@ -7,12 +7,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import dagger.android.AndroidInjection
 import org.seraph.lib.R
+import org.seraph.lib.di.vm.ViewModelFactory
 import javax.inject.Inject
 
 /**
@@ -21,7 +21,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val layoutResID: Int) :
+abstract class ABaseActivity<T : ViewDataBinding, VM : ViewModel>(private val layoutResID: Int) :
     AppCompatActivity() {
 
     /**
@@ -31,10 +31,11 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
     /**
      * vm
      */
-    lateinit var vm: vm
+    lateinit var vm: VM
+
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +55,10 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
     }
 
 
-    abstract fun getViewModelClass(): Class<vm>
+    abstract fun getViewModelClass(): Class<VM>
 
     abstract fun init()
+
 
     /**
      * 初始化标题bar
@@ -77,18 +79,5 @@ abstract class ABaseActivity<T : ViewDataBinding, vm : ViewModel>(private val la
         return toolbar
     }
 
-//    /**
-//     * 自动解绑rxjava（在指定的生命周期）
-//     */
-//    fun <T> bindLifecycle(untilEvent: Lifecycle.Event): AutoDisposeConverter<T> {
-//        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent))
-//    }
-//
-//    /**
-//     * 自动解绑rxjava（在结束的时候）
-//     */
-//    fun <T> bindLifecycle(): AutoDisposeConverter<T> {
-//        return bindLifecycle(Lifecycle.Event.ON_DESTROY)
-//    }
 
 }
