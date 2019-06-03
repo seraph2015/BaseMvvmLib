@@ -126,8 +126,6 @@ class PhotoPreviewVm @Inject constructor(
                 showMaxImage.value = false
             }, {
                 showMaxImage.value = true
-            }, {
-                GlideApp.with(act).clear(futureTarget)
             })
         } else {
             showMaxImage.value = false
@@ -200,7 +198,6 @@ class PhotoPreviewVm @Inject constructor(
                 customLoadingDialog.dismiss()
                 ToastUtils.showShort(msg)
             }, {
-                GlideApp.with(act).clear(futureTarget)
                 //图片没有缓存，显示下载原图，加载当前图片
                 saveMinPhoto(previewBean)
             })

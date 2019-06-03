@@ -51,8 +51,6 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                         ImageSource.resource(R.mipmap.ic_image_error),
                         ImageViewState(0f, PointF(0f, 0f), 0)
                     )
-                }, {
-                    GlideApp.with(activity).clear(bitmapFutureTarget)
                 })
             }
         })
@@ -108,8 +106,6 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
             }, {
                 //图片没有缓存，显示下载原图，加载当前图片
                 onLoadMinImage(previewBean.objURL, scaleImageView)
-            }, {
-                GlideApp.with(activity).clear(fileFuture)
             })
         }
     }
@@ -134,10 +130,6 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                 ImageSource.resource(R.mipmap.ic_image_error),
                 ImageViewState(0f, PointF(0f, 0f), 0)
             )
-        },{
-            if (!activity.isDestroyed){
-                GlideApp.with(activity).clear(fileFuture)
-            }
         })
     }
 
