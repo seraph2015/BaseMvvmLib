@@ -2,6 +2,7 @@ package org.seraph.lib.ui.comm.photopreview
 
 import android.graphics.PointF
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -28,11 +29,12 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
 
 
     override fun convert(t: PhotoPreviewBean, itemView: View, position: Int) {
+        val rootView: FrameLayout = itemView.findViewById(R.id.fl_root)
         val sView: SubsamplingScaleImageView = itemView.findViewById(R.id.ssiv_image)
         val gifView: ImageView = itemView.findViewById(R.id.gif_image)
         sView.visibility = View.VISIBLE
         gifView.visibility = View.GONE
-        sView.tag = position
+        rootView.tag = position
         sView.setDoubleTapZoomScale(2f)
         sView.maxScale = 3f
         sView.minScale = 1f
