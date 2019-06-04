@@ -2,6 +2,7 @@ package org.seraph.lib.ui.comm.photopreview
 
 import android.graphics.PointF
 import android.view.View
+import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
@@ -27,40 +28,36 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
 
 
     override fun convert(t: PhotoPreviewBean, itemView: View, position: Int) {
-        val iv: SubsamplingScaleImageView = itemView.findViewById(R.id.ssiv_image)
-        iv.tag = position
-        iv.setDoubleTapZoomScale(2f)
-        iv.maxScale = 3f
-        iv.minScale = 1f
-        iv.setOnImageEventListener(object : SubsamplingScaleImageView.DefaultOnImageEventListener() {
+        val sView: SubsamplingScaleImageView = itemView.findViewById(R.id.ssiv_image)
+        val gifView: ImageView = itemView.findViewById(R.id.gif_image)
+        sView.visibility = View.VISIBLE
+        gifView.visibility = View.GONE
+        sView.tag = position
+        sView.setDoubleTapZoomScale(2f)
+        sView.maxScale = 3f
+        sView.minScale = 1f
+        sView.setOnImageEventListener(object : SubsamplingScaleImageView.DefaultOnImageEventListener() {
 
             override fun onImageLoadError(e: Exception?) {
-                //此控件不支持gif。如果图片为gif.则会出现解析错误，把gif则转成bitmap
-                val bitmapFutureTarget =
-                    GlideApp.with(activity).asBitmap().onlyRetrieveFromCache(true).load(t.objURL).submit()
-                activity.vm.launchOnUI({
-                    val bitmap = withContext(Dispatchers.IO) {
-                        return@withContext bitmapFutureTarget.get()
-                    }
-                    iv.setImage(
-                        ImageSource.cachedBitmap(bitmap),
-                        ImageViewState(0f, PointF(0f, 0f), 0)
-                    )
-                }, {
-                    iv.setImage(
-                        ImageSource.resource(R.mipmap.ic_image_error),
-                        ImageViewState(0f, PointF(0f, 0f), 0)
-                    )
-                })
+                //此控件不支持gif。如果图片为gif.则会出现解析错误,使用普通imageView展示
+                sView.visibility = View.GONE
+                gifView.visibility = View.VISIBLE
+                GlideApp.with(activity)
+                    .asGif()
+                    .load(t.objURL)
+                    .onlyRetrieveFromCache(true)
+                    .error(R.mipmap.ic_image_error)
+                    .into(gifView)
             }
         })
-        iv.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
+        sView.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
+        gifView.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
 
         if (PhotoPreviewVm.IMAGE_TYPE_LOCAL == t.fromType && !t.objURL!!.contains("http://")) {
-            iv.setImage(ImageSource.uri(t.objURL!!))
+            sView.setImage(ImageSource.uri(t.objURL!!))
         } else {
             //从缓存中加载原始图片
-            onLoadMaxImage(t, iv)
+            onLoadMaxImage(t, sView)
         }
     }
 
@@ -121,11 +118,11 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
         //使用后台线程下载
         val fileFuture = GlideApp.with(activity).asFile().load(objUrl).submit()
         activity.vm.launchOnUI({
-           val file = withContext(Dispatchers.IO){
+            val file = withContext(Dispatchers.IO) {
                 return@withContext fileFuture.get()
             }
             scaleImageView.setImage(ImageSource.uri(file.absolutePath), ImageViewState(0f, PointF(0f, 0f), 0))
-        },{
+        }, {
             scaleImageView.setImage(
                 ImageSource.resource(R.mipmap.ic_image_error),
                 ImageViewState(0f, PointF(0f, 0f), 0)
