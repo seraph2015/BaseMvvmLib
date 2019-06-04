@@ -11,8 +11,10 @@ import org.seraph.lib.databinding.LibCommActPhotoPreviewBinding
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.base.ABasePagerAdapter
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.CURRENT_POSITION
+import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.DOWNLOAD_IMAGE
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.IMAGE_TYPE_LOCAL
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.PHOTO_LIST
+import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.SHOW_MAX_IMAGE
 import java.util.*
 
 /**
@@ -37,6 +39,14 @@ class PhotoPreviewActivity :
     @Autowired
     var currentPosition: Int = 0
 
+    @JvmField
+    @Autowired
+    var showMaxImage: Boolean = true
+
+    @JvmField
+    @Autowired
+    var downloadImage: Boolean = true
+
     override fun init() {
         binding.vm = vm
         BarUtils.setStatusBarLightMode(this, false)
@@ -45,7 +55,7 @@ class PhotoPreviewActivity :
         vm.photoPreviewAdapter.setList(photoList!!)
 
         if (currentPosition == 0) {
-            vm.upDateCurrentPosition(currentPosition)
+            vm.upDateCurrentPosition()
         } else {
             //设置当前翻页
             binding.vpPhotoPreview.currentItem = currentPosition
@@ -67,7 +77,8 @@ class PhotoPreviewActivity :
             }
 
             override fun onPageSelected(position: Int) {
-                vm.upDateCurrentPosition(position)
+                currentPosition = position
+                vm.upDateCurrentPosition()
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -91,45 +102,52 @@ class PhotoPreviewActivity :
 
 
     companion object {
-        /**
-         * 单图片预览(本地图片)
-         */
-        @JvmStatic
-        fun startPhotoPreview(imagePrat: String) {
-            val imageList = ArrayList<String>()
-            imageList.add(imagePrat)
-            startPhotoPreview(imageList, 0)
-        }
 
         /**
-         * 单图片预览（网络图片/网络图片）
+         * 单图片预览（本地图片[String]/网络图片[PhotoPreviewBean]）
          */
         @JvmStatic
-        fun startPhotoPreview(bean: PhotoPreviewBean) {
-            val imageList = ArrayList<PhotoPreviewBean>()
+        fun <T> startPhotoPreview(
+            bean: T,
+            isDownLoad: Boolean = true,
+            isShowMaxImage: Boolean = true
+        ) {
+            val imageList = ArrayList<T>()
             imageList.add(bean)
-            startPhotoPreview(imageList, 0)
+            startPhotoPreview(imageList, isDownLoad = isDownLoad, isShowMaxImage = isShowMaxImage)
         }
 
         /**
          * 多图片预览 当前第[currentPosition] (默认0)开始
+         * @param isDownLoad 是可以下载（显示下载按钮）
+         * @param isShowMaxImage 是否可以查看原图（显示查看原图按钮）
          */
         @JvmStatic
-            fun <T> startPhotoPreview(imageList: ArrayList<T>, currentPosition: Int) {
+        fun <T> startPhotoPreview(
+            imageList: ArrayList<T>,
+            currentPosition: Int = 0,
+            isDownLoad: Boolean = true,
+            isShowMaxImage: Boolean = true
+        ) {
+
             val beanList = ArrayList<PhotoPreviewBean>()
-            for (t in imageList) {
-                if (t is String) {
-                    val previewBean = PhotoPreviewBean()
-                    previewBean.objURL = t
-                    previewBean.fromType = IMAGE_TYPE_LOCAL
-                    beanList.add(previewBean)
-                } else {
-                    beanList.add(t as PhotoPreviewBean)
+            imageList.forEach {
+                when (it) {
+                    is String -> {
+                        val previewBean = PhotoPreviewBean()
+                        previewBean.objURL = it
+                        previewBean.fromType = IMAGE_TYPE_LOCAL
+                        beanList.add(previewBean)
+                    }
+                    is PhotoPreviewBean -> beanList.add(it)
+
                 }
             }
             ARouter.getInstance().build(LibConstants.PATH_COMM_PHOTO_PREVIEW)
                 .withSerializable(PHOTO_LIST, beanList)
                 .withInt(CURRENT_POSITION, currentPosition)
+                .withBoolean(SHOW_MAX_IMAGE, isShowMaxImage)
+                .withBoolean(DOWNLOAD_IMAGE, isDownLoad)
                 .navigation()
         }
     }

@@ -41,6 +41,14 @@ class PhotoPreviewVm @Inject constructor(
          * 当前选中的图片
          */
         const val CURRENT_POSITION = "currentPosition"
+        /**
+         * 显示大图
+         */
+        const val SHOW_MAX_IMAGE = "showMaxImage"
+        /**
+         * 下载图片
+         */
+        const val DOWNLOAD_IMAGE = "downloadImage"
     }
 
     /**
@@ -69,11 +77,6 @@ class PhotoPreviewVm @Inject constructor(
         MutableLiveData<Boolean>()
     }
 
-    /**
-     * 当前显示图片位置
-     */
-    private var currentPosition = 0
-
     private var customLoadingDialog: CustomLoadingDialog
 
     init {
@@ -100,22 +103,29 @@ class PhotoPreviewVm @Inject constructor(
     /**
      * 更新显示当前位置的状态
      */
-    fun upDateCurrentPosition(position: Int) {
-        currentPosition = position
-        //是否是本地图片，本地图片不显示下载
-        showDownload.value = photoPreviewAdapter.getItem(position).fromType != IMAGE_TYPE_LOCAL
+    fun upDateCurrentPosition() {
         //标题
-        titleStr.value = "${position + 1}/${photoPreviewAdapter.count}"
+        titleStr.value = "${act.currentPosition + 1}/${photoPreviewAdapter.count}"
 
-        //是否显示查看原图
-        isOriginalImageOk()
+        //是否可以查看原图
+        if (act.showMaxImage) {
+            //是否显示查看原图
+            isOriginalImageOk()
+        }
+        //是否可以下载图片
+        if (act.downloadImage) {
+            //是否是本地图片，本地图片不显示下载
+            showDownload.value = photoPreviewAdapter.getItem(act.currentPosition).fromType != IMAGE_TYPE_LOCAL
+        }
+        
     }
 
     /**
      * 判断是否有原图缓存，进行查看原图按钮的显示
      */
     private fun isOriginalImageOk() {
-        val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
+
+        val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
         if (mSavePhoto.imageUrl.isNotEmpty() && mSavePhoto.imageUrl != mSavePhoto.objURL) {
             val futureTarget =
                 GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true).submit()
@@ -137,7 +147,7 @@ class PhotoPreviewVm @Inject constructor(
      * 现在显示原图
      */
     fun onDownloadOriginalImage() {
-        val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
+        val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
         if (mSavePhoto.imageUrl.isEmpty()) {
             return
         }
@@ -147,7 +157,7 @@ class PhotoPreviewVm @Inject constructor(
             withContext(Dispatchers.IO) {
                 return@withContext futureTarget.get()
             }
-            photoPreviewAdapter.setUpdatePage(currentPosition)
+            photoPreviewAdapter.setUpdatePage(act.currentPosition)
             showMaxImage.value = false
         }, {
             ToastUtils.showShort(it)
@@ -170,7 +180,7 @@ class PhotoPreviewVm @Inject constructor(
 
             override fun onGranted() {
                 //获取权限成功
-                val mSavePhoto = photoPreviewAdapter.getItem(currentPosition)
+                val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
                 //先尝试保存大图
                 saveMaxImage(mSavePhoto)
             }
