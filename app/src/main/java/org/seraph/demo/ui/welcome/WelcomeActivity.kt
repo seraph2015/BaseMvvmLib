@@ -2,6 +2,7 @@ package org.seraph.demo.ui.welcome
 
 import androidx.lifecycle.Observer
 import org.seraph.demo.R
+import org.seraph.demo.databinding.ActWelcomeBinding
 import org.seraph.demo.ui.welcome.vm.WelcomeVm
 import org.seraph.lib.ui.base.ABaseActivity
 
@@ -12,7 +13,7 @@ import org.seraph.lib.ui.base.ABaseActivity
  * mail：417753393@qq.com
  **/
 class WelcomeActivity :
-        ABaseActivity<org.seraph.demo.databinding.ActWelcomeBinding, WelcomeVm>(R.layout.act_welcome) {
+        ABaseActivity<ActWelcomeBinding, WelcomeVm>(R.layout.act_welcome) {
 
 
     override fun getViewModelClass(): Class<WelcomeVm> {
