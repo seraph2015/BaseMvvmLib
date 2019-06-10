@@ -1,6 +1,5 @@
 package org.seraph.lib.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.seraph.lib.LibConfig
@@ -37,7 +36,7 @@ class   ApiBuild @Inject constructor() {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
            // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
+           // .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
             .baseUrl(apiBaseUrl)
             .client(builder().build()).build()
             .create(service)

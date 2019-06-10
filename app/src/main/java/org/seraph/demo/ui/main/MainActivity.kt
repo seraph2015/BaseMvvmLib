@@ -10,7 +10,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import org.seraph.demo.AppConstants
-import org.seraph.demo.R
 import org.seraph.demo.databinding.ActivityMainBinding
 import org.seraph.demo.ui.main.vm.MainVm
 import org.seraph.lib.ui.base.ABaseActivity
@@ -18,8 +17,9 @@ import org.seraph.lib.utlis.LLayoutManager
 import org.seraph.lib.utlis.SGLayoutManager
 import org.seraph.lib.view.NoDataView
 
+
 @Route(path = AppConstants.PATH_APP_MAIN)
-class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activity_main) {
+class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(org.seraph.demo.R.layout.activity_main) {
 
     override fun getViewModelClass(): Class<MainVm> {
         return MainVm::class.java
@@ -33,14 +33,14 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         //是否输入状态
         vm.showSearch.observe(this, Observer {
             //图片列表
-            binding.rvImage.visibility = if(it) View.GONE else View.VISIBLE
+            binding.rvImage.visibility = if (it) View.GONE else View.VISIBLE
             //输入历史列表
-            binding.rvSearch.visibility = if(it) View.VISIBLE else View.GONE
+            binding.rvSearch.visibility = if (it) View.VISIBLE else View.GONE
             //设置输入框可聚集
             binding.etSearchInput.isFocusable = it
             //设置触摸聚焦
             binding.etSearchInput.isFocusableInTouchMode = it
-            if (it){
+            if (it) {
                 //请求焦点
                 binding.etSearchInput.requestFocus()
                 //获取焦点
@@ -49,7 +49,7 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
                 vm.showSearchHistory()
                 //展示软键盘
                 KeyboardUtils.showSoftInput(binding.etSearchInput)
-            }else{
+            } else {
                 //失去关闭键盘
                 KeyboardUtils.hideSoftInput(binding.etSearchInput)
             }
@@ -70,8 +70,8 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         })
 
         vm.start()
-    }
 
+    }
 
     /**
      * 初始化view
@@ -115,5 +115,6 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
             }
         })
     }
+
 
 }

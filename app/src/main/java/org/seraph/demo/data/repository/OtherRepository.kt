@@ -21,12 +21,11 @@ class OtherRepository @Inject constructor(
 ) : ABaseRepository() {
 
 
-
     /**
      * 获取一句话
      */
     suspend fun getYiYan(): YiYanBean {
-        return apiIoCall { apiYiYanService.getYiYanAsync("?c=").await() }
+        return apiIoCall { apiYiYanService.getYiYanAsync("?c=") }
     }
 
 
@@ -40,7 +39,7 @@ class OtherRepository @Inject constructor(
                 keyWordStr,
                 (pageNo - 1) * pageSize,
                 pageSize
-            ).await().imgs
+            ).imgs
         }
     }
 
