@@ -69,8 +69,11 @@ class WxApkInstallVm @Inject constructor(
 
     //初始化获取apk路径
     private fun initApkPath(): File? {
+        if (wxPathStr == null) {
+            return null
+        }
         //腾讯文件跳转，获取文件路径判断是否为apk.1
-        if (wxPathStr != null && wxPathStr!!.contains("apk.1")) {
+        if (wxPathStr!!.contains("apk.1")) {
             //判断下载文件夹是否有对应的apk
             wxPathStr = wxPathStr!!.replace("/external", PathUtils.getExternalStoragePath())
         }
@@ -83,7 +86,7 @@ class WxApkInstallVm @Inject constructor(
         if (FileUtils.isFileExists(apkFile) && apkFile.length() > 0) {
             return apkFile
         } else {
-            if (FileUtils.copyFile(File(wxPathStr), apkFile)) {
+            if (FileUtils.copyFile(File(wxPathStr!!), apkFile)) {
                 return apkFile
             }
         }
