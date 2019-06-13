@@ -1,6 +1,5 @@
 package org.seraph.demo.data.network.service
 
-import kotlinx.coroutines.Deferred
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import retrofit2.http.GET
 import retrofit2.http.Url

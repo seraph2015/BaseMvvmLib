@@ -10,15 +10,9 @@ import java.net.UnknownHostException
 import java.util.*
 import java.util.concurrent.ExecutionException
 
-/**
- * 网络请求异常信息处理
- * date：2019/4/19 13:47
- * author：xiongj
- * mail：417753393@qq.com
- **/
 
 /**
- * 显示错误信息
+ * 网络请求异常信息处理，显示错误信息
  */
 fun Throwable?.onCodeToMessage(): String {
     val message: String? = when (this) {

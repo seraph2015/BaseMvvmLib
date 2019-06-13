@@ -46,15 +46,9 @@ object LibUtils {
      * 获取相册路径文件
      */
     private fun getDCIMFile(imageName: String): File? {
-
         //图片文件夹下特定文件
         val file = File(PathUtils.getExternalDcimPath() + "/" + LibConfig.APP_NAME, imageName)
-
-        return if (FileUtils.isFileExists(file) && file.length() > 0) {
-            null
-        } else {
-            file
-        }
+        return if (FileUtils.isFileExists(file) && file.length() > 0) null else file
     }
 
     /**
@@ -63,7 +57,6 @@ object LibUtils {
     private fun scanAppImageFile(context: Context, fileName: String) {
         val photoPath = PathUtils.getExternalDcimPath() + "/" + LibConfig.APP_NAME + "/" + fileName
         galleryAddPic(context, photoPath)
-        // context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/" + AppConfig.SAVE_IMAGE_FOLDERS_NAME + "/" + fileName)));
     }
 
     /**
