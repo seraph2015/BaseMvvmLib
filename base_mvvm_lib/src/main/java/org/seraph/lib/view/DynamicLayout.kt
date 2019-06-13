@@ -1,7 +1,6 @@
 package org.seraph.lib.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ class DynamicLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, 
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = View.MeasureSpec.getSize(widthMeasureSpec)
+        val width = MeasureSpec.getSize(widthMeasureSpec)
         var height = 0
         var tempWidth = 0
         var tempHeight = 0
@@ -32,17 +31,17 @@ class DynamicLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, 
             val child = getChildAt(i)
             if (child.visibility == View.GONE) {
                 child.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY)
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY)
                 )
             } else {
                 child.measure(
-                    View.MeasureSpec.makeMeasureSpec(
-                        View.MeasureSpec.getSize(widthMeasureSpec),
-                        View.MeasureSpec.AT_MOST
-                    ), View.MeasureSpec.makeMeasureSpec(
-                        View.MeasureSpec.getSize(heightMeasureSpec),
-                        View.MeasureSpec.UNSPECIFIED
+                    MeasureSpec.makeMeasureSpec(
+                        MeasureSpec.getSize(widthMeasureSpec),
+                        MeasureSpec.AT_MOST
+                    ), MeasureSpec.makeMeasureSpec(
+                        MeasureSpec.getSize(heightMeasureSpec),
+                        MeasureSpec.UNSPECIFIED
                     )
                 )
             }
@@ -64,7 +63,7 @@ class DynamicLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, 
         if (layoutParams != null && layoutParams.height == -2)
             setMeasuredDimension(width, height)
         else
-            setMeasuredDimension(width, View.MeasureSpec.getSize(heightMeasureSpec))
+            setMeasuredDimension(width, MeasureSpec.getSize(heightMeasureSpec))
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

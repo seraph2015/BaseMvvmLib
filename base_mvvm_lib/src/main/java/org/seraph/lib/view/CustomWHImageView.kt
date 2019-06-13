@@ -28,7 +28,7 @@ class CustomWHImageView(context: Context, attrs: AttributeSet) : AppCompatImageV
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = View.MeasureSpec.getSize(widthMeasureSpec) - paddingRight - paddingLeft
+        val width = MeasureSpec.getSize(widthMeasureSpec) - paddingRight - paddingLeft
         if (width > 0 && w > 0 && h > 0) {
             val newH = width * h / w
             setMeasuredDimension(width, newH)

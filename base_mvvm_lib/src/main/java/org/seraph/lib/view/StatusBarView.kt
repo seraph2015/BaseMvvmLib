@@ -21,6 +21,6 @@ class StatusBarView @JvmOverloads constructor(context: Context, attrs: Attribute
         if (statusBarHeight == 0) {
             statusBarHeight = BarUtils.getStatusBarHeight()
         }
-        setMeasuredDimension(View.getDefaultSize(suggestedMinimumWidth, widthMeasureSpec), statusBarHeight)
+        setMeasuredDimension(getDefaultSize(suggestedMinimumWidth, widthMeasureSpec), statusBarHeight)
     }
 }

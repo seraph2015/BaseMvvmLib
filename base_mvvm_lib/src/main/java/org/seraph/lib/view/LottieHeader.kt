@@ -40,8 +40,7 @@ class LottieHeader @JvmOverloads protected constructor(
 
     init {
         val rootLayout = LinearLayout(context)
-        rootLayout.layoutParams =
-            RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(LayoutDPH.toFloat()))
+        rootLayout.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(LayoutDPH.toFloat()))
         rootLayout.gravity = Gravity.BOTTOM
         rootLayout.orientation = LinearLayout.VERTICAL
         if (mLottieAnimationView == null) {
