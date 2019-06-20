@@ -13,8 +13,8 @@ import org.seraph.lib.view.NoDataView
  * author：xiongj
  * mail：417753393@qq.com
  **/
-abstract class ABaseAdapterMultiItem<T : MultiItemEntity?, K : BaseViewHolder?> :
-        BaseMultiItemQuickAdapter<T, K>(null) {
+abstract class ABaseAdapterMultiItem<T : MultiItemEntity?, K : BaseViewHolder?>(data: List<T>? = null) :
+    BaseMultiItemQuickAdapter<T, K>(data) {
 
     /**
      * 默认的填充视图

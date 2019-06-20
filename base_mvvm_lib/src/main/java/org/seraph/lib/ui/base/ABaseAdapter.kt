@@ -13,14 +13,9 @@ import org.seraph.lib.view.NoDataView
  * mail：417753393@qq.com
  **/
 abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
-        layoutResId: Int,
-        data: List<T>?
+        layoutResId: Int = 0,
+        data: List<T>? = null
 ) : BaseQuickAdapter<T, K>(layoutResId, data) {
-
-    constructor(layoutResId: Int) : this(layoutResId, null)
-
-    constructor(data: List<T>?) : this(0, data)
-
 
     /**
      * 数据页码
