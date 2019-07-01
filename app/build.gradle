@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'org.greenrobot.greendao'
-
 apply plugin: 'com.alibaba.arouter'
 
 android {
@@ -43,17 +41,11 @@ android {
         enabled = true
     }
 }
-greendao {
-    schemaVersion 1
-    daoPackage 'org.seraph.demo.data.db.gen'
-    targetGenDir 'src/main/java'
-}
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13-beta-3'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha01'
 
     implementation project(path: ':base_mvvm_lib')
@@ -73,10 +65,12 @@ dependencies {
     //解决分包兼容
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    //greenDao数据库
-    implementation 'org.greenrobot:greendao:3.2.2'
-    //green数据库升级帮助类
-    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+    //dbflow数据库
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
+
     //事件总线
     implementation 'org.greenrobot:eventbus:3.1.1'
 

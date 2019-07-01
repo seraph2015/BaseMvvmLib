@@ -36,7 +36,22 @@ android {
         enabled = true
     }
 
+//    // 优化编译速度
+//    // 优化`transformClassDexBuilderForDebug`的速度
+//    dexOptions {
+//        preDexLibraries true
+//        maxProcessCount 8
+//    }
+
 }
+
+//// 优化编译速度 如果有用到kapt添加如下配置
+//kapt {
+//    useBuildCache = true
+//    javacOptions {
+//        option("-Xmaxerrs", 500)
+//    }
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -60,7 +75,7 @@ dependencies {
     api 'com.blankj:utilcodex:1.23.7'
 
     //lottie动画
-    api 'com.airbnb.android:lottie:3.0.6'
+    api 'com.airbnb.android:lottie:3.0.7'
     //下拉刷新
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-4'
 

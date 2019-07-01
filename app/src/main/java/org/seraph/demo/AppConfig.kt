@@ -3,24 +3,26 @@ package org.seraph.demo
 /**
  * app配置类
  */
-class AppConfig {
+object AppConfig {
 
-    companion object {
-        /**
-         * 是否调试模式
-         */
-        const val DEBUG = true
+    /**
+     * 是否调试模式
+     */
+    const val DEBUG = true
 
-        /**
-         * 默认数据查询数量
-         */
-        const val PAGE_SIZE: Int = 48
+    /**
+     * 默认数据查询数量
+     */
+    const val PAGE_SIZE: Int = 48
 
-        /**
-         * 数据库表名称
-         */
-        const val DB_NAME = "db_seraph"
+    /**
+     * 数据库名称
+     */
+    const val DB_NAME = "db_seraph"
 
-    }
+    /**
+     * 数据库版本
+     */
+    const val DB_VERSION = 1
 
 }

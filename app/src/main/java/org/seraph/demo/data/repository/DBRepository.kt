@@ -1,7 +1,7 @@
 package org.seraph.demo.data.repository
 
 import org.seraph.demo.AppConstants
-import org.seraph.demo.data.db.help.SearchHistoryHelp
+import org.seraph.demo.data.db.help.SHHelp
 import org.seraph.lib.ui.base.ABaseRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,9 +13,7 @@ import javax.inject.Singleton
  * mail：417753393@qq.com
  **/
 @Singleton
-class DBRepository @Inject constructor(
-    private var searchHistoryHelp: SearchHistoryHelp
-) : ABaseRepository() {
+class DBRepository @Inject constructor() : ABaseRepository() {
 
 
     /**
@@ -24,9 +22,9 @@ class DBRepository @Inject constructor(
     suspend fun getBaiduSearch(): ArrayList<String> {
         return apiIoCall {
             val tempList = ArrayList<String>()
-            val searchList = searchHistoryHelp.querySearchDB(-1, AppConstants.DB_TYPE_IMG_BAIDU)
+            val searchList = SHHelp.querySearchDB(-1, AppConstants.DB_TYPE_IMG_BAIDU)
             for (table in searchList) {
-                tempList.add(table.searchKey)
+                tempList.add(table.searchKey!!)
             }
             return@apiIoCall tempList
         }
@@ -36,15 +34,14 @@ class DBRepository @Inject constructor(
      * 保存到数据库
      */
     fun saveBaiduSearchToDB(keyWordStr: String) {
-        searchHistoryHelp.saveSearchToDB(-1, AppConstants.DB_TYPE_IMG_BAIDU, keyWordStr)
-
+        SHHelp.saveSearchToDB(-1, AppConstants.DB_TYPE_IMG_BAIDU, keyWordStr)
     }
 
     /**
      * 删除百度数据库历史
      */
     fun deleteBaiduAllSearchDB() {
-        searchHistoryHelp.deleteAllSearchDB(-1, AppConstants.DB_TYPE_IMG_BAIDU)
+        SHHelp.deleteAllSearchDB(-1, AppConstants.DB_TYPE_IMG_BAIDU)
     }
 
 

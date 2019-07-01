@@ -2,8 +2,12 @@ package org.seraph.demo
 
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.Utils
+import com.raizlabs.android.dbflow.config.DatabaseConfig
+import com.raizlabs.android.dbflow.config.FlowConfig
+import com.raizlabs.android.dbflow.config.FlowManager
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import org.seraph.demo.data.db.AppDatabase
 import org.seraph.demo.di.DaggerAppComponent
 
 /**
@@ -39,6 +43,15 @@ class AppApplication : DaggerApplication() {
         //阿里云路由框架
         ARouter.init(this)
         Utils.init(this)
+        //初始化dbflow
+        FlowManager.init(
+            FlowConfig.builder(this)
+                .addDatabaseConfig(
+                    DatabaseConfig.builder(AppDatabase::class.java)
+                        .databaseName(AppConfig.DB_NAME) //设置数据库名
+                        .build()
+                ).build()
+        )
     }
 
 
