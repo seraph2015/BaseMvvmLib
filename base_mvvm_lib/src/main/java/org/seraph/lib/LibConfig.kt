@@ -6,9 +6,8 @@ package org.seraph.lib
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class LibConfig {
+object LibConfig {
 
-    companion object {
         /**
          * 是否调试模式
          */
@@ -30,7 +29,4 @@ class LibConfig {
          * 存储文件夹名称
          */
         const val APP_NAME = "Seraph"
-
-
-    }
 }
