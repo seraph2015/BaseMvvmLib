@@ -116,4 +116,10 @@ dependencies {
     //Glide 的注解和注解解析器的依赖
     api "com.github.bumptech.glide:annotations:$glide_version"
 
+    //dbflow数据库
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
+    api "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
+    api "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
+    api "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
+
 }

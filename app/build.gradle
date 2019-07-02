@@ -62,14 +62,11 @@ dependencies {
     //ARouter路由框架
     kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
 
-    //解决分包兼容
-    implementation 'androidx.multidex:multidex:2.0.1'
-
     //dbflow数据库
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
+
+    //解决分包兼容
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     //事件总线
     implementation 'org.greenrobot:eventbus:3.1.1'
