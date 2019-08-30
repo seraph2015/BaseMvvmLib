@@ -20,14 +20,14 @@ object ApiServiceModule {
     @Singleton
     @JvmStatic
     fun apiBaiduService(apiBuild: ApiBuild): ApiBaiduService {
-        return apiBuild.buildApiInterface(ApiBaiduService.BASE_URL, ApiBaiduService::class.java)
+        return apiBuild.buildApiInterface(ApiBaiduService.BASE_URL)
     }
 
     @Provides
     @Singleton
     @JvmStatic
     fun apiYiYanService(apiBuild: ApiBuild): ApiYiYanService {
-        return apiBuild.buildApiInterface(ApiYiYanService.BASE_URL, ApiYiYanService::class.java)
+        return apiBuild.buildApiInterface(ApiYiYanService.BASE_URL)
     }
 
 }

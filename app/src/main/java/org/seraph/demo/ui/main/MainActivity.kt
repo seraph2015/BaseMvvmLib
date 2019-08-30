@@ -1,5 +1,6 @@
 package org.seraph.demo.ui.main
 
+import android.graphics.Point
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import org.seraph.demo.AppConstants
+import org.seraph.demo.R
 import org.seraph.demo.databinding.ActivityMainBinding
 import org.seraph.demo.ui.main.vm.MainVm
 import org.seraph.lib.ui.base.ABaseActivity
@@ -19,7 +21,7 @@ import org.seraph.lib.view.NoDataView
 
 
 @Route(path = AppConstants.PATH_APP_MAIN)
-class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(org.seraph.demo.R.layout.activity_main) {
+class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activity_main) {
 
     override fun getViewModelClass(): Class<MainVm> {
         return MainVm::class.java
@@ -87,16 +89,16 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(org.seraph.demo.
 
         vm.searchListAdapter.setNoDataView(NoDataView(this, NoDataView.NO_DATE).setNoDataMsg("暂无搜索记录！"))
         vm.searchListAdapter.onItemClickListener =
-                BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
+            BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
         vm.mAdapter.setNoDataView(
-                NoDataView(this, NoDataView.NO_DATE)
-                        .setNoDataMsg("快来度娘一下你喜欢图片吧！")
-                        .setNoDateIsListener(false)
-                        .setOnClickListener(object : NoDataView.OnNoDataClickListener {
-                            override fun onClick() {
-                                vm.getOnePage()
-                            }
-                        })
+            NoDataView(this, NoDataView.NO_DATE)
+                .setNoDataMsg("快来度娘一下你喜欢图片吧！")
+                .setNoDateIsListener(false)
+                .setOnClickListener(object : NoDataView.OnNoDataClickListener {
+                    override fun onClick() {
+                        vm.getOnePage()
+                    }
+                })
         )
         vm.mAdapter.setOnItemClickListener { _, _, position -> vm.onStartImagePreview(position) }
 

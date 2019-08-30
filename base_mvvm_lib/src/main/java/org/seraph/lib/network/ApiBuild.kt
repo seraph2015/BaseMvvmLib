@@ -15,10 +15,10 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class   ApiBuild @Inject constructor() {
+class ApiBuild @Inject constructor() {
 
 
-    private fun builder(): OkHttpClient.Builder {
+    fun builder(): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
         //log输出
         if (LibConfig.DEBUG) {
@@ -32,14 +32,14 @@ class   ApiBuild @Inject constructor() {
     /**
      * 构建ApiInterface
      */
-    fun <T> buildApiInterface(apiBaseUrl: String, service: Class<T>): T {
+    inline fun <reified T : Any> buildApiInterface(apiBaseUrl: String): T {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-           // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-           // .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
+            // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            // .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
             .baseUrl(apiBaseUrl)
             .client(builder().build()).build()
-            .create(service)
+            .create(T::class.java)
     }
 
 
