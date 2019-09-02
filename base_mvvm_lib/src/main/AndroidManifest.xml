@@ -1,23 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.seraph.lib">
+        package="org.seraph.lib">
 
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-    <application android:networkSecurityConfig="@xml/network_security_config">
+    <application android:usesCleartextTraffic="true">
 
         <!--图片预览-->
         <activity
                 android:name=".ui.comm.photopreview.PhotoPreviewActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait" />
         <!--微信apk安装-->
         <activity
                 android:name=".ui.comm.wxapkinstall.WxApkInstallActivity"
@@ -25,10 +25,10 @@
             <intent-filter>
                 <data
                         android:host="com.tencent.mm.external.fileprovider"
-                        android:scheme="content"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="*/*"/>
+                        android:scheme="content" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
 
@@ -40,12 +40,12 @@
             <intent-filter>
                 <data
                         android:host="app"
-                        android:scheme="searph"/>
+                        android:scheme="searph" />
 
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
     </application>

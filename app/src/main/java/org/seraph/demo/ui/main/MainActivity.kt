@@ -1,6 +1,5 @@
 package org.seraph.demo.ui.main
 
-import android.graphics.Point
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
