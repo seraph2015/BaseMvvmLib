@@ -22,7 +22,9 @@ class ApiBuild @Inject constructor() {
         val builder = OkHttpClient.Builder()
         //log输出
         if (LibConfig.DEBUG) {
-            builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            builder.addInterceptor(HttpLoggingInterceptor().apply {
+                this.level = HttpLoggingInterceptor.Level.BODY
+            })
         }
         builder.connectTimeout(LibConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
         return builder

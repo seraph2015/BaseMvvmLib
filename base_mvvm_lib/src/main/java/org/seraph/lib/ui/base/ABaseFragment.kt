@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import org.seraph.lib.di.vm.ViewModelFactory
 import javax.inject.Inject
@@ -50,7 +50,7 @@ abstract class ABaseFragment<T : ViewDataBinding, VM : ViewModel>(private val la
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 绑定
-        vm = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass())
+        vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
 
         //绑定生命周期
         binding.lifecycleOwner = this

@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.3.50'
     ext.databinding_version = '3.2.0-alpha10'
-    ext.dagger_version = '2.23.2'
+    ext.dagger_version = '2.24'
     ext.glide_version = '4.9.0'
     ext.arouter_compiler_version = '1.2.2'
     ext.kotlinx_coroutines_version = '1.3.0-M1'

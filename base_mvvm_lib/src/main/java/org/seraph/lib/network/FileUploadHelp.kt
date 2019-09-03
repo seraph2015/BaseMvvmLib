@@ -3,6 +3,7 @@ package org.seraph.lib.network
 import com.blankj.utilcode.util.StringUtils
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 /**
@@ -20,14 +21,19 @@ class FileUploadHelp {
      * @param files   文件list列表
      * @param fileKey 服务器接收文件key
      */
-    fun multipartRequestBody(params: Map<String, String>, files: List<File>?, fileKey: String): RequestBody {
+    fun multipartRequestBody(
+        params: Map<String, String>,
+        files: List<File>?,
+        fileKey: String
+    ): RequestBody {
         val requestBodyBuilder = initParamsBuilder(params)
         if (files != null) {
             for (file in files) {
+
                 requestBodyBuilder.addFormDataPart(
-                    if (StringUtils.isEmpty(fileKey)) "file" else fileKey, file.name, RequestBody.create(
-                        MultipartBody.FORM, file
-                    )
+                    if (StringUtils.isEmpty(fileKey)) "file" else fileKey,
+                    file.name,
+                    file.asRequestBody(MultipartBody.FORM)
                 )
             }
         }
@@ -49,7 +55,7 @@ class FileUploadHelp {
                 requestBodyBuilder.addFormDataPart(
                     key,
                     tempFile.name,
-                    RequestBody.create(MultipartBody.FORM, tempFile)
+                    tempFile.asRequestBody(MultipartBody.FORM)
                 )
             }
         }

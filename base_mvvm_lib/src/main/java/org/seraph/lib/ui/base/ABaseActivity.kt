@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import dagger.android.AndroidInjection
@@ -46,7 +46,7 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ViewModel>(private val la
         // 初始化 Binding
         binding = DataBindingUtil.setContentView(this, layoutResID)
         // 绑定
-        vm = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass())
+        vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
         //绑定生命周期
         binding.lifecycleOwner = this
         initTitleBar()
