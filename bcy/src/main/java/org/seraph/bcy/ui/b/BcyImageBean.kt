@@ -33,7 +33,8 @@ data class DataBean(
 data class MultiBean(
     var path: String,
     var w: Int = 0,
-    var h: Int = 0
+    var h: Int = 0,
+    var origin: String
 ) : Serializable {
 
     /**
@@ -41,15 +42,22 @@ data class MultiBean(
      */
     fun getMaxPath(): String {
         var maxPath = path
-        val p = path.indexOf("~")
-        if (p != -1) {
-            val tempPath = maxPath.substring(0, p)
-            //如果图片地址包含 https://p*-bcy.byteimg.com/img/banciyuan  则替换为 https://img-bcy-qn.pstatp.com
-            if (tempPath.contains("bcy.byteimg.com/img/banciyuan")) {
-                maxPath =
-                    "https://img-bcy-qn.pstatp.com" + tempPath.split("bcy.byteimg.com/img/banciyuan")[1]
+        //如果有特定的字节，则使用规则解析出原始地址，否则使用原尺寸的带水印地址
+        if (maxPath.contains(".jpg~")) {
+            val p = maxPath.indexOf("~")
+            if (p != -1) {
+                val tempPath = maxPath.substring(0, p)
+                //如果图片地址包含 https://p*-bcy.byteimg.com/img/banciyuan  则替换为 https://img-bcy-qn.pstatp.com
+                if (tempPath.contains("bcy.byteimg.com/img/banciyuan")) {
+                    maxPath =
+                        "https://img-bcy-qn.pstatp.com" + tempPath.split("bcy.byteimg.com/img/banciyuan")[1]
+                }
             }
+        } else {
+            maxPath = origin
         }
+
+
         return maxPath
 
     }
