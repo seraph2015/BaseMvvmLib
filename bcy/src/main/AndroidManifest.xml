@@ -1,0 +1,33 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="org.seraph.bcy">
+
+
+    <application
+            android:name=".AppApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/LibTheme"
+            tools:ignore="GoogleAppIndexingWarning"
+            tools:targetApi="n">
+
+        <activity
+                android:name=".ui.MainActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".ui.BcyShActivity"
+                android:screenOrientation="portrait" />
+        <activity
+                android:name=".ui.BcyILActivity"
+                android:screenOrientation="portrait" />
+
+    </application>
+</manifest>
