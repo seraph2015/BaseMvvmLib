@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
 import org.seraph.lib.ui.base.ABaseViewModel
-import org.seraph.lib.utlis.LibUtils
+import org.seraph.lib.utlis.saveFileToDisk
 import org.seraph.lib.view.CustomLoadingDialog
 import javax.inject.Inject
 
@@ -115,9 +115,10 @@ class PhotoPreviewVm @Inject constructor(
         //是否可以下载图片
         if (act.downloadImage) {
             //是否是本地图片，本地图片不显示下载
-            showDownload.value = photoPreviewAdapter.getItem(act.currentPosition).fromType != IMAGE_TYPE_LOCAL
+            showDownload.value =
+                photoPreviewAdapter.getItem(act.currentPosition).fromType != IMAGE_TYPE_LOCAL
         }
-        
+
     }
 
     /**
@@ -128,7 +129,8 @@ class PhotoPreviewVm @Inject constructor(
         val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
         if (mSavePhoto.imageUrl.isNotEmpty() && mSavePhoto.imageUrl != mSavePhoto.objURL) {
             val futureTarget =
-                GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true).submit()
+                GlideApp.with(act).asFile().load(mSavePhoto.imageUrl).onlyRetrieveFromCache(true)
+                    .submit()
             launchOnUI({
                 withContext(Dispatchers.IO) {
                     return@withContext futureTarget.get()
@@ -176,19 +178,20 @@ class PhotoPreviewVm @Inject constructor(
      */
     fun saveImage() {
         //请求读写权限
-        PermissionUtils.permission(PermissionConstants.STORAGE).callback(object : PermissionUtils.SimpleCallback {
+        PermissionUtils.permission(PermissionConstants.STORAGE)
+            .callback(object : PermissionUtils.SimpleCallback {
 
-            override fun onGranted() {
-                //获取权限成功
-                val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
-                //先尝试保存大图
-                saveMaxImage(mSavePhoto)
-            }
+                override fun onGranted() {
+                    //获取权限成功
+                    val mSavePhoto = photoPreviewAdapter.getItem(act.currentPosition)
+                    //先尝试保存大图
+                    saveMaxImage(mSavePhoto)
+                }
 
-            override fun onDenied() {
-                ToastUtils.showShort("缺少SD卡权限，保存图片失败")
-            }
-        }).request()
+                override fun onDenied() {
+                    ToastUtils.showShort("缺少SD卡权限，保存图片失败")
+                }
+            }).request()
     }
 
 
@@ -200,10 +203,11 @@ class PhotoPreviewVm @Inject constructor(
         if (!StringUtils.isEmpty(previewBean.imageUrl) && previewBean.imageUrl != previewBean.objURL) {
             //进行原图缓存的判断
             val futureTarget =
-                GlideApp.with(act).asFile().load(previewBean.imageUrl).onlyRetrieveFromCache(true).submit()
+                GlideApp.with(act).asFile().load(previewBean.imageUrl).onlyRetrieveFromCache(true)
+                    .submit()
             val job = launchOnUI({
                 val msg = withContext(Dispatchers.IO) {
-                    return@withContext LibUtils.saveFileToDisk(futureTarget.get(), previewBean.imageUrl, act)
+                    return@withContext act.saveFileToDisk(futureTarget.get(), previewBean.imageUrl)
                 }
                 customLoadingDialog.dismiss()
                 ToastUtils.showShort(msg)
@@ -234,7 +238,7 @@ class PhotoPreviewVm @Inject constructor(
         val job = launchOnUI({
             //获取原图片的file（后台线程）
             val msg = withContext(Dispatchers.IO) {
-                return@withContext LibUtils.saveFileToDisk(fileFutureTarget.get(), previewBean.objURL!!, act)
+                return@withContext act.saveFileToDisk(fileFutureTarget.get(), previewBean.objURL!!)
             }
             ToastUtils.showShort(msg)
         }, {

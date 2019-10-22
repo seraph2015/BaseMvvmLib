@@ -12,7 +12,7 @@ import java.io.File
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class FileUploadHelp {
+object FileUploadHelp {
 
     /**
      * 多文件表单上传RequestBody(文件统一接收key)
@@ -22,7 +22,7 @@ class FileUploadHelp {
      * @param fileKey 服务器接收文件key
      */
     fun multipartRequestBody(
-        params: Map<String, String>,
+        params: Map<String, String>?,
         files: List<File>?,
         fileKey: String
     ): RequestBody {
@@ -37,6 +37,7 @@ class FileUploadHelp {
                 )
             }
         }
+
         return requestBodyBuilder.build()
     }
 
@@ -46,7 +47,7 @@ class FileUploadHelp {
      * @param params 表单
      * @param files  文件map列表
      */
-    fun multipartRequestBody(params: Map<String, String>, files: Map<String, File>?): RequestBody {
+    fun multipartRequestBody(params: Map<String, String>?, files: Map<String, File>?): RequestBody {
         val requestBodyBuilder = initParamsBuilder(params)
         if (files != null) {
             val fileKeys = files.keys

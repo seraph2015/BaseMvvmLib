@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.blankj.utilcode.util.SizeUtils
 import com.scwang.smartrefresh.layout.api.RefreshFooter

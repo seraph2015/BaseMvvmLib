@@ -1,5 +1,6 @@
 package org.seraph.lib.ui.comm.photopreview
 
+import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -31,9 +32,9 @@ class PhotoPreviewActivity :
         return PhotoPreviewVm::class.java
     }
 
-    @JvmField
-    @Autowired
-    var photoList: ArrayList<PhotoPreviewBean>? = null
+//    @JvmField
+//    @Autowired
+//    var photoList: ArrayList<PhotoPreviewBean>? = null
 
     @JvmField
     @Autowired
@@ -52,7 +53,7 @@ class PhotoPreviewActivity :
         BarUtils.setStatusBarLightMode(this, false)
         initView()
 
-        vm.photoPreviewAdapter.setList(photoList!!)
+        vm.photoPreviewAdapter.setList(LibConstants.tempImageList!!)
 
         if (currentPosition == 0) {
             vm.upDateCurrentPosition()
@@ -72,7 +73,11 @@ class PhotoPreviewActivity :
         binding.tvSave.setOnClickListener { vm.saveImage() }
 
         binding.vpPhotoPreview.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
 
             }
 
@@ -89,8 +94,9 @@ class PhotoPreviewActivity :
         binding.vpPhotoPreview.offscreenPageLimit = 5
 
 
-        vm.photoPreviewAdapter.setOnItemClickListener(object : ABasePagerAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
+        vm.photoPreviewAdapter.setOnItemClickListener(object :
+            ABasePagerAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int, view: View) {
                 vm.onSwitchUIShow()
             }
         })
@@ -124,7 +130,7 @@ class PhotoPreviewActivity :
          */
         @JvmStatic
         fun <T> startPhotoPreview(
-            imageList: ArrayList<T>,
+            imageList: List<T>,
             currentPosition: Int = 0,
             isDownLoad: Boolean = true,
             isShowMaxImage: Boolean = true
@@ -143,8 +149,10 @@ class PhotoPreviewActivity :
 
                 }
             }
+            //防止传递数据大于允许的大小导致异常崩溃
+            LibConstants.tempImageList = beanList
             ARouter.getInstance().build(LibConstants.PATH_COMM_PHOTO_PREVIEW)
-                .withSerializable(PHOTO_LIST, beanList)
+               // .withSerializable(PHOTO_LIST, beanList)
                 .withInt(CURRENT_POSITION, currentPosition)
                 .withBoolean(SHOW_MAX_IMAGE, isShowMaxImage)
                 .withBoolean(DOWNLOAD_IMAGE, isDownLoad)

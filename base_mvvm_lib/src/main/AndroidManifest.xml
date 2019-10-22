@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         package="org.seraph.lib">
 
 
@@ -12,15 +13,17 @@
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-    <application android:usesCleartextTraffic="true">
+    <application
+            android:usesCleartextTraffic="true"
+            tools:targetApi="m">
 
         <!--图片预览-->
         <activity
-                android:name=".ui.comm.photopreview.PhotoPreviewActivity"
+                android:name="org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity"
                 android:screenOrientation="portrait" />
         <!--微信apk安装-->
         <activity
-                android:name=".ui.comm.wxapkinstall.WxApkInstallActivity"
+                android:name="org.seraph.lib.ui.comm.wxapkinstall.WxApkInstallActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <data
@@ -34,7 +37,7 @@
 
         <!--通过uri唤起-->
         <activity
-                android:name=".ui.comm.SchameFilterActivity"
+                android:name="org.seraph.lib.ui.comm.SchameFilterActivity"
                 android:screenOrientation="portrait">
             <!-- Schame -->
             <intent-filter>

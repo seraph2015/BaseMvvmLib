@@ -2,7 +2,6 @@ package org.seraph.lib.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import org.seraph.lib.R
 

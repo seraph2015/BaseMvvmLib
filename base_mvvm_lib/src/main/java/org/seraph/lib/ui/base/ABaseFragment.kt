@@ -31,7 +31,7 @@ abstract class ABaseFragment<T : ViewDataBinding, VM : ViewModel>(private val la
     /**
      * view
      */
-    protected lateinit var binding: T
+    lateinit var binding: T
 
     /**
      * vm

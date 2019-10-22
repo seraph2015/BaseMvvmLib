@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:srcCompat="@mipmap/icon_no_info_dh" />
+            android:id="@+id/iv_icon"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/icon_no_info_dh" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lav_loading"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="loader.json"
-        app:lottie_loop="true" />
+            android:id="@+id/lav_loading"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="loader.json"
+            app:lottie_loop="true" />
 
     <TextView
-        android:id="@+id/tv_show_str"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="正在加载中"
-        android:textColor="#bababa"
-        android:visibility="gone" />
+            android:id="@+id/tv_show_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="正在加载中"
+            android:textColor="#bababa"
+            android:visibility="gone" />
 </LinearLayout>

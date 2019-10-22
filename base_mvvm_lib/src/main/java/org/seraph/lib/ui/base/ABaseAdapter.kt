@@ -13,8 +13,8 @@ import org.seraph.lib.view.NoDataView
  * mail：417753393@qq.com
  **/
 abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
-        layoutResId: Int = 0,
-        data: List<T>? = null
+    layoutResId: Int = 0,
+    data: List<T>? = null
 ) : BaseQuickAdapter<T, K>(layoutResId, data) {
 
     /**
@@ -77,18 +77,21 @@ abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
     /**
      * 更新数据
      */
-    fun onUpdateList(list: List<T>?) {
-        onUpdateList(list, null)
+    fun onUpdateList(list: List<T>?): Boolean {
+        return onUpdateList(list, null)
     }
 
-    fun onUpdateList(list: List<T>?, pageSize: Int?) {
+    /**
+     * 返回值判断总数据源是否有数据
+     */
+    fun onUpdateList(list: List<T>?, pageSize: Int?): Boolean {
         if (list == null) { //加载失败
             //如果是第一页
             if (requestPageNo == 1) {
                 noDataView?.setNetErr()
             }
             loadMoreFail()
-            return
+            return data.size > 0
         }
 
         //判断是新数据还是加更多数据
@@ -104,21 +107,22 @@ abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
         //判断加载更多的状态
         when {
             list.size >= (pageSize ?: LibConfig.PAGE_SIZE) -> { //加载完成
+                loadMoreComplete()
                 if (requestPageNo == 1) {
                     noDataView?.setLoadingOk()
                 }
-                loadMoreComplete()
             }
             else -> {
+                loadMoreEnd() //加载结束
                 if (requestPageNo == 1 && list.isEmpty()) {
                     noDataView?.setNoDate()
                 }
-                loadMoreEnd() //加载结束
             }
-
         }
 
         mPageNo = requestPageNo
+        //如果不是第一页 或者 有数据 则返回所有数据list有数据
+        return (requestPageNo != 1 || list.isNotEmpty())
     }
 
 

@@ -11,4 +11,21 @@
         <attr name="columnSpacing" format="dimension"/>
         <attr name="rowSpacing" format="dimension"/>
     </declare-styleable>
+    <!-- 流式布局 -->
+    <declare-styleable name="DynamicRadioLayout">
+        <attr name="cSpacing" format="dimension"/>
+        <attr name="rSpacing" format="dimension"/>
+    </declare-styleable>
+
+    <!-- 圆形图片 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="circle_border_width" format="dimension" />
+        <attr name="circle_border_color" format="color" />
+    </declare-styleable>
+
+    <!-- 添加图片 -->
+    <declare-styleable name="CustomImageViewGroup">
+        <attr name="max_size" format="integer" />
+        <attr name="add_image" format="reference" />
+    </declare-styleable>
 </resources>

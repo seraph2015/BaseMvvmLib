@@ -3,6 +3,7 @@ package org.seraph.demo.ui.welcome
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -47,7 +48,7 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
      */
     private fun initViewPager() {
         vm.guidePagerAdapter.setOnItemClickListener(object : ABasePagerAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
+            override fun onItemClick(position: Int,view: View) {
                 if (position == vm.images.value!!.size - 1) {//最后一页点击跳转
                     ARouter.getInstance().build(AppConstants.PATH_APP_MAIN).navigation()
                     finish()

@@ -2,24 +2,23 @@ package org.seraph.lib.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.RadioGroup
 import org.seraph.lib.R
 
 
 /**
  * 横向动态流布局
  */
-class DynamicLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
+class DynamicRadioLayout(context: Context, attrs: AttributeSet) : RadioGroup(context, attrs) {
 
     private val columnSpacing: Int
     private val rowSpacing: Int
 
     init {
-        val array = context.obtainStyledAttributes(attrs, R.styleable.DynamicLayout)
-        columnSpacing = array.getDimensionPixelSize(R.styleable.DynamicLayout_columnSpacing, 0)
-        rowSpacing = array.getDimensionPixelSize(R.styleable.DynamicLayout_rowSpacing, 0)
+        val array = context.obtainStyledAttributes(attrs, R.styleable.DynamicRadioLayout)
+        columnSpacing = array.getDimensionPixelSize(R.styleable.DynamicRadioLayout_cSpacing, 0)
+        rowSpacing = array.getDimensionPixelSize(R.styleable.DynamicRadioLayout_rSpacing, 0)
         array.recycle()
     }
 

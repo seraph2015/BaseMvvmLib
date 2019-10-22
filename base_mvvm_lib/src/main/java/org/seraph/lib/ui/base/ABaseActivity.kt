@@ -70,7 +70,7 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ViewModel>(private val la
     /**
      * 初始化toolbar默认操作
      */
-    protected fun initToolbar(toolbar: Toolbar, @DrawableRes resId: Int? = R.mipmap.comm_ic_back_gary): Toolbar {
+    protected fun initToolbar(toolbar: Toolbar, @DrawableRes resId: Int? = R.mipmap.comm_ic_back2): Toolbar {
         setSupportActionBar(toolbar)
         resId?.let {
             toolbar.setNavigationIcon(it)

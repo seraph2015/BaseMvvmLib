@@ -24,7 +24,7 @@ abstract class ABasePagerAdapter<T> constructor(@LayoutRes var resource: Int) : 
      * 点击监听
      */
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,view: View)
     }
 
     protected var mOnItemClickListener: OnItemClickListener? = null

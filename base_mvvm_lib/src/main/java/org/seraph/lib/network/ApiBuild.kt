@@ -37,8 +37,6 @@ class ApiBuild @Inject constructor() {
     inline fun <reified T : Any> buildApiInterface(apiBaseUrl: String): T {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            // .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
             .baseUrl(apiBaseUrl)
             .client(builder().build()).build()
             .create(T::class.java)

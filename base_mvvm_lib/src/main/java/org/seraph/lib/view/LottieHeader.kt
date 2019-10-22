@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import androidx.core.view.setPadding
 import com.airbnb.lottie.LottieAnimationView
 import com.blankj.utilcode.util.SizeUtils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -21,7 +21,7 @@ import com.scwang.smartrefresh.layout.internal.InternalAbstract
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class LottieHeader @JvmOverloads protected constructor(
+class LottieHeader @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = -1
@@ -33,7 +33,7 @@ class LottieHeader @JvmOverloads protected constructor(
     private var mLottieAnimationView: LottieAnimationView? = null
 
     //默认的动画
-    private val animationJson = "loader.json"
+    private val animationJson = "loading_anim_data.json"
 
     //头高度dp
     private val LayoutDPH = 60
@@ -45,6 +45,8 @@ class LottieHeader @JvmOverloads protected constructor(
         rootLayout.orientation = LinearLayout.VERTICAL
         if (mLottieAnimationView == null) {
             mLottieAnimationView = LottieAnimationView(context)
+            val padding = SizeUtils.dp2px(12f)
+            mLottieAnimationView!!.setPadding(padding,padding,padding,padding)
             mLottieAnimationView!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
             mLottieAnimationView!!.scaleType = ImageView.ScaleType.CENTER_INSIDE
             mLottieAnimationView!!.repeatCount = -1

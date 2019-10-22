@@ -8,14 +8,16 @@
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- toolbar标题颜色 -->
-        <item name="titleTextColor">@android:color/background_dark</item>
+        <item name="titleTextColor">@color/app_default_title_text</item>
         <!-- 控件选中后颜色 -->
         <item name="colorAccent">@color/app_default_color1</item>
         <!--toolbar menu文字颜色-->
-        <item name="actionMenuTextColor">@android:color/background_dark</item>
+        <item name="actionMenuTextColor">@color/app_default_title_text</item>
         <!-- 状态栏是否透明 -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--允许内容过度。-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
 
@@ -39,6 +41,38 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+
+    <style name="toolbar_theme" parent="Theme.AppCompat.Light">
+        <!--<!– 更换Toolbar OVerFlow menu icon –>-->
+        <!--<item name="actionOverflowButtonStyle">@style/OverFlowIcon</item>-->
+        <!-- 设置 toolbar 溢出菜单的文字的颜色 -->
+        <!--<item name="android:textColor">@android:color/background_dark</item>-->
+        <!-- 设置 显示在toobar上菜单文字的颜色 -->
+        <!--<item name="actionMenuTextColor">@android:color/background_dark</item>-->
+        <!-- 设置toolbar 弹出菜单的字体大小-->
+        <!--<item name="android:textSize">14sp</item>-->
+        <!--加入toolbar溢出【弹出】菜单的风格 -->
+        <item name="actionOverflowMenuStyle">@style/overflow_menu</item>
+        <!--加入toolbar溢出ListView风格-->
+        <!--<item name="android:dropDownListViewStyle">@style/app_drop_down_list_style</item>-->
+    </style>
+
+    <style name="overflow_menu" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
+        <!--<item name="android:dropDownWidth">wrap_content</item>-->
+        <!--<item name="android:paddingRight">0dp</item>-->
+        <!-- 弹出层背景颜色 -->
+        <!--<item name="android:popupBackground">@color/colorPrimary</item>-->
+        <!--&lt;!&ndash; 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar &ndash;&gt;-->
+        <!--<item name="android:dropDownVerticalOffset">4dp</item>-->
+        <!--&lt;!&ndash; 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 &ndash;&gt;-->
+        <!--<item name="android:dropDownHorizontalOffset">0dp</item>-->
+        <!--设置弹出菜单文字颜色-->
+        <!--<item name="android:textColor">@android:color/background_dark</item>-->
     </style>
 
 

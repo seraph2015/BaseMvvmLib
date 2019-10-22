@@ -4,7 +4,7 @@ import android.graphics.PointF
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.viewpager.widget.PagerAdapter
+import com.blankj.utilcode.util.LogUtils
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import org.seraph.lib.R
 import org.seraph.lib.network.glide.GlideApp
 import org.seraph.lib.ui.base.ABasePagerAdapter
+import org.seraph.lib.utlis.getBitmapDegree
 import javax.inject.Inject
 
 
@@ -38,7 +39,8 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
         sView.setDoubleTapZoomScale(2f)
         sView.maxScale = 3f
         sView.minScale = 1f
-        sView.setOnImageEventListener(object : SubsamplingScaleImageView.DefaultOnImageEventListener() {
+        sView.setOnImageEventListener(object :
+            SubsamplingScaleImageView.DefaultOnImageEventListener() {
 
             override fun onImageLoadError(e: Exception?) {
                 //此控件不支持gif。如果图片为gif.则会出现解析错误,使用普通imageView展示
@@ -52,11 +54,13 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                     .into(gifView)
             }
         })
-        sView.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
-        gifView.setOnClickListener { mOnItemClickListener?.onItemClick(position) }
+        sView.setOnClickListener { mOnItemClickListener?.onItemClick(position, sView) }
+        gifView.setOnClickListener { mOnItemClickListener?.onItemClick(position, gifView) }
 
         if (PhotoPreviewVm.IMAGE_TYPE_LOCAL == t.fromType && !t.objURL!!.contains("http://")) {
             sView.setImage(ImageSource.uri(t.objURL!!))
+            //获取图片的旋转角度
+            sView.orientation = t.objURL.getBitmapDegree()
         } else {
             //从缓存中加载原始图片
             onLoadMaxImage(t, sView)
@@ -67,9 +71,9 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
         val view = any as View
         val tag: Int? = view.tag as Int
         return if (tag != null && updatePage >= 0 && tag == updatePage) {
-            PagerAdapter.POSITION_NONE //刷新界面
+            POSITION_NONE //刷新界面
         } else {
-            PagerAdapter.POSITION_UNCHANGED
+            POSITION_UNCHANGED
         }
     }
 
@@ -86,13 +90,17 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
     /**
      * 从缓存中加载原图
      */
-    private fun onLoadMaxImage(previewBean: PhotoPreviewBean, scaleImageView: SubsamplingScaleImageView) {
+    private fun onLoadMaxImage(
+        previewBean: PhotoPreviewBean,
+        scaleImageView: SubsamplingScaleImageView
+    ) {
         //如没有原始图片地址或者原始图片和当前图片一样，则加载小图片地址
         if (previewBean.imageUrl.isEmpty() || previewBean.imageUrl == previewBean.objURL) {
             onLoadMinImage(previewBean.objURL, scaleImageView)
         } else {
             val fileFuture =
-                GlideApp.with(activity).asFile().load(previewBean.imageUrl).onlyRetrieveFromCache(true)
+                GlideApp.with(activity).asFile().load(previewBean.imageUrl)
+                    .onlyRetrieveFromCache(true)
                     .submit()
             activity.vm.launchOnUI({
                 val file = withContext(Dispatchers.IO) {
@@ -123,7 +131,10 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
             val file = withContext(Dispatchers.IO) {
                 return@withContext fileFuture.get()
             }
-            scaleImageView.setImage(ImageSource.uri(file.absolutePath), ImageViewState(0f, PointF(0f, 0f), 0))
+            scaleImageView.setImage(
+                ImageSource.uri(file.absolutePath),
+                ImageViewState(0f, PointF(0f, 0f), 0)
+            )
         }, {
             scaleImageView.setImage(
                 ImageSource.resource(R.mipmap.ic_image_error),

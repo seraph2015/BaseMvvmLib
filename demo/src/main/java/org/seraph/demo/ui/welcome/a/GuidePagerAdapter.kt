@@ -19,7 +19,7 @@ class GuidePagerAdapter @Inject constructor() : ABasePagerAdapter<Int>(R.layout.
         val imageView: ImageView = itemView.findViewById(R.id.iv_guide)
         imageView.setImageResource(t)
         imageView.setOnClickListener {
-            mOnItemClickListener?.onItemClick(position)
+            mOnItemClickListener?.onItemClick(position,it)
         }
     }
 

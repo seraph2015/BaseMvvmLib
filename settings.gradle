@@ -1,1 +1,1 @@
-include ':app','base_mvvm_lib'
+include ':demo', ':bcy','base_mvvm_lib'
