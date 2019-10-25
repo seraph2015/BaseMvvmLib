@@ -1,5 +1,6 @@
 package org.seraph.bcy.ui
 
+import android.view.Menu
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +13,7 @@ import org.seraph.bcy.ui.vm.BcyILVm
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewBean
+import org.seraph.lib.utlis.LLayoutManager
 import org.seraph.lib.utlis.SGLayoutManager
 import org.seraph.lib.view.NoDataView
 import javax.inject.Inject
@@ -35,9 +37,20 @@ class BcyILActivity : ABaseActivity<ActBcyIlBinding, BcyILVm>(R.layout.act_bcy_i
     @Inject
     lateinit var adapter: BcyILAdapter
 
+    private val sm = SGLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
 
     override fun init() {
-        initToolbar(binding.tb).title = "图片列表（${list.size}张）"
+        val tb = initToolbar(binding.tb)
+        tb.title = "图片列表（${list.size}张）"
+        tb.setOnMenuItemClickListener {
+            if (sm.spanCount == 1) {
+                sm.spanCount = 2
+            } else {
+                sm.spanCount = 1
+            }
+            false
+        }
         initView()
         vm.start()
     }
@@ -57,8 +70,14 @@ class BcyILActivity : ABaseActivity<ActBcyIlBinding, BcyILVm>(R.layout.act_bcy_i
             PhotoPreviewActivity.startPhotoPreview(listPhoto, position)
         }
         adapter.setNoDataView(NoDataView(this).setNoDataMsg("暂无历史记录"))
-        binding.rv.layoutManager = SGLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.rv.layoutManager = sm
         binding.rv.adapter = adapter
         adapter.onUpdateList(list)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_sh, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

@@ -10,9 +10,11 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class SGLayoutManager @Inject constructor(spanCount: Int, orientation: Int) :
-        StaggeredGridLayoutManager(spanCount, orientation) {
+class SGLayoutManager constructor(spanCount: Int, orientation: Int) :
+    StaggeredGridLayoutManager(spanCount, orientation) {
 
+    @Inject
+    constructor() : this(2, VERTICAL)
 
     /**
      * 重写该方法，去捕捉该异常

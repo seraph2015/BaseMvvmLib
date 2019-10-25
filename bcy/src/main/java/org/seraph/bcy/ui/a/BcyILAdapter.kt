@@ -17,7 +17,7 @@ class BcyILAdapter @Inject constructor() :
         val imageView: CustomWHImageView = helper.getView(R.id.image)
         imageView.setSize(item.w, item.h)
         //按照控件的大小来缩放图片的尺寸
-        GlideApp.with(mContext).load(item.path).into(imageView)
+        GlideApp.with(mContext).load(item.path).fitCenter().into(imageView)
     }
 
 

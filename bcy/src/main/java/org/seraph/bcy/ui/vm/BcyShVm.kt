@@ -35,4 +35,10 @@ class BcyShVm @Inject constructor(
 
     }
 
+    fun onDeleteItem(position: Int) {
+        dbRepository.deleteSearchBcyDB(imageList.value!![position].searchKey!!)
+        //刷新
+        startSearchHistory()
+    }
+
 }

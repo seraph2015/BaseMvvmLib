@@ -36,6 +36,13 @@ class DBRepository @Inject constructor() : ABaseRepository() {
     /**
      * 删除数据库历史
      */
+    fun deleteSearchBcyDB(deleteStr: String) {
+        SHHelp.deleteAllSearchDB(-1, AppConstants.DB_TYPE_IMG_BCY, deleteStr)
+    }
+
+    /**
+     * 删除数据库历史
+     */
     fun deleteAllSearchBcyDB() {
         SHHelp.deleteAllSearchDB(-1, AppConstants.DB_TYPE_IMG_BCY)
     }

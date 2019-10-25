@@ -1,5 +1,7 @@
 package org.seraph.bcy.ui
 
+import android.view.Menu
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -54,8 +56,20 @@ class BcyShActivity : ABaseActivity<ActBcyShBinding, BcyShVm>(R.layout.act_bcy_s
                 .withSerializable("list", bcyImageList)
                 .navigation()
         }
+        adapter.setOnItemLongClickListener { _, _, position ->
+            val items = arrayOf<CharSequence>("删除")
+
+            AlertDialog.Builder(this).setItems(items) { _, _ ->
+                vm.onDeleteItem(position)
+            }.show()
+
+
+            false
+        }
         adapter.setNoDataView(NoDataView(this).setNoDataMsg("暂无历史记录"))
         binding.rv.layoutManager = LLayoutManager(this)
         binding.rv.adapter = adapter
     }
+
+
 }
