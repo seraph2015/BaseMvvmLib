@@ -20,9 +20,9 @@ class DBRepository @Inject constructor() : ABaseRepository() {
     /**
      * 获取搜索历史
      */
-    suspend fun getSearchBcyList(): List<SearchHistory> {
+    suspend fun getSearchBcyList(ascending: Boolean = false): List<SearchHistory> {
         return apiIoCall {
-            return@apiIoCall SHHelp.querySearchDB(-1, AppConstants.DB_TYPE_IMG_BCY)
+            return@apiIoCall SHHelp.querySearchDB(-1, AppConstants.DB_TYPE_IMG_BCY, ascending)
         }
     }
 

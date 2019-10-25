@@ -77,7 +77,7 @@ class BcyILActivity : ABaseActivity<ActBcyIlBinding, BcyILVm>(R.layout.act_bcy_i
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_sh, menu)
+        menuInflater.inflate(R.menu.menu_il, menu)
         return super.onCreateOptionsMenu(menu)
     }
 }

@@ -20,7 +20,10 @@ class BcyShVm @Inject constructor(
     val imageList: MutableLiveData<List<SearchHistory>> by lazy {
         MutableLiveData<List<SearchHistory>>()
     }
-
+    /**
+     * 时间排序方式
+     */
+    private var ascending: Boolean = false
 
     override fun start() {
         startSearchHistory()
@@ -28,7 +31,7 @@ class BcyShVm @Inject constructor(
 
     private fun startSearchHistory() {
         launchOnUI({
-            imageList.value = dbRepository.getSearchBcyList()
+            imageList.value = dbRepository.getSearchBcyList(ascending)
         }, {
 
         })
@@ -40,5 +43,16 @@ class BcyShVm @Inject constructor(
         //刷新
         startSearchHistory()
     }
+
+    fun onTimeDx() {
+        ascending = false
+        start()
+    }
+
+    fun onTimeZx() {
+        ascending = true
+        start()
+    }
+
 
 }

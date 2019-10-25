@@ -58,7 +58,7 @@ object SHHelp {
      * @param userId 用户id
      * @param type   记录的类型（区分不同的使用地方）
      */
-    fun querySearchDB(userId: Int, type: String): List<SearchHistory> {
+    fun querySearchDB(userId: Int, type: String, ascending: Boolean = false): List<SearchHistory> {
         return (
                 select from SearchHistory::class
                         where (SearchHistory_Table.userId.eq(userId)).and(
@@ -67,7 +67,7 @@ object SHHelp {
                     )
                 )
                 )
-            .orderBy(SearchHistory_Table.searchTime, false)
+            .orderBy(SearchHistory_Table.searchTime, ascending)
             .queryList()
     }
 

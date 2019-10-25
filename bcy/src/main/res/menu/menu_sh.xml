@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:title="切换视图"
-            android:id="@+id/action_save_image"
-            android:icon="@android:drawable/ic_menu_agenda"
-            app:showAsAction="always" />
+            android:title="时间倒叙"
+            android:id="@+id/action_time_dx"
+            app:showAsAction="never" />
+    <item
+            android:title="时间正序"
+            android:id="@+id/action_time_zx"
+            app:showAsAction="never" />
 </menu>

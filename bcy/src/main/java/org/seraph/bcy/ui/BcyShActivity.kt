@@ -35,7 +35,13 @@ class BcyShActivity : ABaseActivity<ActBcyShBinding, BcyShVm>(R.layout.act_bcy_s
 
 
     override fun init() {
-        initToolbar(binding.tb)
+        initToolbar(binding.tb).setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_time_dx -> vm.onTimeDx()
+                R.id.action_time_zx -> vm.onTimeZx()
+            }
+            false
+        }
         vm.imageList.observe(this, Observer {
             adapter.onUpdateList(it)
         })
@@ -71,5 +77,8 @@ class BcyShActivity : ABaseActivity<ActBcyShBinding, BcyShVm>(R.layout.act_bcy_s
         binding.rv.adapter = adapter
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_sh, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 }
