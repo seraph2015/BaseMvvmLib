@@ -57,9 +57,9 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$databinding_version"
 
-    api 'androidx.core:core-ktx:1.2.0-beta01'
+    api 'androidx.core:core-ktx:1.2.0-beta02'
 
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
     api 'androidx.appcompat:appcompat:1.1.0'
     api 'com.google.android.material:material:1.2.0-alpha01'
 
