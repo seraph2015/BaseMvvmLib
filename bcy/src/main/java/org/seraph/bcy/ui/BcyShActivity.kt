@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.bcy.AppConstants
 import org.seraph.bcy.R
 import org.seraph.bcy.databinding.ActBcyShBinding
@@ -24,11 +26,16 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 @Route(path = AppConstants.BCY_SEARCH_HISTORY)
-class BcyShActivity : ABaseActivity<ActBcyShBinding, BcyShVm>(R.layout.act_bcy_sh) {
+@ActivityScoped
+@AndroidEntryPoint
+class BcyShActivity : ABaseActivity<ActBcyShBinding>(R.layout.act_bcy_sh) {
 
-    override fun getViewModelClass(): Class<BcyShVm> {
-        return BcyShVm::class.java
-    }
+    @Inject
+    lateinit var vm : BcyShVm
+
+//    override fun getViewModelClass(): Class<BcyShVm> {
+//        return BcyShVm::class.java
+//    }
 
     @Inject
     lateinit var adapter: BcyShAdapter

@@ -3,11 +3,14 @@ package org.seraph.lib.ui.comm.wxapkinstall
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.lib.R
 import org.seraph.lib.databinding.ActWxApkInstallBinding
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.view.NoDataView
 import java.util.*
+import javax.inject.Inject
 
 /**
  * 微信.apk.1安装
@@ -15,11 +18,16 @@ import java.util.*
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding, WxApkInstallVm>(R.layout.act_wx_apk_install) {
+@ActivityScoped
+@AndroidEntryPoint
+class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding>(R.layout.act_wx_apk_install) {
 
-    override fun getViewModelClass(): Class<WxApkInstallVm> {
-        return WxApkInstallVm::class.java
-    }
+//    override fun getViewModelClass(): Class<WxApkInstallVm> {
+//        return WxApkInstallVm::class.java
+//    }
+
+    @Inject
+    lateinit var vm : WxApkInstallVm
 
     override fun init() {
         binding.vm = vm

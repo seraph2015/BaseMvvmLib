@@ -1,6 +1,7 @@
 package org.seraph.demo.ui.welcome.vm
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.SPUtils
 import org.seraph.demo.AppConstants
@@ -15,7 +16,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class GuideVm @Inject constructor(var guidePagerAdapter: GuidePagerAdapter, application: Application) :
+class GuideVm @ViewModelInject constructor(var guidePagerAdapter: GuidePagerAdapter, application: Application) :
         ABaseViewModel(application) {
 
 

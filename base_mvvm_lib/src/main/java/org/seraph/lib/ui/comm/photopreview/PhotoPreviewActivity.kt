@@ -6,6 +6,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.lib.LibConstants
 import org.seraph.lib.R
 import org.seraph.lib.databinding.LibCommActPhotoPreviewBinding
@@ -17,6 +19,7 @@ import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.IMAGE_TYPE_L
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.PHOTO_LIST
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.SHOW_MAX_IMAGE
 import java.util.*
+import javax.inject.Inject
 
 /**
  * 图片预览
@@ -25,12 +28,17 @@ import java.util.*
  * mail：417753393@qq.com
  **/
 @Route(path = LibConstants.PATH_COMM_PHOTO_PREVIEW)
+@ActivityScoped
+@AndroidEntryPoint
 class PhotoPreviewActivity :
-    ABaseActivity<LibCommActPhotoPreviewBinding, PhotoPreviewVm>(R.layout.lib_comm_act_photo_preview) {
+    ABaseActivity<LibCommActPhotoPreviewBinding>(R.layout.lib_comm_act_photo_preview) {
 
-    override fun getViewModelClass(): Class<PhotoPreviewVm> {
-        return PhotoPreviewVm::class.java
-    }
+//    override fun getViewModelClass(): Class<PhotoPreviewVm> {
+//        return PhotoPreviewVm::class.java
+//    }
+
+    @Inject
+    lateinit var vm : PhotoPreviewVm
 
 //    @JvmField
 //    @Autowired

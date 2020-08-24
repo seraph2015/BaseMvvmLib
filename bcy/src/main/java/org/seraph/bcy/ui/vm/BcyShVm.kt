@@ -1,6 +1,7 @@
 package org.seraph.bcy.ui.vm
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import org.seraph.bcy.data.db.table.SearchHistory
 import org.seraph.bcy.data.repository.DBRepository
@@ -8,7 +9,7 @@ import org.seraph.lib.ui.base.ABaseViewModel
 import javax.inject.Inject
 
 
-class BcyShVm @Inject constructor(
+class BcyShVm @ViewModelInject constructor(
     application: Application,
     private val dbRepository: DBRepository
 ) : ABaseViewModel(application) {

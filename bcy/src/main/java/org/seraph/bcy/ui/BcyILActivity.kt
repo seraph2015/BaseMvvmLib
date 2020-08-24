@@ -4,6 +4,8 @@ import android.view.Menu
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.bcy.AppConstants
 import org.seraph.bcy.R
 import org.seraph.bcy.databinding.ActBcyIlBinding
@@ -25,11 +27,16 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 @Route(path = AppConstants.BCY_IMAGE_LIST)
-class BcyILActivity : ABaseActivity<ActBcyIlBinding, BcyILVm>(R.layout.act_bcy_il) {
+@ActivityScoped
+@AndroidEntryPoint
+class BcyILActivity : ABaseActivity<ActBcyIlBinding>(R.layout.act_bcy_il) {
 
-    override fun getViewModelClass(): Class<BcyILVm> {
-        return BcyILVm::class.java
-    }
+//    override fun getViewModelClass(): Class<BcyILVm> {
+//        return BcyILVm::class.java
+//    }
+
+    @Inject
+    lateinit var vm : BcyILVm
 
     @Autowired
     lateinit var list: ArrayList<MultiBean>

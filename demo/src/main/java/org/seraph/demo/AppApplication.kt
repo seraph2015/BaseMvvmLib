@@ -1,14 +1,13 @@
 package org.seraph.demo
 
+import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.Utils
 import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 import org.seraph.demo.data.db.AppDatabase
-import org.seraph.demo.di.DaggerAppComponent
 
 /**
  * app初始化
@@ -16,14 +15,15 @@ import org.seraph.demo.di.DaggerAppComponent
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class AppApplication : DaggerApplication() {
+@HiltAndroidApp
+class AppApplication : Application() {
 
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder()
-            .application(this)
-            .build()
-    }
+//    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+//        return DaggerAppComponent.builder()
+//            .application(this)
+//            .build()
+//    }
 
 
     override fun onCreate() {

@@ -1,11 +1,13 @@
 package org.seraph.lib.ui.comm.photopreview
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
@@ -20,7 +22,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class PhotoPreviewVm @Inject constructor(
+class PhotoPreviewVm @ViewModelInject constructor(
     application: Application,
     val act: PhotoPreviewActivity,
     var photoPreviewAdapter: PhotoPreviewAdapter

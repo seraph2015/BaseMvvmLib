@@ -6,13 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
-import dagger.android.AndroidInjection
 import org.seraph.lib.R
-import org.seraph.lib.di.vm.ViewModelFactory
 import javax.inject.Inject
 
 /**
@@ -21,32 +17,32 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-abstract class ABaseActivity<T : ViewDataBinding, VM : ViewModel>(private val layoutResID: Int) :
+abstract class ABaseActivity<T : ViewDataBinding>(private val layoutResID: Int) :
     AppCompatActivity() {
 
     /**
      * view
      */
     lateinit var binding: T
-    /**
-     * vm
-     */
-    lateinit var vm: VM
+//    /**
+//     * vm
+//     */
+//    lateinit var vm: VM
 
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+//
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //一处声明，处处依赖注入
-        AndroidInjection.inject(this)
+        //AndroidInjection.inject(this)
         //初始化ARouter
         ARouter.getInstance().inject(this)
         // 初始化 Binding
         binding = DataBindingUtil.setContentView(this, layoutResID)
         // 绑定
-        vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
+       // vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
         //绑定生命周期
         binding.lifecycleOwner = this
         initTitleBar()
@@ -55,7 +51,7 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ViewModel>(private val la
     }
 
 
-    abstract fun getViewModelClass(): Class<VM>
+   // abstract fun getViewModelClass(): Class<VM>
 
     abstract fun init()
 

@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
 
 apply plugin: 'com.alibaba.arouter'
 android {
@@ -35,11 +36,8 @@ android {
     }
 
     compileOptions {
-
         sourceCompatibility JavaVersion.VERSION_1_8
-
         targetCompatibility JavaVersion.VERSION_1_8
-
     }
 
     dataBinding {
@@ -61,10 +59,13 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$databinding_version"
 
-    //dagger
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
+//    //dagger
+//    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+//    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    api "com.google.dagger:hilt-android:2.28-alpha"
+    kapt 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    api 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
     //glide图片加载
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 

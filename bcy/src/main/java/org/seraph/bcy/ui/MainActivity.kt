@@ -5,20 +5,28 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.SizeUtils
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.bcy.AppConstants
 import org.seraph.bcy.R
 import org.seraph.bcy.databinding.ActivityMainBinding
 import org.seraph.bcy.ui.vm.MainVm
 import org.seraph.lib.ui.base.ABaseActivity
 import java.util.*
+import javax.inject.Inject
 
 
 @Route(path = AppConstants.PATH_APP_MAIN)
-class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activity_main) {
+@ActivityScoped
+@AndroidEntryPoint
+class MainActivity : ABaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    override fun getViewModelClass(): Class<MainVm> {
-        return MainVm::class.java
-    }
+//    override fun getViewModelClass(): Class<MainVm> {
+//        return MainVm::class.java
+//    }
+
+    @Inject
+    lateinit var vm: MainVm
 
     override fun init() {
         setSupportActionBar(binding.tb)
@@ -35,7 +43,11 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
      * 初始化view
      */
     private fun initView() {
-        binding.btnBcyImage.setOnClickListener { vm.onSetJsonStr(binding.etBcyIamgeJson.text.toString().trim()) }
+        binding.btnBcyImage.setOnClickListener {
+            vm.onSetJsonStr(
+                binding.etBcyIamgeJson.text.toString().trim()
+            )
+        }
         binding.btnJsonLs.setOnClickListener {
             ARouter.getInstance().build(AppConstants.BCY_SEARCH_HISTORY).navigation()
         }

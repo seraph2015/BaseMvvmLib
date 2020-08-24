@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
@@ -16,7 +17,6 @@ import org.seraph.demo.data.repository.OtherRepository
 import org.seraph.demo.ui.welcome.WelcomeActivity
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import org.seraph.lib.ui.base.ABaseViewModel
-import javax.inject.Inject
 
 /**
  * org.seraph.ktmvvm.ui.welcome
@@ -24,7 +24,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class WelcomeVm @Inject constructor(
+class WelcomeVm @ViewModelInject constructor(
     application: Application,
     private val yiyanRepository: OtherRepository,
     private val welcomeActivity: WelcomeActivity
@@ -68,7 +68,7 @@ class WelcomeVm @Inject constructor(
     private fun countDown() {
         launchOnUI {
             var i = 5
-            while (isActive && i>=0) {
+            while (isActive && i >= 0) {
                 count.value = i
                 delay(1000L)
                 i -= 1

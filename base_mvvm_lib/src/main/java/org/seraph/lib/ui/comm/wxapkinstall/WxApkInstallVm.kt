@@ -2,6 +2,7 @@ package org.seraph.lib.ui.comm.wxapkinstall
 
 import android.app.Application
 import android.view.View
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
@@ -19,7 +20,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class WxApkInstallVm @Inject constructor(
+class WxApkInstallVm @ViewModelInject constructor(
     application: Application,
     val activity: WxApkInstallActivity
 ) : ABaseViewModel(application) {

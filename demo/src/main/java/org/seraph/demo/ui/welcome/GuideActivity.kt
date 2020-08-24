@@ -9,13 +9,15 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ConvertUtils
 import com.tmall.ultraviewpager.UltraViewPager
-import kotlinx.android.synthetic.main.act_guide.*
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActGuideBinding
 import org.seraph.demo.ui.welcome.vm.GuideVm
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.base.ABasePagerAdapter
+import javax.inject.Inject
 
 /**
  * 引导页
@@ -24,10 +26,15 @@ import org.seraph.lib.ui.base.ABasePagerAdapter
  * mail：417753393@qq.com
  **/
 @Route(path = AppConstants.PATH_WELCOME_GUIDE)
-class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide) {
-    override fun getViewModelClass(): Class<GuideVm> {
-        return GuideVm::class.java
-    }
+@ActivityScoped
+@AndroidEntryPoint
+class GuideActivity : ABaseActivity<ActGuideBinding>(R.layout.act_guide) {
+//    override fun getViewModelClass(): Class<GuideVm> {
+//        return GuideVm::class.java
+//    }
+
+    @Inject
+    lateinit var vm: GuideVm
 
     override fun init() {
 
@@ -48,7 +55,7 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
      */
     private fun initViewPager() {
         vm.guidePagerAdapter.setOnItemClickListener(object : ABasePagerAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int,view: View) {
+            override fun onItemClick(position: Int, view: View) {
                 if (position == vm.images.value!!.size - 1) {//最后一页点击跳转
                     ARouter.getInstance().build(AppConstants.PATH_APP_MAIN).navigation()
                     finish()
@@ -61,16 +68,16 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
         binding.ultraViewpager.initIndicator()
         //设置indicator样式
         binding.ultraViewpager.indicator
-                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
-                .setFocusColor(Color.WHITE)
-                .setNormalColor(Color.GRAY)
-                .setRadius(
-                        TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                4f,
-                                resources.displayMetrics
-                        ).toInt()
-                )
+            .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+            .setFocusColor(Color.WHITE)
+            .setNormalColor(Color.GRAY)
+            .setRadius(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    4f,
+                    resources.displayMetrics
+                ).toInt()
+            )
         //设置indicator对齐方式
         binding.ultraViewpager.indicator.setMargin(10, 10, 10, ConvertUtils.dp2px(15f))
         binding.ultraViewpager.indicator.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)

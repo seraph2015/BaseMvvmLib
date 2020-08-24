@@ -1,6 +1,7 @@
 package org.seraph.bcy.ui.vm
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -17,7 +18,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class MainVm @Inject constructor(
+class MainVm @ViewModelInject constructor(
     application: Application,
     private var dbRepository: DBRepository
 ) :

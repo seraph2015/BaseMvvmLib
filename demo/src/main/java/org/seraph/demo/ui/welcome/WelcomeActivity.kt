@@ -1,6 +1,8 @@
 package org.seraph.demo.ui.welcome
 
 import androidx.lifecycle.Observer
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActWelcomeBinding
 import org.seraph.demo.ui.welcome.vm.WelcomeVm
@@ -12,14 +14,16 @@ import org.seraph.lib.ui.base.ABaseActivity
  * author：xiongj
  * mail：417753393@qq.com
  **/
+@ActivityScoped
+@AndroidEntryPoint
 class WelcomeActivity :
-        ABaseActivity<ActWelcomeBinding, WelcomeVm>(R.layout.act_welcome) {
+    ABaseActivity<ActWelcomeBinding>(R.layout.act_welcome) {
 
 
-    override fun getViewModelClass(): Class<WelcomeVm> {
-        return WelcomeVm::class.java
-    }
-
+    //    override fun getViewModelClass(): Class<WelcomeVm> {
+//        return WelcomeVm::class.java
+//    }
+    lateinit var vm: WelcomeVm
 
     override fun init() {
         binding.vm = vm
