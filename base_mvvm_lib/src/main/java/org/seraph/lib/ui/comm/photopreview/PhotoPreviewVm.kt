@@ -1,20 +1,19 @@
 package org.seraph.lib.ui.comm.photopreview
 
-import android.app.Application
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.utlis.saveFileToDisk
 import org.seraph.lib.view.CustomLoadingDialog
-import javax.inject.Inject
 
 /**
  * 图片预览界面
@@ -23,10 +22,10 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 class PhotoPreviewVm @ViewModelInject constructor(
-    application: Application,
+    @Assisted private val savedStateHandle: SavedStateHandle,
     val act: PhotoPreviewActivity,
     var photoPreviewAdapter: PhotoPreviewAdapter
-) : ABaseViewModel(application) {
+) : ABaseViewModel() {
 
 
     companion object {

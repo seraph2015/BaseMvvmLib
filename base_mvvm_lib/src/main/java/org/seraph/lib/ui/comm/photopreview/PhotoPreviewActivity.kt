@@ -1,6 +1,7 @@
 package org.seraph.lib.ui.comm.photopreview
 
 import android.view.View
+import androidx.activity.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -16,10 +17,8 @@ import org.seraph.lib.ui.base.ABasePagerAdapter
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.CURRENT_POSITION
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.DOWNLOAD_IMAGE
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.IMAGE_TYPE_LOCAL
-import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.PHOTO_LIST
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.SHOW_MAX_IMAGE
 import java.util.*
-import javax.inject.Inject
 
 /**
  * 图片预览
@@ -33,16 +32,7 @@ import javax.inject.Inject
 class PhotoPreviewActivity :
     ABaseActivity<LibCommActPhotoPreviewBinding>(R.layout.lib_comm_act_photo_preview) {
 
-//    override fun getViewModelClass(): Class<PhotoPreviewVm> {
-//        return PhotoPreviewVm::class.java
-//    }
-
-    @Inject
-    lateinit var vm : PhotoPreviewVm
-
-//    @JvmField
-//    @Autowired
-//    var photoList: ArrayList<PhotoPreviewBean>? = null
+    val vm by viewModels<PhotoPreviewVm>()
 
     @JvmField
     @Autowired

@@ -1,15 +1,18 @@
 package org.seraph.demo.ui.welcome.vm
 
-import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import org.seraph.demo.AppConstants
@@ -25,11 +28,12 @@ import org.seraph.lib.ui.base.ABaseViewModel
  * mail：417753393@qq.com
  **/
 class WelcomeVm @ViewModelInject constructor(
-    application: Application,
+    @ApplicationContext private val appContext: Context,
+    @Assisted private val savedStateHandle: SavedStateHandle,
     private val yiyanRepository: OtherRepository,
     private val welcomeActivity: WelcomeActivity
 ) :
-    ABaseViewModel(application) {
+    ABaseViewModel() {
 
     private val spUtils: SPUtils = SPUtils.getInstance(AppConstants.SP_NAME)
 
@@ -103,8 +107,9 @@ class WelcomeVm @ViewModelInject constructor(
      * 复制到粘贴板
      */
     fun copyYiYan() {
+
         val clipboardManager: ClipboardManager =
-            getApplication<Application>().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            appContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData: ClipData = ClipData.newPlainText("text", yiYanBean.value?.hitokoto)
         clipboardManager.primaryClip = clipData
         ToastUtils.showShort("复制文字成功")

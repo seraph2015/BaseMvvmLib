@@ -1,11 +1,13 @@
 package org.seraph.lib.ui.base
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import org.seraph.lib.R
@@ -27,7 +29,7 @@ abstract class ABaseActivity<T : ViewDataBinding>(private val layoutResID: Int) 
 //    /**
 //     * vm
 //     */
-//    lateinit var vm: VM
+//    private val vm  by viewModels<VMM>()
 
 //
 //    @Inject
@@ -42,7 +44,7 @@ abstract class ABaseActivity<T : ViewDataBinding>(private val layoutResID: Int) 
         // 初始化 Binding
         binding = DataBindingUtil.setContentView(this, layoutResID)
         // 绑定
-       // vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
+        // vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
         //绑定生命周期
         binding.lifecycleOwner = this
         initTitleBar()
@@ -51,7 +53,7 @@ abstract class ABaseActivity<T : ViewDataBinding>(private val layoutResID: Int) 
     }
 
 
-   // abstract fun getViewModelClass(): Class<VM>
+   //  abstract fun getViewModelClass(): Class<VM>
 
     abstract fun init()
 
@@ -66,7 +68,10 @@ abstract class ABaseActivity<T : ViewDataBinding>(private val layoutResID: Int) 
     /**
      * 初始化toolbar默认操作
      */
-    protected fun initToolbar(toolbar: Toolbar, @DrawableRes resId: Int? = R.mipmap.comm_ic_back2): Toolbar {
+    protected fun initToolbar(
+        toolbar: Toolbar,
+        @DrawableRes resId: Int? = R.mipmap.comm_ic_back2
+    ): Toolbar {
         setSupportActionBar(toolbar)
         resId?.let {
             toolbar.setNavigationIcon(it)

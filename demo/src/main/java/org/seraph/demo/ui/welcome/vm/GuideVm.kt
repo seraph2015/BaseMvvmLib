@@ -1,14 +1,14 @@
 package org.seraph.demo.ui.welcome.vm
 
-import android.app.Application
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.util.SPUtils
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.ui.welcome.a.GuidePagerAdapter
 import org.seraph.lib.ui.base.ABaseViewModel
-import javax.inject.Inject
 
 /**
  * org.seraph.ktmvvm.ui.welcome
@@ -16,8 +16,8 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class GuideVm @ViewModelInject constructor(var guidePagerAdapter: GuidePagerAdapter, application: Application) :
-        ABaseViewModel(application) {
+class GuideVm @ViewModelInject constructor(var guidePagerAdapter: GuidePagerAdapter, @Assisted private val savedStateHandle: SavedStateHandle) :
+        ABaseViewModel() {
 
 
     val images: MutableLiveData<List<Int>> by lazy {

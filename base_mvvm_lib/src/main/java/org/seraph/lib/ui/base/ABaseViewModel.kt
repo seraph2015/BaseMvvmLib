@@ -2,6 +2,7 @@ package org.seraph.lib.ui.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +16,7 @@ import org.seraph.lib.utlis.onCodeToMessage
  * author：xiongj
  * mail：417753393@qq.com
  **/
-abstract class ABaseViewModel constructor(application: Application) : AndroidViewModel(application) {
+abstract class ABaseViewModel : ViewModel() {
 
     abstract fun start()
 

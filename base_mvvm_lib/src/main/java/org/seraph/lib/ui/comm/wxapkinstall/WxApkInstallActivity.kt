@@ -1,5 +1,6 @@
 package org.seraph.lib.ui.comm.wxapkinstall
 
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
@@ -22,12 +23,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding>(R.layout.act_wx_apk_install) {
 
-//    override fun getViewModelClass(): Class<WxApkInstallVm> {
-//        return WxApkInstallVm::class.java
-//    }
 
-    @Inject
-    lateinit var vm : WxApkInstallVm
+    private val vm by viewModels<WxApkInstallVm>()
 
     override fun init() {
         binding.vm = vm

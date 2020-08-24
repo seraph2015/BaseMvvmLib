@@ -2,8 +2,10 @@ package org.seraph.lib.ui.comm.wxapkinstall
 
 import android.app.Application
 import android.view.View
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +23,9 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 class WxApkInstallVm @ViewModelInject constructor(
-    application: Application,
+    @Assisted private val savedStateHandle: SavedStateHandle,
     val activity: WxApkInstallActivity
-) : ABaseViewModel(application) {
+) : ABaseViewModel() {
 
     /**
      * apk路径

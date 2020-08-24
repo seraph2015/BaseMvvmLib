@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -17,7 +18,6 @@ import org.seraph.demo.databinding.ActGuideBinding
 import org.seraph.demo.ui.welcome.vm.GuideVm
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.base.ABasePagerAdapter
-import javax.inject.Inject
 
 /**
  * 引导页
@@ -29,12 +29,9 @@ import javax.inject.Inject
 @ActivityScoped
 @AndroidEntryPoint
 class GuideActivity : ABaseActivity<ActGuideBinding>(R.layout.act_guide) {
-//    override fun getViewModelClass(): Class<GuideVm> {
-//        return GuideVm::class.java
-//    }
 
-    @Inject
-    lateinit var vm: GuideVm
+
+    private val vm by viewModels<GuideVm>()
 
     override fun init() {
 
