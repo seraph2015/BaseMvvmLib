@@ -29,7 +29,7 @@ fun Context.saveFileToDisk(tempFile: File, imageUrl: String): String {
     val saveImageName = EncryptUtils.encryptMD5ToString(imageUrl) + "." + tempHz.value
     val dcimFile = saveImageName.getDCIMFile() ?: return "图片已存在"
     //复制文件
-    return if (FileUtils.copyFile(tempFile, dcimFile)) {
+    return if (FileUtils.copy(tempFile, dcimFile)) {
         // 最后通知图库更新此图片
         this.scanAppImageFile(saveImageName)
         "保存成功"

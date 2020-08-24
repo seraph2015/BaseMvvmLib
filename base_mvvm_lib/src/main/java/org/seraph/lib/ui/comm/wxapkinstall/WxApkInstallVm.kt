@@ -86,7 +86,7 @@ class WxApkInstallVm @Inject constructor(
         if (FileUtils.isFileExists(apkFile) && apkFile.length() > 0) {
             return apkFile
         } else {
-            if (FileUtils.copyFile(File(wxPathStr!!), apkFile)) {
+            if (FileUtils.copy(File(wxPathStr!!), apkFile)) {
                 return apkFile
             }
         }
