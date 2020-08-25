@@ -1,4 +1,4 @@
-package org.seraph.demo.di.module
+package org.seraph.demo.di
 
 import dagger.Module
 import dagger.Provides
