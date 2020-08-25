@@ -15,9 +15,11 @@ import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActGuideBinding
+import org.seraph.demo.ui.welcome.a.GuidePagerAdapter
 import org.seraph.demo.ui.welcome.vm.GuideVm
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.base.ABasePagerAdapter
+import javax.inject.Inject
 
 /**
  * 引导页
@@ -34,18 +36,17 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
         return viewModels<GuideVm>().value
     }
 
+    @Inject
+    lateinit var guidePagerAdapter: GuidePagerAdapter
+
 
     override fun init() {
 
         initViewPager()
-
         vm.images.observe(this, Observer { t ->
-            run {
-                vm.guidePagerAdapter.setList(t)
-                binding.ultraViewpager.refresh()
-            }
+            guidePagerAdapter.setList(t)
+            binding.ultraViewpager.refresh()
         })
-
         vm.start()
     }
 
@@ -53,7 +54,7 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
      * 初始化ultraViewpager
      */
     private fun initViewPager() {
-        vm.guidePagerAdapter.setOnItemClickListener(object : ABasePagerAdapter.OnItemClickListener {
+        guidePagerAdapter.setOnItemClickListener(object : ABasePagerAdapter.OnItemClickListener {
             override fun onItemClick(position: Int, view: View) {
                 if (position == vm.images.value!!.size - 1) {//最后一页点击跳转
                     ARouter.getInstance().build(AppConstants.PATH_APP_MAIN).navigation()
@@ -62,7 +63,7 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
             }
         })
         binding.ultraViewpager.setOffscreenPageLimit(3)
-        binding.ultraViewpager.adapter = vm.guidePagerAdapter
+        binding.ultraViewpager.adapter = guidePagerAdapter
         //内置indicator初始化
         binding.ultraViewpager.initIndicator()
         //设置indicator样式

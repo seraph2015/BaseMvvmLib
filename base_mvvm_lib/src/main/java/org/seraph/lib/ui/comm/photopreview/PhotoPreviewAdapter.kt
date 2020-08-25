@@ -23,7 +23,7 @@ import javax.inject.Inject
 /**
  * 图片预览适配器
  */
-class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val context: Context) :
+class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val mContext: Context) :
     ABasePagerAdapter<PhotoPreviewBean>(R.layout.lib_comm_act_photo_preview_item) {
 
     /**
@@ -102,10 +102,10 @@ class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val conte
             onLoadMinImage(previewBean.objURL, scaleImageView)
         } else {
             val fileFuture =
-                GlideApp.with((context as PhotoPreviewActivity)).asFile().load(previewBean.imageUrl)
+                GlideApp.with(scaleImageView.context).asFile().load(previewBean.imageUrl)
                     .onlyRetrieveFromCache(true)
                     .submit()
-            context.vm.launchOnUI({
+            (mContext as PhotoPreviewActivity).vm.launchOnUI({
                 val file = withContext(Dispatchers.IO) {
                     return@withContext fileFuture.get()
                 }
@@ -129,8 +129,8 @@ class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val conte
             ImageViewState(0f, PointF(0f, 0f), 0)
         )
         //使用后台线程下载
-        val fileFuture = GlideApp.with((context as PhotoPreviewActivity)).asFile().load(objUrl).submit()
-        context.vm.launchOnUI({
+        val fileFuture = GlideApp.with(scaleImageView.context).asFile().load(objUrl).submit()
+        (mContext as PhotoPreviewActivity).vm.launchOnUI({
             val file = withContext(Dispatchers.IO) {
                 return@withContext fileFuture.get()
             }

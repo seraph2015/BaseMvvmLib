@@ -16,23 +16,23 @@ import org.seraph.lib.ui.base.ABaseViewModel
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class GuideVm @ViewModelInject constructor(var guidePagerAdapter: GuidePagerAdapter, @Assisted private val savedStateHandle: SavedStateHandle) :
+class GuideVm @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) :
         ABaseViewModel() {
 
 
-    val images: MutableLiveData<List<Int>> by lazy {
-        MutableLiveData<List<Int>>()
+    val images : MutableLiveData<List<Int>>  by lazy {
+        MutableLiveData<List<Int>>().also { it.value = arrayListOf(
+            R.mipmap.welcome_guide_one,
+            R.mipmap.welcome_guide_two,
+            R.mipmap.welcome_guide_three,
+            R.mipmap.welcome_guide_four
+        ) }
     }
 
 
     override fun start(vararg any: Any?) {
         SPUtils.getInstance(AppConstants.SP_NAME).put(AppConstants.IS_FIRST, false)
-        images.value = arrayListOf(
-                R.mipmap.welcome_guide_one,
-                R.mipmap.welcome_guide_two,
-                R.mipmap.welcome_guide_three,
-                R.mipmap.welcome_guide_four
-        )
+
     }
 
 

@@ -13,11 +13,13 @@ import com.bumptech.glide.request.FutureTarget
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.seraph.lib.LibConstants
 import org.seraph.lib.network.glide.GlideApp
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.utlis.saveFileToDisk
 import org.seraph.lib.view.CustomLoadingDialog
 import java.io.File
+import java.util.*
 
 /**
  * 图片预览界面
@@ -28,8 +30,7 @@ import java.io.File
 class PhotoPreviewVm @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     @ApplicationContext private val appContext: Context,
-    private var customLoadingDialog: CustomLoadingDialog,
-    var photoPreviewAdapter: PhotoPreviewAdapter
+    private var customLoadingDialog: CustomLoadingDialog
 ) : ABaseViewModel() {
 
 
@@ -89,14 +90,35 @@ class PhotoPreviewVm @ViewModelInject constructor(
     }
 
     /**
+     * 刷新当前ItemPage
+     */
+    val onUpdatePage: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
+    /**
+     * 数据列表
+     */
+    val tempImageList: MutableLiveData<ArrayList<PhotoPreviewBean>> by lazy {
+        MutableLiveData<ArrayList<PhotoPreviewBean>>().also {
+            it.value = LibConstants.tempImageList
+        }
+    }
+
+    /**
      * 当前页面
      */
-    private var _currentPosition: Int = 0
+    val currentPosition: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
 
     override fun start(vararg any: Any?) {
         //默认显示功能栏
         showBar.value = true
-        _currentPosition = any[0] as Int
+        currentPosition.observeForever {
+            upDateCurrentPosition(it)
+        }
     }
 
 
@@ -111,22 +133,20 @@ class PhotoPreviewVm @ViewModelInject constructor(
     /**
      * 更新显示当前位置的状态
      */
-    fun upDateCurrentPosition(currentPosition: Int = 0) {
-        this._currentPosition = currentPosition
+    private fun upDateCurrentPosition(currentPosition: Int = 0) {
         //标题
         titleStr.value =
-            "${_currentPosition + 1}/${photoPreviewAdapter.count}"
+            "${currentPosition + 1}/${tempImageList.value!!.size}"
 
         //是否可以查看原图
         if (showMaxImage.value!!) {
             //是否显示查看原图
-            isOriginalImageOk()
+            isOriginalImageOk(currentPosition)
         }
         //是否可以下载图片
         if (showDownload.value!!) {
             //是否是本地图片，本地图片不显示下载
-            showDownload.value =
-                photoPreviewAdapter.getItem(_currentPosition).fromType != IMAGE_TYPE_LOCAL
+            showDownload.value = tempImageList.value!![currentPosition].fromType != IMAGE_TYPE_LOCAL
         }
 
     }
@@ -134,9 +154,9 @@ class PhotoPreviewVm @ViewModelInject constructor(
     /**
      * 判断是否有原图缓存，进行查看原图按钮的显示
      */
-    private fun isOriginalImageOk() {
+    private fun isOriginalImageOk(currentPosition: Int = 0) {
         val mSavePhoto =
-            photoPreviewAdapter.getItem(_currentPosition)
+            tempImageList.value!![currentPosition]
         if (mSavePhoto.imageUrl.isNotEmpty() && mSavePhoto.imageUrl != mSavePhoto.objURL) {
             launchOnUI({
                 val futureTarget =
@@ -161,7 +181,7 @@ class PhotoPreviewVm @ViewModelInject constructor(
      */
     fun onDownloadOriginalImage() {
         val mSavePhoto =
-            photoPreviewAdapter.getItem(_currentPosition)
+            tempImageList.value!![currentPosition.value!!]
         if (mSavePhoto.imageUrl.isEmpty()) {
             return
         }
@@ -172,7 +192,7 @@ class PhotoPreviewVm @ViewModelInject constructor(
             withContext(Dispatchers.IO) {
                 futureTarget?.get()
             }
-            photoPreviewAdapter.setUpdatePage(_currentPosition)
+            onUpdatePage.value = currentPosition.value
             showMaxImage.value = false
         }, {
             ToastUtils.showShort(it)
@@ -196,8 +216,7 @@ class PhotoPreviewVm @ViewModelInject constructor(
 
                 override fun onGranted() {
                     //获取权限成功
-                    val mSavePhoto =
-                        photoPreviewAdapter.getItem(_currentPosition)
+                    val mSavePhoto = tempImageList.value!![currentPosition.value!!]
                     //先尝试保存大图
                     saveMaxImage(mSavePhoto)
                 }

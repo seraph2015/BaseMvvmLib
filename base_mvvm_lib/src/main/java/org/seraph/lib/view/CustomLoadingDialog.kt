@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context) : Dialog(context, R.style.progress_dialog) {
 
-
     private val valueAnimator: ValueAnimator?
 
     init {

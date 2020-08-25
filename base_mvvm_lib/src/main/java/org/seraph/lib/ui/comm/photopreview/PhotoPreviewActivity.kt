@@ -19,6 +19,7 @@ import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.DOWNLOAD_IMA
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.IMAGE_TYPE_LOCAL
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewVm.Companion.SHOW_MAX_IMAGE
 import java.util.*
+import javax.inject.Inject
 
 /**
  * 图片预览
@@ -50,20 +51,32 @@ class PhotoPreviewActivity :
     @Autowired
     var downloadImage: Boolean = true
 
+    @Inject
+    lateinit var photoPreviewAdapter: PhotoPreviewAdapter
+
+
     override fun init() {
         BarUtils.setStatusBarLightMode(this, false)
         binding.vm = vm
+        vm.tempImageList.observe(this, androidx.lifecycle.Observer {
+            photoPreviewAdapter.setList(it)
+            //加载数据完了，再到指定位置
+            if (currentPosition == 0) {
+                vm.currentPosition.value = currentPosition
+            } else {
+                //设置当前翻页
+                binding.vpPhotoPreview.currentItem = currentPosition
+            }
+        })
+        vm.onUpdatePage.observe(this, androidx.lifecycle.Observer {
+            photoPreviewAdapter.setUpdatePage(it)
+        })
+
         vm.showDownload.value = downloadImage
         vm.showMaxImage.value = showMaxImage
-        vm.start(currentPosition)
+
+        vm.start()
         initView()
-        vm.photoPreviewAdapter.setList(LibConstants.tempImageList!!)
-        if (currentPosition == 0) {
-            vm.upDateCurrentPosition()
-        } else {
-            //设置当前翻页
-            binding.vpPhotoPreview.currentItem = currentPosition
-        }
     }
 
     private fun initView() {
@@ -85,7 +98,7 @@ class PhotoPreviewActivity :
             }
 
             override fun onPageSelected(position: Int) {
-                vm.upDateCurrentPosition(position)
+                vm.currentPosition.value = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -96,14 +109,14 @@ class PhotoPreviewActivity :
         binding.vpPhotoPreview.offscreenPageLimit = 5
 
 
-        vm.photoPreviewAdapter.setOnItemClickListener(object :
+        photoPreviewAdapter.setOnItemClickListener(object :
             ABasePagerAdapter.OnItemClickListener {
             override fun onItemClick(position: Int, view: View) {
                 vm.onSwitchUIShow()
             }
         })
 
-        binding.vpPhotoPreview.adapter = vm.photoPreviewAdapter
+        binding.vpPhotoPreview.adapter = photoPreviewAdapter
 
 
     }
