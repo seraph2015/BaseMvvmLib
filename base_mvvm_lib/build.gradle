@@ -63,7 +63,6 @@ dependencies {
     api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-
     //工具集
     api 'com.blankj:utilcodex:1.29.0'
 
@@ -89,17 +88,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
 
-
     //ARouter路由框架
     api 'com.alibaba:arouter-api:1.5.0'
     kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
-
-//    //dagger2
-//    api "com.google.dagger:dagger:$dagger_version"
-//    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-//    api "com.google.dagger:dagger-android:$dagger_version"
-//    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-//    api "com.google.dagger:dagger-android-support:$dagger_version"
 
     //hilt
     api "com.google.dagger:hilt-android:2.28-alpha"

@@ -2,7 +2,7 @@
 # MvvmDemo
 ### mvvm模式框架demo  
 #### 一.主要第三方框架使用：  
-dagger2,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
+hilt(dagger2),okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
 
 #### 二.框架使用：(kotlin)  
 
@@ -17,9 +17,9 @@ dagger2,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
     ...
     android{
 	    ...
-	    dataBinding{
-		    enabled = true 
-	    }
+	    buildFeatures{
+              dataBinding = true
+         }
     }
     ...
     dependencies{
@@ -29,12 +29,27 @@ dagger2,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
 
 ##### 3.导入第三方依赖
 
-##### dagger2依赖注入：
+##### hilt依赖注入：
+
+    apply plugin: 'dagger.hilt.android.plugin'
+
+    android{
+           ...
+          kotlinOptions {
+                jvmTarget = '1.8'
+            }
+    }
+    dependencies {
+       ...
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28.1-alpha'
+    }
 
     dependencies{
 		...
-	    kapt "com.google.dagger:dagger-compiler:$dagger_version"  
-	    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+	      api "com.google.dagger:hilt-android:2.28-alpha"
+          kapt 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+          api 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+          kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
     }
 
 ##### glide图片加载：
@@ -66,63 +81,11 @@ dagger2,okhttp3,retrofit2,arouter,Kotlin协程,glide4.0+,databinding...
     }
 
 ##### 4.初始化sdk
-dagger2相关：
 
-    @Singleton
-    @Component(
-        modules = [
-            AndroidInjectionModule::class,
-            AndroidSupportInjectionModule::class,
-            ActivityBindingModule::class,
-          ...
-        ]
-    )
-    interface AppComponent : AndroidInjector<AppApplication> {
-    
-        //@BindsInstance使得component可以在构建时绑定实例Application
-        @Component.Builder
-        interface Builder {
-    
-            @BindsInstance
-            fun application(application: Application): AppComponent.Builder
-    
-            fun build(): AppComponent
-        }
-    
-    }
+    全局初始化第三方
+    @HiltAndroidApp
+    class AppApplication :Application() {
 
-
-  界面注册绑定 (继承LibActivityBindingModule)
-
-    @Module(includes = [LibActivityBindingModule::class])
-    internal abstract class ActivityBindingModule {
-    
-        @ActivityScope
-        @ContributesAndroidInjector(modules = [xxxmModule::class])
-        abstract fun contributexxxActivityInjector(): xxxActivity
-    }
-
-注册对应界面的vm相关
-
-    @Module
-    abstract class xxxVmModule {
-        @Binds
-        @IntoMap
-        @ViewModelKey(xxxVm::class)
-        abstract fun bindMainViewModel(viewModel: xxxVm): ViewModel
-    }
-
-全局初始化第三方
-
-    class AppApplication : DaggerApplication() {
-    
-        override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-            return DaggerAppComponent.builder()
-                .application(this)
-                .build()
-        }
-    
-    
         override fun onCreate() {
             super.onCreate()
             //初始化第三方sdk
