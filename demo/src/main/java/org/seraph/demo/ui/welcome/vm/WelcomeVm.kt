@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -30,8 +31,7 @@ import org.seraph.lib.ui.base.ABaseViewModel
 class WelcomeVm @ViewModelInject constructor(
     @ApplicationContext private val appContext: Context,
     @Assisted private val savedStateHandle: SavedStateHandle,
-    private val yiyanRepository: OtherRepository,
-    private val welcomeActivity: WelcomeActivity
+    private val yiyanRepository: OtherRepository
 ) :
     ABaseViewModel() {
 
@@ -47,7 +47,7 @@ class WelcomeVm @ViewModelInject constructor(
     }
 
 
-    override fun start() {
+    override fun start(vararg any: Any?) {
         loadingInfo()
         updateInfo()
         countDown()
@@ -63,7 +63,7 @@ class WelcomeVm @ViewModelInject constructor(
         } else {
             ARouter.getInstance().build(AppConstants.PATH_APP_MAIN).navigation()
         }
-        welcomeActivity.finish()
+        onCloseActivity.value = 1
     }
 
     /**
@@ -107,7 +107,6 @@ class WelcomeVm @ViewModelInject constructor(
      * 复制到粘贴板
      */
     fun copyYiYan() {
-
         val clipboardManager: ClipboardManager =
             appContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData: ClipData = ClipData.newPlainText("text", yiYanBean.value?.hitokoto)

@@ -11,7 +11,6 @@ import org.seraph.lib.databinding.ActWxApkInstallBinding
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.view.NoDataView
 import java.util.*
-import javax.inject.Inject
 
 /**
  * 微信.apk.1安装
@@ -21,10 +20,11 @@ import javax.inject.Inject
  **/
 @ActivityScoped
 @AndroidEntryPoint
-class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding>(R.layout.act_wx_apk_install) {
+class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding,WxApkInstallVm>(R.layout.act_wx_apk_install) {
 
-
-    private val vm by viewModels<WxApkInstallVm>()
+    override fun bindVM(): WxApkInstallVm {
+        return viewModels<WxApkInstallVm>().value
+    }
 
     override fun init() {
         binding.vm = vm
@@ -46,9 +46,8 @@ class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding>(R.layout.act_
                 setNoDataInfo(NoDataView.NO_DATE, "加载程序失败")
             }
         })
-
         binding.ndv.setOnClickListener { vm.onRequestPermissions() }
-        vm.start()
+        vm.start(intent.data?.path)
     }
 
     /**
@@ -64,4 +63,5 @@ class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding>(R.layout.act_
         }
 
     }
+
 }

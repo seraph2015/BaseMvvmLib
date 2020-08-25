@@ -1,5 +1,6 @@
 package org.seraph.lib.ui.comm.photopreview
 
+import android.content.Context
 import android.graphics.PointF
 import android.view.View
 import android.widget.FrameLayout
@@ -8,6 +9,8 @@ import com.blankj.utilcode.util.LogUtils
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.R
@@ -20,7 +23,7 @@ import javax.inject.Inject
 /**
  * 图片预览适配器
  */
-class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity) :
+class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val context: Context) :
     ABasePagerAdapter<PhotoPreviewBean>(R.layout.lib_comm_act_photo_preview_item) {
 
     /**
@@ -46,7 +49,7 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
                 //此控件不支持gif。如果图片为gif.则会出现解析错误,使用普通imageView展示
                 sView.visibility = View.GONE
                 gifView.visibility = View.VISIBLE
-                GlideApp.with(activity)
+                GlideApp.with(itemView.context)
                     .asGif()
                     .load(t.objURL)
                     .onlyRetrieveFromCache(true)
@@ -99,10 +102,10 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
             onLoadMinImage(previewBean.objURL, scaleImageView)
         } else {
             val fileFuture =
-                GlideApp.with(activity).asFile().load(previewBean.imageUrl)
+                GlideApp.with((context as PhotoPreviewActivity)).asFile().load(previewBean.imageUrl)
                     .onlyRetrieveFromCache(true)
                     .submit()
-            activity.vm.launchOnUI({
+            context.vm.launchOnUI({
                 val file = withContext(Dispatchers.IO) {
                     return@withContext fileFuture.get()
                 }
@@ -126,8 +129,8 @@ class PhotoPreviewAdapter @Inject constructor(val activity: PhotoPreviewActivity
             ImageViewState(0f, PointF(0f, 0f), 0)
         )
         //使用后台线程下载
-        val fileFuture = GlideApp.with(activity).asFile().load(objUrl).submit()
-        activity.vm.launchOnUI({
+        val fileFuture = GlideApp.with((context as PhotoPreviewActivity)).asFile().load(objUrl).submit()
+        context.vm.launchOnUI({
             val file = withContext(Dispatchers.IO) {
                 return@withContext fileFuture.get()
             }

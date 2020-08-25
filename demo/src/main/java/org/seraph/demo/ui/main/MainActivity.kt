@@ -4,11 +4,13 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActivityMainBinding
@@ -20,10 +22,11 @@ import org.seraph.lib.view.NoDataView
 
 
 @Route(path = AppConstants.PATH_APP_MAIN)
+@AndroidEntryPoint
 class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activity_main) {
 
-    override fun getViewModelClass(): Class<MainVm> {
-        return MainVm::class.java
+    override fun bindVM(): MainVm {
+        return viewModels<MainVm>().value
     }
 
     override fun init() {
@@ -86,7 +89,12 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         binding.rvImage.layoutManager = SGLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvImage.adapter = vm.mAdapter
 
-        vm.searchListAdapter.setNoDataView(NoDataView(this, NoDataView.NO_DATE).setNoDataMsg("暂无搜索记录！"))
+        vm.searchListAdapter.setNoDataView(
+            NoDataView(
+                this,
+                NoDataView.NO_DATE
+            ).setNoDataMsg("暂无搜索记录！")
+        )
         vm.searchListAdapter.onItemClickListener =
             BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
         vm.mAdapter.setNoDataView(

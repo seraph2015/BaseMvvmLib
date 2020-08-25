@@ -24,8 +24,14 @@ interface ApiBaiduService {
      * @param start    开始位置
      * @param pageSize 反正数据条数
      */
-    @GET("search/avatarjson")
-    suspend fun doSearchAsync(@Query("tn") tn: String, @Query("word") word: String, @Query("pn") start: Int?, @Query("rn") pageSize: Int?): ImageBaiduBean
-
+    @GET("search/acjson")
+    suspend fun doSearchAsync(
+        @Query("tn") tn: String = "resultjson_com",
+        @Query("word") word: String,
+        @Query("pn") start: Int?,
+        @Query("rn") pageSize: Int?,
+        @Query("catename") catename: String = "",
+        @Query("ipn") ipn: String = ""
+    ): ImageBaiduBean
 
 }

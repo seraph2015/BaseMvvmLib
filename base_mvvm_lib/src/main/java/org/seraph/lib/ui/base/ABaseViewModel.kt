@@ -1,7 +1,6 @@
 package org.seraph.lib.ui.base
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
@@ -18,7 +17,7 @@ import org.seraph.lib.utlis.onCodeToMessage
  **/
 abstract class ABaseViewModel : ViewModel() {
 
-    abstract fun start()
+    abstract fun start(vararg any: Any?)
 
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
         return launchOnUI(block, {}, {})
@@ -26,8 +25,8 @@ abstract class ABaseViewModel : ViewModel() {
 
     fun launchOnUI(
         block: suspend CoroutineScope.() -> Unit,
-        exBlock: suspend CoroutineScope.(String) -> Unit  = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit  = {}
+        exBlock: suspend CoroutineScope.(String) -> Unit = {},
+        finallyBlock: suspend CoroutineScope.() -> Unit = {}
     ): Job {
         return viewModelScope.launch {
             try {
@@ -41,6 +40,13 @@ abstract class ABaseViewModel : ViewModel() {
                 finallyBlock()
             }
         }
+    }
+
+    /**
+     * 关闭当前界面 0 onBackPressed  1 finish
+     */
+    val onCloseActivity: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
     }
 
 }

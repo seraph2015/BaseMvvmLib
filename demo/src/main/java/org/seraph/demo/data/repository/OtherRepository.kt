@@ -2,7 +2,7 @@ package org.seraph.demo.data.repository
 
 import org.seraph.demo.data.network.service.ApiBaiduService
 import org.seraph.demo.data.network.service.ApiYiYanService
-import org.seraph.demo.ui.main.b.ImageBaiduBean
+import org.seraph.demo.ui.main.b.BaiduImage
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import org.seraph.lib.ui.base.ABaseRepository
 import javax.inject.Inject
@@ -32,15 +32,17 @@ class OtherRepository @Inject constructor(
     /**
      * 度娘搜索图片
      */
-    suspend fun doSearch(pageNo: Int, pageSize: Int, keyWordStr: String): List<ImageBaiduBean.BaiduImage> {
-        return apiIoCall {
-            apiBaiduService.doSearchAsync(
-                "resultjsonavatarnew",
-                keyWordStr,
-                (pageNo - 1) * pageSize,
-                pageSize
-            ).imgs
-        }
+    suspend fun doSearch(
+        pageNo: Int,
+        pageSize: Int,
+        keyWordStr: String
+    ): List<BaiduImage> {
+        return apiBaiduService.doSearchAsync(
+            word = keyWordStr,
+            start = (pageNo - 1) * pageSize,
+            pageSize = pageSize
+        ).data
+
     }
 
 

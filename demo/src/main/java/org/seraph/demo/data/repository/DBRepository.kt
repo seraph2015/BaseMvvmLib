@@ -15,7 +15,6 @@ import javax.inject.Singleton
 @Singleton
 class DBRepository @Inject constructor() : ABaseRepository() {
 
-
     /**
      * 获取百度搜索历史
      */

@@ -25,7 +25,7 @@ class GuideVm @ViewModelInject constructor(var guidePagerAdapter: GuidePagerAdap
     }
 
 
-    override fun start() {
+    override fun start(vararg any: Any?) {
         SPUtils.getInstance(AppConstants.SP_NAME).put(AppConstants.IS_FIRST, false)
         images.value = arrayListOf(
                 R.mipmap.welcome_guide_one,

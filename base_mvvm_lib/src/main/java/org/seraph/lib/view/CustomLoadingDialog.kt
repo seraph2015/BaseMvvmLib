@@ -7,12 +7,16 @@ import android.view.Gravity
 import android.view.KeyEvent
 import android.view.animation.LinearInterpolator
 import com.airbnb.lottie.LottieAnimationView
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ActivityContext
 import org.seraph.lib.R
+import javax.inject.Inject
 
 /**
  * 透明的等待dialog
  */
-class CustomLoadingDialog(context: Context) : Dialog(context, R.style.progress_dialog) {
+
+class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context) : Dialog(context, R.style.progress_dialog) {
 
 
     private val valueAnimator: ValueAnimator?

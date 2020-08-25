@@ -18,43 +18,23 @@ import javax.inject.Inject
 abstract class ABaseFragment<T : ViewDataBinding>(private val layoutResID: Int) :
     Fragment() {
 
-//    override fun onAttach(context: Context) {
-//        AndroidSupportInjection.inject(this)
-//        super.onAttach(context)
-//    }
-
     /**
      * view
      */
     lateinit var binding: T
-//
-//    /**
-//     * vm
-//     */
-//    protected lateinit var vm: VM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // 初始化 Binding
         binding = DataBindingUtil.inflate(inflater, layoutResID, container, false)
         return binding.root
     }
-//
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 绑定
-     //   vm = ViewModelProvider(this, viewModelFactory).get(getViewModelClass())
-
         //绑定生命周期
         binding.lifecycleOwner = this
-        // DataBinding
         init()
     }
-//
-//
-//    abstract fun getViewModelClass(): Class<VM>
 
     abstract fun init()
 

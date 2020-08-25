@@ -1,6 +1,5 @@
 package org.seraph.lib.ui.comm.wxapkinstall
 
-import android.app.Application
 import android.view.View
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -14,7 +13,6 @@ import org.seraph.lib.LibConfig
 import org.seraph.lib.R
 import org.seraph.lib.ui.base.ABaseViewModel
 import java.io.File
-import javax.inject.Inject
 
 /**
  * wxapkinstall
@@ -23,8 +21,7 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 class WxApkInstallVm @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
-    val activity: WxApkInstallActivity
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ABaseViewModel() {
 
     /**
@@ -35,16 +32,13 @@ class WxApkInstallVm @ViewModelInject constructor(
     /**
      * apk信息
      */
-    val appInfo: MutableLiveData<AppUtils.AppInfo>  by lazy {
+    val appInfo: MutableLiveData<AppUtils.AppInfo> by lazy {
         MutableLiveData<AppUtils.AppInfo>()
     }
 
+    override fun start(vararg any: Any?) {
+        wxPathStr = any[0] as String?
 
-    init {
-        wxPathStr = activity.intent.data?.path
-    }
-
-    override fun start() {
         onRequestPermissions()
     }
 
@@ -53,20 +47,21 @@ class WxApkInstallVm @ViewModelInject constructor(
      */
     fun onRequestPermissions() {
         //请求读写权限
-        PermissionUtils.permission(PermissionConstants.STORAGE).callback(object : PermissionUtils.SimpleCallback {
-            override fun onGranted() {
-                launchOnUI {
-                    appInfo.value = withContext(Dispatchers.IO) {
-                        //获取app信息
-                        return@withContext AppUtils.getApkInfo(initApkPath())
+        PermissionUtils.permission(PermissionConstants.STORAGE)
+            .callback(object : PermissionUtils.SimpleCallback {
+                override fun onGranted() {
+                    launchOnUI {
+                        appInfo.value = withContext(Dispatchers.IO) {
+                            //获取app信息
+                            return@withContext AppUtils.getApkInfo(initApkPath())
+                        }
                     }
                 }
-            }
 
-            override fun onDenied() {
-                appInfo.value = null
-            }
-        }).request()
+                override fun onDenied() {
+                    appInfo.value = null
+                }
+            }).request()
     }
 
 
@@ -98,14 +93,15 @@ class WxApkInstallVm @ViewModelInject constructor(
 
     private fun onApkInstall() {
         AppUtils.installApp(appInfo.value!!.packagePath)
-        activity.finish()
+        onCloseActivity.value = 1
     }
 
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.tv_cancel -> activity.onBackPressed()
+            R.id.tv_cancel -> onCloseActivity.value = 0
             R.id.tv_install -> onApkInstall()
         }
     }
+
 }

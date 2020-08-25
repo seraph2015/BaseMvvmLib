@@ -1,9 +1,11 @@
 package org.seraph.demo.ui.main.vm
 
-import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.util.ToastUtils
 import org.seraph.demo.AppConfig
 import org.seraph.demo.R
@@ -11,12 +13,11 @@ import org.seraph.demo.data.repository.DBRepository
 import org.seraph.demo.data.repository.OtherRepository
 import org.seraph.demo.ui.main.a.ImageListBaiduAdapter
 import org.seraph.demo.ui.main.a.SearchListAdapter
-import org.seraph.demo.ui.main.b.ImageBaiduBean
+import org.seraph.demo.ui.main.b.BaiduImage
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
 import org.seraph.lib.ui.comm.photopreview.PhotoPreviewBean
 import java.util.*
-import javax.inject.Inject
 
 /**
  * 主页
@@ -24,22 +25,22 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class MainVm @Inject constructor(
-    application: Application,
+class MainVm @ViewModelInject constructor(
+    @Assisted private val handle: SavedStateHandle,
     private var otherRepository: OtherRepository,
     private var dbRepository: DBRepository,
     var mAdapter: ImageListBaiduAdapter,
     var searchListAdapter: SearchListAdapter
 ) :
-    ABaseViewModel(application) {
+    ABaseViewModel() {
+
 
     /**
      * 获取到的图片列表
      */
-    val imageList: MutableLiveData<List<ImageBaiduBean.BaiduImage>> by lazy {
-        MutableLiveData<List<ImageBaiduBean.BaiduImage>>()
+    val imageList: MutableLiveData<List<BaiduImage>> by lazy {
+        MutableLiveData<List<BaiduImage>>()
     }
-
 
     /**
      * 搜索列表
@@ -68,12 +69,9 @@ class MainVm @Inject constructor(
         MutableLiveData<String>()
     }
 
-
-    override fun start() {
-        //设置为非输入状态
+    override fun start(vararg any: Any?) {
         showSearch.value = false
     }
-
 
     /**
      * 点击事件
@@ -164,7 +162,8 @@ class MainVm @Inject constructor(
      */
     private fun doSearch(pageNo: Int) {
         launchOnUI({
-            imageList.value = otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
+            imageList.value =
+                otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
         }, {
             imageList.value = null
         })
@@ -177,6 +176,7 @@ class MainVm @Inject constructor(
     fun getNextPage() {
         doSearch(mAdapter.getNextPage())
     }
+
 
 }
 

@@ -23,7 +23,10 @@ import java.io.File
  * @param tempFile 图片文件源
  * @param imageUrl 图片网络地址
  */
-fun Context.saveFileToDisk(tempFile: File, imageUrl: String): String {
+fun Context.saveFileToDisk(tempFile: File?, imageUrl: String): String {
+    if (tempFile == null) {
+        return "保存失败"
+    }
     //获取图片真实的格式
     val tempHz = ImageUtils.getImageType(tempFile) ?: return "获取图片格式失败"
     val saveImageName = EncryptUtils.encryptMD5ToString(imageUrl) + "." + tempHz.value

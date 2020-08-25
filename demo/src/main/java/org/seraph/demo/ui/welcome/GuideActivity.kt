@@ -28,10 +28,12 @@ import org.seraph.lib.ui.base.ABasePagerAdapter
 @Route(path = AppConstants.PATH_WELCOME_GUIDE)
 @ActivityScoped
 @AndroidEntryPoint
-class GuideActivity : ABaseActivity<ActGuideBinding>(R.layout.act_guide) {
+class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide) {
 
+    override fun bindVM(): GuideVm {
+        return viewModels<GuideVm>().value
+    }
 
-    private val vm by viewModels<GuideVm>()
 
     override fun init() {
 

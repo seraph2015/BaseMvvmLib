@@ -18,9 +18,11 @@ import org.seraph.lib.ui.base.ABaseActivity
 @ActivityScoped
 @AndroidEntryPoint
 class WelcomeActivity :
-    ABaseActivity<ActWelcomeBinding>(R.layout.act_welcome) {
+    ABaseActivity<ActWelcomeBinding, WelcomeVm>(R.layout.act_welcome) {
 
-    private val vm by viewModels<WelcomeVm>()
+    override fun bindVM(): WelcomeVm {
+        return viewModels<WelcomeVm>().value
+    }
 
     override fun init() {
         binding.vm = vm

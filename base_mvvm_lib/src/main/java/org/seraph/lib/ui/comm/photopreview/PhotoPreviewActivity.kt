@@ -30,9 +30,13 @@ import java.util.*
 @ActivityScoped
 @AndroidEntryPoint
 class PhotoPreviewActivity :
-    ABaseActivity<LibCommActPhotoPreviewBinding>(R.layout.lib_comm_act_photo_preview) {
+    ABaseActivity<LibCommActPhotoPreviewBinding, PhotoPreviewVm>(R.layout.lib_comm_act_photo_preview) {
 
-    val vm by viewModels<PhotoPreviewVm>()
+
+    override fun bindVM(): PhotoPreviewVm {
+        return viewModels<PhotoPreviewVm>().value
+    }
+
 
     @JvmField
     @Autowired
@@ -47,12 +51,13 @@ class PhotoPreviewActivity :
     var downloadImage: Boolean = true
 
     override fun init() {
-        binding.vm = vm
         BarUtils.setStatusBarLightMode(this, false)
+        binding.vm = vm
+        vm.showDownload.value = downloadImage
+        vm.showMaxImage.value = showMaxImage
+        vm.start(currentPosition)
         initView()
-
         vm.photoPreviewAdapter.setList(LibConstants.tempImageList!!)
-
         if (currentPosition == 0) {
             vm.upDateCurrentPosition()
         } else {
@@ -80,8 +85,7 @@ class PhotoPreviewActivity :
             }
 
             override fun onPageSelected(position: Int) {
-                currentPosition = position
-                vm.upDateCurrentPosition()
+                vm.upDateCurrentPosition(position)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -150,12 +154,13 @@ class PhotoPreviewActivity :
             //防止传递数据大于允许的大小导致异常崩溃
             LibConstants.tempImageList = beanList
             ARouter.getInstance().build(LibConstants.PATH_COMM_PHOTO_PREVIEW)
-               // .withSerializable(PHOTO_LIST, beanList)
+                // .withSerializable(PHOTO_LIST, beanList)
                 .withInt(CURRENT_POSITION, currentPosition)
                 .withBoolean(SHOW_MAX_IMAGE, isShowMaxImage)
                 .withBoolean(DOWNLOAD_IMAGE, isDownLoad)
                 .navigation()
         }
     }
+
 
 }
