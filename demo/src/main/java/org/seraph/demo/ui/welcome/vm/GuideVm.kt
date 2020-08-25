@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.util.SPUtils
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
-import org.seraph.demo.ui.welcome.a.GuidePagerAdapter
 import org.seraph.lib.ui.base.ABaseViewModel
 
 /**
@@ -19,7 +18,6 @@ import org.seraph.lib.ui.base.ABaseViewModel
 class GuideVm @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) :
         ABaseViewModel() {
 
-
     val images : MutableLiveData<List<Int>>  by lazy {
         MutableLiveData<List<Int>>().also { it.value = arrayListOf(
             R.mipmap.welcome_guide_one,
@@ -29,10 +27,8 @@ class GuideVm @ViewModelInject constructor(@Assisted private val savedStateHandl
         ) }
     }
 
-
     override fun start(vararg any: Any?) {
         SPUtils.getInstance(AppConstants.SP_NAME).put(AppConstants.IS_FIRST, false)
-
     }
 
 

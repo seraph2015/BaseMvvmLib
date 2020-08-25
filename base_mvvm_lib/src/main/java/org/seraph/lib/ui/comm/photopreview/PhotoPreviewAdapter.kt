@@ -101,11 +101,11 @@ class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val mCont
         if (previewBean.imageUrl.isEmpty() || previewBean.imageUrl == previewBean.objURL) {
             onLoadMinImage(previewBean.objURL, scaleImageView)
         } else {
-            val fileFuture =
-                GlideApp.with(scaleImageView.context).asFile().load(previewBean.imageUrl)
-                    .onlyRetrieveFromCache(true)
-                    .submit()
             (mContext as PhotoPreviewActivity).vm.launchOnUI({
+                val fileFuture =
+                    GlideApp.with(scaleImageView.context).asFile().load(previewBean.imageUrl)
+                        .onlyRetrieveFromCache(true)
+                        .submit()
                 val file = withContext(Dispatchers.IO) {
                     return@withContext fileFuture.get()
                 }
@@ -129,8 +129,8 @@ class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val mCont
             ImageViewState(0f, PointF(0f, 0f), 0)
         )
         //使用后台线程下载
-        val fileFuture = GlideApp.with(scaleImageView.context).asFile().load(objUrl).submit()
         (mContext as PhotoPreviewActivity).vm.launchOnUI({
+            val fileFuture = GlideApp.with(scaleImageView.context).asFile().load(objUrl).submit()
             val file = withContext(Dispatchers.IO) {
                 return@withContext fileFuture.get()
             }
