@@ -16,7 +16,7 @@ object LibConfig {
         /**
          * 网络请求默认超时时间（秒）
          */
-        const val DEFAULT_TIMEOUT: Long = 30
+        const val DEFAULT_TIMEOUT: Long = 15
         /**
          * 默认数据查询数量
          */
