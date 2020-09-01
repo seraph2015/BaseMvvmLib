@@ -30,7 +30,7 @@ class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding,WxApkInstallVm
         binding.vm = vm
         BarUtils.setStatusBarLightMode(this, false)
         initToolbar(binding.tbAppInstall, null)
-        vm.appInfo.observe(this, Observer {
+        vm.appInfo.observe(this, {
             if (it != null) {
                 setNoDataInfo(NoDataView.LOADING_OK)
                 binding.tvApkInstallTis.text =

@@ -5,11 +5,9 @@ import android.graphics.PointF
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.blankj.utilcode.util.LogUtils
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

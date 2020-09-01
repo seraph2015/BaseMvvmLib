@@ -58,7 +58,7 @@ class PhotoPreviewActivity :
     override fun init() {
         BarUtils.setStatusBarLightMode(this, false)
         binding.vm = vm
-        vm.tempImageList.observe(this, androidx.lifecycle.Observer {
+        vm.tempImageList.observe(this, {
             photoPreviewAdapter.setList(it)
             //加载数据完了，再到指定位置
             if (currentPosition == 0) {
@@ -68,7 +68,7 @@ class PhotoPreviewActivity :
                 binding.vpPhotoPreview.currentItem = currentPosition
             }
         })
-        vm.onUpdatePage.observe(this, androidx.lifecycle.Observer {
+        vm.onUpdatePage.observe(this, {
             photoPreviewAdapter.setUpdatePage(it)
         })
 

@@ -8,7 +8,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 /**
  * 通过URL跳转
  * date：2019/1/4 11:44
- * author：xiongj
  */
 class SchameFilterActivity : Activity() {
 
