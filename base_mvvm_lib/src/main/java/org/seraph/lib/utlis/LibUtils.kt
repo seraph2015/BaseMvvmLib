@@ -23,13 +23,13 @@ import java.io.File
  * @param tempFile 图片文件源
  * @param imageUrl 图片网络地址
  */
-fun Context.saveFileToDisk(tempFile: File?, imageUrl: String): String {
+fun Context.saveFileToDisk(tempFile: File?, imageUrl: String, extName: String? = null): String {
     if (tempFile == null) {
         return "保存失败"
     }
     //获取图片真实的格式
     val tempHz = ImageUtils.getImageType(tempFile) ?: return "获取图片格式失败"
-    val saveImageName = EncryptUtils.encryptMD5ToString(imageUrl) + "." + tempHz.value
+    val saveImageName =  EncryptUtils.encryptMD5ToString(imageUrl) + "." + (if (tempHz == ImageUtils.ImageType.TYPE_UNKNOWN && extName != null) extName else tempHz.value)
     val dcimFile = saveImageName.getDCIMFile() ?: return "图片已存在"
     //复制文件
     return if (FileUtils.copy(tempFile, dcimFile)) {

@@ -71,12 +71,8 @@ class PhotoPreviewActivity :
         vm.onUpdatePage.observe(this, {
             photoPreviewAdapter.setUpdatePage(it)
         })
-
-        vm.showDownload.value = downloadImage
-        vm.showMaxImage.value = showMaxImage
-
-        vm.start()
         initView()
+        vm.start(showMaxImage,downloadImage)
     }
 
     private fun initView() {

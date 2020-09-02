@@ -83,11 +83,21 @@ class PhotoPreviewVm @ViewModelInject constructor(
     }
 
     /**
+     * 指定是否有下载图片功能
+     */
+    private var showDownloadUi : Boolean = true
+
+    /**
      * 是否显示查看原图
      */
     val showMaxImage: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
+
+    /**
+     * 指定是否有查看原图功能
+     */
+    private var showMaxImageUi : Boolean = true
 
     /**
      * 刷新当前ItemPage
@@ -113,7 +123,13 @@ class PhotoPreviewVm @ViewModelInject constructor(
     }
 
 
+
+
     override fun start(vararg any: Any?) {
+        showMaxImageUi = any[0] as Boolean
+        showDownloadUi = any[1] as Boolean
+        showMaxImage.value = showMaxImageUi
+        showDownload.value = showDownloadUi
         //默认显示功能栏
         showBar.value = true
         currentPosition.observeForever {
@@ -139,12 +155,12 @@ class PhotoPreviewVm @ViewModelInject constructor(
             "${currentPosition + 1}/${tempImageList.value!!.size}"
 
         //是否可以查看原图
-        if (showMaxImage.value!!) {
+        if (showMaxImageUi) {
             //是否显示查看原图
             isOriginalImageOk(currentPosition)
         }
         //是否可以下载图片
-        if (showDownload.value!!) {
+        if (showDownloadUi) {
             //是否是本地图片，本地图片不显示下载
             showDownload.value = tempImageList.value!![currentPosition].fromType != IMAGE_TYPE_LOCAL
         }

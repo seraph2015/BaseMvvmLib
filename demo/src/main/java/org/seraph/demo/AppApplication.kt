@@ -18,14 +18,6 @@ import org.seraph.demo.data.db.AppDatabase
 @HiltAndroidApp
 class AppApplication : Application() {
 
-
-//    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-//        return DaggerAppComponent.builder()
-//            .application(this)
-//            .build()
-//    }
-
-
     override fun onCreate() {
         super.onCreate()
         //初始化第三方sdk

@@ -41,7 +41,6 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
 
 
     override fun init() {
-
         initViewPager()
         vm.images.observe(this, Observer { t ->
             guidePagerAdapter.setList(t)
@@ -83,7 +82,6 @@ class GuideActivity : ABaseActivity<ActGuideBinding, GuideVm>(R.layout.act_guide
         binding.ultraViewpager.indicator.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
         //构造indicator,绑定到UltraViewPager
         binding.ultraViewpager.indicator.build()
-
     }
 
 

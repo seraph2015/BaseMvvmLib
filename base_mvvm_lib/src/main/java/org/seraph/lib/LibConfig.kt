@@ -9,11 +9,6 @@ package org.seraph.lib
 object LibConfig {
 
         /**
-         * 是否调试模式
-         */
-        const val DEBUG = false
-
-        /**
          * 网络请求默认超时时间（秒）
          */
         const val DEFAULT_TIMEOUT: Long = 15

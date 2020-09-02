@@ -17,11 +17,10 @@ import javax.inject.Inject
  **/
 class ApiBuild @Inject constructor() {
 
-
-    fun builder(): OkHttpClient.Builder {
+    fun builder(isDebug: Boolean = false): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
         //log输出
-        if (LibConfig.DEBUG) {
+        if (isDebug) {
             builder.addInterceptor(HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             })
@@ -34,11 +33,14 @@ class ApiBuild @Inject constructor() {
     /**
      * 构建ApiInterface
      */
-    inline fun <reified T : Any> buildApiInterface(apiBaseUrl: String): T {
+    inline fun <reified T : Any> buildApiInterface(
+        apiBaseUrl: String,
+        isDebug: Boolean = false
+    ): T {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(apiBaseUrl)
-            .client(builder().build()).build()
+            .client(builder(isDebug).build()).build()
             .create(T::class.java)
     }
 

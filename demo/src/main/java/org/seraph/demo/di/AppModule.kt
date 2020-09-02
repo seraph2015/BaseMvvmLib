@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import org.seraph.demo.AppConfig
 import org.seraph.demo.data.network.service.ApiBaiduService
 import org.seraph.demo.data.network.service.ApiYiYanService
 import org.seraph.lib.network.ApiBuild
@@ -22,12 +23,12 @@ object AppModule {
     @Provides
     @Singleton
     fun apiBaiduService(apiBuild: ApiBuild): ApiBaiduService {
-        return apiBuild.buildApiInterface(ApiBaiduService.BASE_URL)
+        return apiBuild.buildApiInterface(ApiBaiduService.BASE_URL, AppConfig.DEBUG)
     }
 
     @Provides
     @Singleton
     fun apiYiYanService(apiBuild: ApiBuild): ApiYiYanService {
-        return apiBuild.buildApiInterface(ApiYiYanService.BASE_URL)
+        return apiBuild.buildApiInterface(ApiYiYanService.BASE_URL, AppConfig.DEBUG)
     }
 }
