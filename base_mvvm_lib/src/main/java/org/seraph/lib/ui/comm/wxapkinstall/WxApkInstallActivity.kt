@@ -1,11 +1,11 @@
 package org.seraph.lib.ui.comm.wxapkinstall
 
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ActivityScoped
+import org.seraph.lib.LibConfig
 import org.seraph.lib.R
 import org.seraph.lib.databinding.ActWxApkInstallBinding
 import org.seraph.lib.ui.base.ABaseActivity
@@ -20,13 +20,17 @@ import java.util.*
  **/
 @ActivityScoped
 @AndroidEntryPoint
-class WxApkInstallActivity : ABaseActivity<ActWxApkInstallBinding,WxApkInstallVm>(R.layout.act_wx_apk_install) {
+class WxApkInstallActivity :
+    ABaseActivity<ActWxApkInstallBinding, WxApkInstallVm>(R.layout.act_wx_apk_install) {
 
     override fun bindVM(): WxApkInstallVm {
         return viewModels<WxApkInstallVm>().value
     }
 
     override fun init() {
+        if (!LibConfig.APP_WX_INSTALL) {
+            finish()
+        }
         binding.vm = vm
         BarUtils.setStatusBarLightMode(this, false)
         initToolbar(binding.tbAppInstall, null)

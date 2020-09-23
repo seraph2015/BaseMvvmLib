@@ -5,20 +5,28 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActivityMainBinding
+import org.seraph.demo.ui.main.a.BaseLoadStateAdapter
+import org.seraph.demo.ui.main.a.ImageBdAdapter
 import org.seraph.demo.ui.main.vm.MainVm
 import org.seraph.lib.ui.base.ABaseActivity
+import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
+import org.seraph.lib.ui.comm.photopreview.PhotoPreviewBean
 import org.seraph.lib.utlis.LLayoutManager
 import org.seraph.lib.utlis.SGLayoutManager
 import org.seraph.lib.view.NoDataView
+import java.util.*
+import javax.inject.Inject
 
 
 @Route(path = AppConstants.PATH_APP_MAIN)
@@ -29,13 +37,16 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         return viewModels<MainVm>().value
     }
 
+    @Inject
+    lateinit var mBdAdapter: ImageBdAdapter
+
     override fun init() {
         binding.vm = vm
 
         initView()
 
         //是否输入状态
-        vm.showSearch.observe(this, Observer {
+        vm.showSearch.observe(this, {
             //图片列表
             binding.rvImage.visibility = if (it) View.GONE else View.VISIBLE
             //输入历史列表
@@ -60,19 +71,21 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         })
 
         //刷新搜索数据
-        vm.searchList.observe(this, Observer { t ->
+        vm.searchList.observe(this, { t ->
             vm.searchListAdapter.onUpdateList(t, 1)
         })
-        //刷新图片数据
-        vm.imageList.observe(this, Observer { t ->
-            vm.mAdapter.onUpdateList(t)
-        })
         //搜索的文字内容
-        vm.inputStr.observe(this, Observer { t ->
+        vm.inputStr.observe(this, { t ->
             //如果不是null则显示开始搜索按钮
             vm.showStartSearch.set(t.isNotEmpty())
         })
+        //清理数据重新开始搜索状态
+        vm.cleanList.observe(this, {
+            lifecycleScope.launch {
+                vm.doSearch().collectLatest { pagingData -> mBdAdapter.submitData(pagingData) }
+            }
 
+        })
         vm.start()
 
     }
@@ -87,7 +100,11 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         binding.rvSearch.adapter = vm.searchListAdapter
 
         binding.rvImage.layoutManager = SGLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvImage.adapter = vm.mAdapter
+
+        binding.rvImage.adapter =  mBdAdapter.withLoadStateHeaderAndFooter(
+            BaseLoadStateAdapter(mBdAdapter::retry),
+            BaseLoadStateAdapter(mBdAdapter::retry)
+        )
 
         vm.searchListAdapter.setNoDataView(
             NoDataView(
@@ -97,21 +114,6 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         )
         vm.searchListAdapter.onItemClickListener =
             BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
-        vm.mAdapter.setNoDataView(
-            NoDataView(this, NoDataView.NO_DATE)
-                .setNoDataMsg("快来度娘一下你喜欢图片吧！")
-                .setNoDateIsListener(false)
-                .setOnClickListener(object : NoDataView.OnNoDataClickListener {
-                    override fun onClick() {
-                        vm.getOnePage()
-                    }
-                })
-        )
-        vm.mAdapter.setOnItemClickListener { _, _, position -> vm.onStartImagePreview(position) }
-
-        vm.mAdapter.setOnLoadMoreListener({
-            vm.getNextPage()
-        }, binding.rvImage)
 
         //软键盘搜索
         binding.etSearchInput.setOnEditorActionListener(object : TextView.OnEditorActionListener {
@@ -124,6 +126,22 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
             }
         })
     }
+
+
+//    /**
+//     * 跳转开始预览
+//     */
+//    private fun onStartImagePreview(position: Int) {
+//        val photoList = ArrayList<PhotoPreviewBean>()
+//        for (baiduImage in mAdapter.data) {
+//            val photoPreviewBean = PhotoPreviewBean()
+//            photoPreviewBean.objURL = baiduImage.objURL
+//            photoPreviewBean.width = baiduImage.width
+//            photoPreviewBean.height = baiduImage.height
+//            photoList.add(photoPreviewBean)
+//        }
+//        PhotoPreviewActivity.startPhotoPreview(photoList, position)
+//    }
 
 
 }

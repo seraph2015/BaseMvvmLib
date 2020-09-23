@@ -18,7 +18,7 @@ interface ApiBaiduService {
     }
 
     /**
-     * 搜索百度图片
+     * 搜索百度图片(有多固定返回一个{})
      * @param tn       固定参数 resultjsonavatarnew
      * @param word     搜索关键字
      * @param start    开始位置

@@ -1,8 +1,14 @@
 package org.seraph.demo.data.repository
 
+import androidx.lifecycle.asLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import org.seraph.demo.AppConfig
 import org.seraph.demo.data.network.service.ApiBaiduService
 import org.seraph.demo.data.network.service.ApiYiYanService
+import org.seraph.demo.data.paging.BaiduImagePagingSource
 import org.seraph.demo.ui.main.b.BaiduImage
+import org.seraph.demo.ui.main.b.ImageBaiduBean
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import org.seraph.lib.ui.base.ABaseRepository
 import javax.inject.Inject
@@ -42,8 +48,15 @@ class OtherRepository @Inject constructor(
             start = (pageNo - 1) * pageSize,
             pageSize = pageSize
         ).data
-
     }
 
-
+    /**
+     * 度娘搜索图片
+     */
+    fun doSearch(
+        pageSize: Int = AppConfig.PAGE_SIZE,
+        keyWordStr: String
+    ) = Pager(PagingConfig(pageSize = pageSize,prefetchDistance = 1)) {
+        BaiduImagePagingSource(apiBaiduService, keyWordStr)
+    }.flow
 }

@@ -6,18 +6,15 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.blankj.utilcode.util.ToastUtils
-import org.seraph.demo.AppConfig
 import org.seraph.demo.R
 import org.seraph.demo.data.repository.DBRepository
 import org.seraph.demo.data.repository.OtherRepository
-import org.seraph.demo.ui.main.a.ImageListBaiduAdapter
 import org.seraph.demo.ui.main.a.SearchListAdapter
 import org.seraph.demo.ui.main.b.BaiduImage
 import org.seraph.lib.ui.base.ABaseViewModel
-import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
-import org.seraph.lib.ui.comm.photopreview.PhotoPreviewBean
-import java.util.*
 
 /**
  * 主页
@@ -29,7 +26,6 @@ class MainVm @ViewModelInject constructor(
     @Assisted private val handle: SavedStateHandle,
     private var otherRepository: OtherRepository,
     private var dbRepository: DBRepository,
-    var mAdapter: ImageListBaiduAdapter,
     var searchListAdapter: SearchListAdapter
 ) :
     ABaseViewModel() {
@@ -69,6 +65,13 @@ class MainVm @ViewModelInject constructor(
         MutableLiveData<String>()
     }
 
+    /**
+     * 通知清理界面开始重新刷新数据
+     */
+    val cleanList: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+
     override fun start(vararg any: Any?) {
         showSearch.value = false
     }
@@ -87,22 +90,6 @@ class MainVm @ViewModelInject constructor(
 
             R.id.et_search_input -> showSearch.value = true  //设置输入状态
         }
-    }
-
-
-    /**
-     * 跳转开始预览
-     */
-    fun onStartImagePreview(position: Int) {
-        val photoList = ArrayList<PhotoPreviewBean>()
-        for (baiduImage in mAdapter.data) {
-            val photoPreviewBean = PhotoPreviewBean()
-            photoPreviewBean.objURL = baiduImage.objURL
-            photoPreviewBean.width = baiduImage.width
-            photoPreviewBean.height = baiduImage.height
-            photoList.add(photoPreviewBean)
-        }
-        PhotoPreviewActivity.startPhotoPreview(photoList, position)
     }
 
 
@@ -149,33 +136,22 @@ class MainVm @ViewModelInject constructor(
         //关闭输入状态
         showSearch.value = false
 
-        mAdapter.setNewData(null)
-        //设置开始
-        mAdapter.getNoDataView()?.setLoading()
-
-        getOnePage()
+        cleanList.value = true
     }
 
 
-    /**
-     * 获取数据
-     */
-    private fun doSearch(pageNo: Int) {
-        launchOnUI({
-            imageList.value =
-                otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
-        }, {
-            imageList.value = null
-        })
-    }
-
-    fun getOnePage() {
-        doSearch(mAdapter.getOnePage())
-    }
-
-    fun getNextPage() {
-        doSearch(mAdapter.getNextPage())
-    }
+    //    /**
+//     * 获取数据
+//     */
+//    fun doSearch(pageNo: Int) {
+//        launchOnUI({
+//            imageList.value =
+//                otherRepository.doSearch(pageNo, AppConfig.PAGE_SIZE, inputStr.value!!)
+//        }, {
+//            imageList.value = null
+//        })
+//    }
+    fun doSearch() = otherRepository.doSearch(keyWordStr = inputStr.value!!).cachedIn(viewModelScope)
 
 
 }
