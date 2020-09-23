@@ -24,4 +24,9 @@ object LibConfig {
          * 存储文件夹名称
          */
         const val APP_NAME = "Seraph"
+
+        /**
+         * 是否打开微信apk.1安装功能
+         */
+        const val APP_WX_INSTALL = false
 }
