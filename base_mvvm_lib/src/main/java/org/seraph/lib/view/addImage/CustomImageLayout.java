@@ -90,7 +90,11 @@ public class CustomImageLayout extends LinearLayout {
         if (temp == null) {
             temp = "";
         }
-        GlideApp.with(mContext).load(temp.contains("http://") ? temp : new File(temp)).into(imageView);
+        if (temp.contains("http://") || temp.contains("content://")) {
+            GlideApp.with(mContext).load(temp).into(imageView);
+        } else {
+            GlideApp.with(mContext).load(new File(temp)).into(imageView);
+        }
     }
 
     // 显示删除图标

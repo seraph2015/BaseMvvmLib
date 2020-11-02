@@ -82,6 +82,13 @@ public class CustomImageViewGroup extends ViewGroup implements OnLongClickListen
     }
 
     /**
+     * 获取数据源
+     */
+    public List<String> getItemPaths(){
+        return selectedPaths;
+    }
+
+    /**
      * 刷新布局
      */
     private void refreshLayout() {
