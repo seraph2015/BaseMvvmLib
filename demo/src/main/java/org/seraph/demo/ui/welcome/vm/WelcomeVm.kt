@@ -21,6 +21,7 @@ import org.seraph.demo.data.repository.OtherRepository
 import org.seraph.demo.ui.welcome.WelcomeActivity
 import org.seraph.demo.ui.welcome.b.YiYanBean
 import org.seraph.lib.ui.base.ABaseViewModel
+import org.seraph.lib.utlis.copyTextToClip
 
 /**
  * org.seraph.ktmvvm.ui.welcome
@@ -107,10 +108,7 @@ class WelcomeVm @ViewModelInject constructor(
      * 复制到粘贴板
      */
     fun copyYiYan() {
-        val clipboardManager: ClipboardManager =
-            appContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData: ClipData = ClipData.newPlainText("text", yiYanBean.value?.hitokoto)
-        clipboardManager.primaryClip = clipData
+        appContext.copyTextToClip(yiYanBean.value!!.hitokoto!!)
         ToastUtils.showShort("复制文字成功")
     }
 

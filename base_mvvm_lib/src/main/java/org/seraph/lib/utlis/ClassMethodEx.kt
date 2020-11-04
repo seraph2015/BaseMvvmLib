@@ -2,6 +2,7 @@ package org.seraph.lib.utlis
 
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.graphics.Color
@@ -11,6 +12,11 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.load.engine.GlideException
 import retrofit2.HttpException
@@ -111,25 +117,23 @@ fun String.getStartList(keyWord: String): List<Int> {
  */
 fun String?.getBitmapDegree(): Int {
     var degree = 0
-    try {
-        // 从指定路径下读取图片，并获取其EXIF信息
-        val exifInterface = ExifInterface(this)
-        // 获取图片的旋转信息
-        val orientation = exifInterface.getAttributeInt(
-            ExifInterface.TAG_ORIENTATION,
-            ExifInterface.ORIENTATION_NORMAL
-        )
-        when (orientation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> degree = 90
-
-            ExifInterface.ORIENTATION_ROTATE_180 -> degree = 180
-
-            ExifInterface.ORIENTATION_ROTATE_270 ->
-                degree = 270
-
+    this?.let {
+        try {
+            // 从指定路径下读取图片，并获取其EXIF信息
+            val exifInterface = ExifInterface(it)
+            // 获取图片的旋转信息
+            val orientation = exifInterface.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+            when (orientation) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> degree = 90
+                ExifInterface.ORIENTATION_ROTATE_180 -> degree = 180
+                ExifInterface.ORIENTATION_ROTATE_270 -> degree = 270
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-    } catch (e: IOException) {
-        e.printStackTrace()
     }
     return degree
 }
@@ -198,17 +202,15 @@ fun Context.startQQCustomerService(qq: String) {
  */
 private fun Context.isQQClientAvailable(): Boolean {
     val packageManager = this.packageManager
-    val pinfo = packageManager.getInstalledPackages(0)
-    if (pinfo != null) {
-        for (i in pinfo.indices) {
-            val pn = pinfo[i].packageName
-            if (pn.equals(
-                    "com.tencent.qqlite",
-                    ignoreCase = true
-                ) || pn.equals("com.tencent.mobileqq", ignoreCase = true)
-            ) {
-                return true
-            }
+    val pInfo = packageManager.getInstalledPackages(0)
+    for (i in pInfo.indices) {
+        val pn = pInfo[i].packageName
+        if (pn.equals(
+                "com.tencent.qqlite",
+                ignoreCase = true
+            ) || pn.equals("com.tencent.mobileqq", ignoreCase = true)
+        ) {
+            return true
         }
     }
     return false
@@ -239,7 +241,7 @@ fun Activity.setWindowAlpha(alpha: Float) {
 fun Context.copyTextToClip(textStr: String) {
     val clipboardManager: ClipboardManager =
         this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    clipboardManager.primaryClip = ClipData.newPlainText(null, textStr)
+    clipboardManager.setPrimaryClip(ClipData.newPlainText(null, textStr))
 }
 
 /**
@@ -291,4 +293,67 @@ fun View.onAnimationView(
         this.requestLayout()
     }
     valueAnimator.start()
+}
+
+
+/**
+ * web的一些默认初始化操作
+ */
+@SuppressLint("SetJavaScriptEnabled")
+fun WebView.initWebView(webChromeClient: WebChromeClient? = null) {
+    webChromeClient?.let {
+        this.webChromeClient = it
+    }
+    this.webViewClient = object : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            view.loadUrl(url)
+            return true
+        }
+    }
+    //声明WebSettings子类
+    val webSettings = this.settings
+
+    //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
+    webSettings.javaScriptEnabled = true
+
+    //支持插件
+    //webSettings.setPluginsEnabled(true);
+
+    //设置自适应屏幕，两者合用
+    webSettings.useWideViewPort = true //将图片调整到适合webview的大小
+    webSettings.loadWithOverviewMode = true // 缩放至屏幕的大小
+
+    //缩放操作
+    webSettings.setSupportZoom(true) //支持缩放，默认为true。是下面那个的前提。
+    webSettings.builtInZoomControls = true //设置内置的缩放控件。若为false，则该WebView不可缩放
+    webSettings.displayZoomControls = false //隐藏原生的缩放控件
+
+    //其他细节操作
+    webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK //关闭webview中缓存
+    webSettings.allowFileAccess = true //设置可以访问文件
+    webSettings.javaScriptCanOpenWindowsAutomatically = true //支持通过JS打开新窗口
+    webSettings.loadsImagesAutomatically = true //支持自动加载图片
+    webSettings.defaultTextEncodingName = "utf-8" //设置编码格式
+}
+
+/**
+ * WebView回收销毁
+ */
+fun WebView.onDestroy() {
+    // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
+    // destory()
+    val parent = this.parent
+    if (parent != null) {
+        (parent as ViewGroup).removeView(this)
+    }
+    this.stopLoading()
+    // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
+    this.settings.javaScriptEnabled = false
+    this.clearHistory()
+    this.removeAllViews()
+    try {
+        this.destroy()
+    } catch (ex: Throwable) {
+        ex.printStackTrace()
+    }
 }

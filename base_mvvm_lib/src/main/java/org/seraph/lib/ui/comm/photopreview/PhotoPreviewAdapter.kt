@@ -58,7 +58,7 @@ class PhotoPreviewAdapter @Inject constructor(@ActivityContext private val mCont
         sView.setOnClickListener { mOnItemClickListener?.onItemClick(position, sView) }
         gifView.setOnClickListener { mOnItemClickListener?.onItemClick(position, gifView) }
 
-        if (PhotoPreviewVm.IMAGE_TYPE_LOCAL == t.fromType && !t.objURL!!.contains("http://")) {
+        if (PhotoPreviewVm.IMAGE_TYPE_LOCAL == t.fromType && !t.objURL!!.contains("http://") && !t.objURL!!.contains("https://")) {
             sView.setImage(ImageSource.uri(t.objURL!!))
             //获取图片的旋转角度
             sView.orientation = t.objURL.getBitmapDegree()
