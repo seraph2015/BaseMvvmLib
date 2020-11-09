@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import org.seraph.demo.AppConfig
 import org.seraph.demo.AppConstants
 import org.seraph.demo.R
 import org.seraph.demo.databinding.ActivityMainBinding
@@ -60,15 +61,15 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         })
 
         //刷新搜索数据
-        vm.searchList.observe(this, Observer { t ->
+        vm.searchList.observe(this, { t ->
             vm.searchListAdapter.onUpdateList(t, 1)
         })
         //刷新图片数据
-        vm.imageList.observe(this, Observer { t ->
-            vm.mAdapter.onUpdateList(t)
+        vm.imageList.observe(this, { t ->
+            vm.mAdapter.onUpdateList(t,AppConfig.PAGE_SIZE)
         })
         //搜索的文字内容
-        vm.inputStr.observe(this, Observer { t ->
+        vm.inputStr.observe(this, { t ->
             //如果不是null则显示开始搜索按钮
             vm.showStartSearch.set(t.isNotEmpty())
         })
@@ -92,13 +93,13 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
         vm.searchListAdapter.setNoDataView(
             NoDataView(
                 this,
-                NoDataView.NO_DATE
+                type = NoDataView.NO_DATE
             ).setNoDataMsg("暂无搜索记录！")
         )
         vm.searchListAdapter.onItemClickListener =
             BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
         vm.mAdapter.setNoDataView(
-            NoDataView(this, NoDataView.NO_DATE)
+            NoDataView(this,type = NoDataView.NO_DATE)
                 .setNoDataMsg("快来度娘一下你喜欢图片吧！")
                 .setNoDateIsListener(false)
                 .setOnClickListener(object : NoDataView.OnNoDataClickListener {

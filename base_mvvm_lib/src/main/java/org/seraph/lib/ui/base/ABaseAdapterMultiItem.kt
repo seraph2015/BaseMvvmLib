@@ -1,5 +1,6 @@
 package org.seraph.lib.ui.base
 
+import android.view.View
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
@@ -54,7 +55,7 @@ abstract class ABaseAdapterMultiItem<T : MultiItemEntity?, K : BaseViewHolder?>(
         //默认打开加载更多
         this.setEnableLoadMore(true)
         //设置加载更多的自定义布局
-        this.setLoadMoreView(object : AdapterFootView() {})
+        this.setLoadMoreView(AdapterFootView())
     }
 
     /**

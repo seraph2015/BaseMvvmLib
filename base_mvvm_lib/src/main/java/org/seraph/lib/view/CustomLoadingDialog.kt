@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.KeyEvent
 import android.view.animation.LinearInterpolator
 import com.airbnb.lottie.LottieAnimationView
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ActivityContext
 import org.seraph.lib.R
 import javax.inject.Inject
@@ -16,9 +15,11 @@ import javax.inject.Inject
  * 透明的等待dialog
  */
 
-class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context) : Dialog(context, R.style.progress_dialog) {
+class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context) :
+    Dialog(context, R.style.progress_dialog) {
 
     private val valueAnimator: ValueAnimator?
+
 
     init {
         setContentView(R.layout.comm_dialog_loading)
@@ -29,7 +30,9 @@ class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context)
         valueAnimator = ValueAnimator.ofFloat(0f, 1f).setDuration(1200)
         valueAnimator!!.repeatCount = ValueAnimator.INFINITE
         valueAnimator.interpolator = LinearInterpolator()
-        valueAnimator.addUpdateListener { animation -> lottieAnimationView.progress = animation.animatedValue as Float }
+        valueAnimator.addUpdateListener { animation ->
+            lottieAnimationView.progress = animation.animatedValue as Float
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -44,7 +47,10 @@ class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context)
         valueAnimator?.start()
     }
 
-    fun start(): CustomLoadingDialog {
+    fun start(assetName: String? = null): CustomLoadingDialog {
+        assetName?.let {
+            findViewById<LottieAnimationView>(R.id.lav_loading).setAnimation(it)
+        }
         show()
         return this
     }

@@ -20,7 +20,7 @@ open class AdapterFootView : LoadMoreView() {
     }
 
     override fun getLoadEndViewId(): Int {
-        return R.id.tv_loading_end
+        return R.id.ll_loading_end
     }
 
     override fun getLoadFailViewId(): Int {

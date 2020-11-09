@@ -13,7 +13,7 @@ object AppConfig {
     /**
      * 默认数据查询数量
      */
-    const val PAGE_SIZE: Int = 48
+    const val PAGE_SIZE: Int = 32
 
     /**
      * 数据库名称

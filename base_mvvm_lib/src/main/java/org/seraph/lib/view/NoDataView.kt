@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.comm_no_data_text.view.*
 import org.seraph.lib.R
+import org.seraph.lib.databinding.CommNoDataTextBinding
 
 /**
  * 数据填充视图
@@ -16,11 +18,14 @@ import org.seraph.lib.R
  **/
 class NoDataView constructor(
     context: Context,
+    /**
+     * 等待加载动画
+     */
+    loadingAssetName :String? = null,
     private var type: Int = LOADING,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) :
-    LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
+) : LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
     companion object {
         /**
@@ -37,6 +42,7 @@ class NoDataView constructor(
          * 没有数据
          */
         const val NO_DATE = 3
+
         /**
          * 加载完成
          */
@@ -58,18 +64,21 @@ class NoDataView constructor(
      */
     private var noDateIsListener = true
 
-    constructor(context: Context, attrs: AttributeSet?) : this(context, LOADING, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, type = LOADING, attrs = attrs)
 
-    private var v: View? = null
+    private var binding: CommNoDataTextBinding? = null
 
     init {
-        v = LayoutInflater.from(context).inflate(
-            R.layout.comm_no_data_text,
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context), R.layout.comm_no_data_text,
             null,
             false
         )
+        loadingAssetName?.let {
+            binding?.lavLoading?.setAnimation(it)
+        }
         addView(
-            v,
+            binding?.root,
             0,
             LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         )
@@ -170,7 +179,7 @@ class NoDataView constructor(
                 iv_icon.visibility = View.GONE
                 tv_show_str.visibility = View.GONE
                 lav_loading.visibility = View.VISIBLE
-                v?.setOnClickListener(null)
+                binding?.root?.setOnClickListener(null)
                 this.visibility = View.VISIBLE
             }
             NET_ERR -> {
@@ -178,7 +187,7 @@ class NoDataView constructor(
                 iv_icon.visibility = View.VISIBLE
                 tv_show_str.visibility = View.VISIBLE
                 tv_show_str.text = "抱歉，你的网络走丢了\n点击重试"
-                v?.setOnClickListener(this)
+                binding?.root?.setOnClickListener(this)
                 this.visibility = View.VISIBLE
             }
             NO_DATE -> {
@@ -190,11 +199,11 @@ class NoDataView constructor(
                 }
                 tv_show_str.text = if (noDataMsg.isNullOrBlank()) "暂无数据" else noDataMsg
                 //是否设置监听
-                v?.setOnClickListener(if (noDateIsListener) this else null)
+                binding?.root?.setOnClickListener(if (noDateIsListener) this else null)
                 this.visibility = View.VISIBLE
             }
             LOADING_OK -> {
-                v?.setOnClickListener(null)
+                binding?.root?.setOnClickListener(null)
                 this.visibility = View.GONE
             }
         }

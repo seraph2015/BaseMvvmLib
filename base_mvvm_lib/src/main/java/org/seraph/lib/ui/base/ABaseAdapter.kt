@@ -55,7 +55,7 @@ abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
         //默认打开加载更多
         this.setEnableLoadMore(true)
         //设置加载更多的自定义布局
-        this.setLoadMoreView(object : AdapterFootView() {})
+        this.setLoadMoreView(AdapterFootView())
     }
 
 

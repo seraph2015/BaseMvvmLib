@@ -15,7 +15,7 @@ object LibConfig {
         /**
          * 默认数据查询数量
          */
-        const val PAGE_SIZE: Int = 48
+        const val PAGE_SIZE: Int = 24
         /**
          * 最大缓存占用3g
          */
