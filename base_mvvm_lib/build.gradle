@@ -8,11 +8,12 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.alibaba.arouter'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         //ARouter 框架配置
@@ -91,10 +92,10 @@ dependencies {
     kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
 
     //hilt
-    api "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
-    api 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    api "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    api "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
 
     api "androidx.fragment:fragment-ktx:1.2.5"
 
