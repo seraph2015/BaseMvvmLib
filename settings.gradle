@@ -1,1 +1,4 @@
-include ':demo','base_mvvm_lib'
+include ':module-image-preview'
+include ':module-install-wxapk'
+include ':module-welcome'
+include ':demo','lib-mvvm-base'

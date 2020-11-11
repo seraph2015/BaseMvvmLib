@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="org.seraph.lib">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!--支持http,允许使用存储-->
+    <application
+            android:usesCleartextTraffic="true"
+            android:requestLegacyExternalStorage="true"
+            tools:targetApi="m">
+        <!--通过uri唤起-->
+        <activity
+                android:name=".ui.comm.SchameFilterActivity"
+                android:screenOrientation="portrait">
+            <!-- Schame -->
+            <intent-filter>
+                <data
+                        android:host="app"
+                        android:scheme="searph" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

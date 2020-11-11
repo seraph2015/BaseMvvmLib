@@ -15,9 +15,8 @@ import org.seraph.demo.ui.main.a.ImageListBaiduAdapter
 import org.seraph.demo.ui.main.a.SearchListAdapter
 import org.seraph.demo.ui.main.b.BaiduImage
 import org.seraph.lib.ui.base.ABaseViewModel
-import org.seraph.lib.ui.comm.photopreview.PhotoPreviewActivity
-import org.seraph.lib.ui.comm.photopreview.PhotoPreviewBean
-import java.util.*
+import org.seraph.module_image_preview.ui.ImagePreviewActivity
+import org.seraph.module_image_preview.ui.ImagePreviewBean
 
 /**
  * 主页
@@ -94,15 +93,15 @@ class MainVm @ViewModelInject constructor(
      * 跳转开始预览
      */
     fun onStartImagePreview(position: Int) {
-        val photoList = ArrayList<PhotoPreviewBean>()
+        val photoList = ArrayList<ImagePreviewBean>()
         for (baiduImage in mAdapter.data) {
-            val photoPreviewBean = PhotoPreviewBean()
+            val photoPreviewBean = ImagePreviewBean()
             photoPreviewBean.objURL = baiduImage.objURL
             photoPreviewBean.width = baiduImage.width
             photoPreviewBean.height = baiduImage.height
             photoList.add(photoPreviewBean)
         }
-        PhotoPreviewActivity.startPhotoPreview(photoList, position)
+        ImagePreviewActivity.startPhotoPreview(photoList, position)
     }
 
 

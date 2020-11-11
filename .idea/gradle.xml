@@ -10,8 +10,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/base_mvvm_lib" />
             <option value="$PROJECT_DIR$/demo" />
+            <option value="$PROJECT_DIR$/lib-mvvm-base" />
+            <option value="$PROJECT_DIR$/module-image-preview" />
+            <option value="$PROJECT_DIR$/module-install-wxapk" />
+            <option value="$PROJECT_DIR$/module-welcome" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

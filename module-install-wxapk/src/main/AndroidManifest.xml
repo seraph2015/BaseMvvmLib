@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="org.seraph.module_install_wxapk">
+
+    <application>
+        <!--微信apk.1安装-->
+        <activity
+                android:name=".ui.WxApkInstallActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <data
+                        android:host="com.tencent.mm.external.fileprovider"
+                        android:scheme="content" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,110 @@
+/**
+ *  全局统一配置
+ */
+ext {
+
+    /**
+     * module开关统一声明在此处（控制当前运行的工程是隔离状态还是合并状态）
+     * true：module作为application，可单独打包为apk
+     * false：module作为library，可作为宿主application的组件
+     */
+    isBuildModule = false
+
+    /**
+     * 版本统一管理
+     */
+    versions = [
+            applicationId                         : "org.seraph.demo",      //应用ID
+            versionCode                           : 1,                      //版本号
+            versionName                           : "1.0",                  //版本名称
+
+            buildToolsVersion                     : "30.0.2",
+            compileSdkVersion                     : 30,
+            minSdkVersion                         : 21,
+            targetSdkVersion                      : 30,
+
+            "multidexVersion"                     : "2.0.1",
+            "coreKtxVersion"                      : "1.5.0-alpha04",
+            "constraintlayoutVersion"             : "2.0.4",
+            "appcompatVersion"                    : "1.2.0",
+            "fragmentKtxVersion"                  : "1.2.5",
+            "hiltAndroidXVersion"                 : "1.0.0-alpha02",
+
+            "materialVersion"                     : "1.3.0-alpha03",
+            "kotlinVersion"                       : "1.4.10",
+            "kotlinxCoroutinesVersion"            : "1.3.7",
+            "databindingVersion"                  : "3.2.0-alpha10",
+            "lifecycleVersion"                    : "2.2.0",
+            "hiltVersion"                         : "2.28.1-alpha",
+
+            "glideVersion"                        : "4.11.0",
+            "arouterRegisterVersion"              : "1.0.2",
+            "arouterCompilerVersion"              : "1.2.2",
+            "arouterApiVersion"                   : "1.5.0",
+            "retrofitVersion"                     : "2.6.0",
+            "okhttpLoggingInterceptorVersion"     : "4.0.0",
+            "dbflowVersion"                       : "4.2.4",
+            "subsamplingScaleImageViewVersion"    : "3.10.0",
+            "baseRecyclerViewAdapterHelperVersion": "2.9.47",
+            "smartRefreshLayoutVersion"           : "1.1.3",
+            "lottieVersion"                       : "3.4.1",
+            "utilcodexVersion"                    : "1.30.4",
+
+    ]
+
+
+    dependencies = [
+            "material"                     : "com.google.android.material:material:${versions["materialVersion"]}",
+            "databindingCompiler"          : "com.android.databinding:compiler:${versions["databindingVersion"]}",
+            //分包兼容
+            "multidex"                     : "androidx.multidex:multidex:${versions["multidexVersion"]}",
+            //androidX
+            "lifecycleExtensions"          : "androidx.lifecycle:lifecycle-extensions:${versions["lifecycleVersion"]}",
+            "lifecycleViewmodelKtx"        : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions["lifecycleVersion"]}",
+            "coreKtx"                      : "androidx.core:core-ktx:${versions["coreKtxVersion"]}",
+            "constraintlayout"             : "androidx.constraintlayout:constraintlayout:${versions["constraintlayoutVersion"]}",
+            "appcompat"                    : "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
+            //Kotlin相关
+            "kotlinGradlePlugin"           : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions["kotlinVersion"]}",
+            "kotlinStdlibJdk8"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions["kotlinVersion"]}",
+            //hilt框架
+            "hiltAndroidGradlePlugin"      : "com.google.dagger:hilt-android-gradle-plugin:${versions["hiltVersion"]}",
+            "hiltAndroid"                  : "com.google.dagger:hilt-android:${versions["hiltVersion"]}",
+            "hiltAndroidCompiler"          : "com.google.dagger:hilt-android-compiler:${versions["hiltVersion"]}",
+            "hiltLifecycleViewmodel"       : "androidx.hilt:hilt-lifecycle-viewmodel:${versions["hiltAndroidXVersion"]}",
+            "hiltCompiler"                 : "androidx.hilt:hilt-compiler:${versions["hiltAndroidXVersion"]}",
+            //fragment扩展
+            "fragmentKtx"                  : "androidx.fragment:fragment-ktx:${versions["fragmentKtxVersion"]}",
+            //协程
+            "kotlinxCoroutinesCore"        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions["kotlinxCoroutinesVersion"]}",
+            "kotlinxCoroutinesAndroid"     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions["kotlinxCoroutinesVersion"]}",
+            //ARouter路由框架
+            "arouterRegister"              : "com.alibaba:arouter-register:${versions["arouterRegisterVersion"]}",
+            "arouterApi"                   : "com.alibaba:arouter-api:${versions["arouterApiVersion"]}",
+            "arouterCompiler"              : "com.alibaba:arouter-compiler:${versions["arouterCompilerVersion"]}",
+            //retrofit网络请求框架,添加这个依赖就默认添加了okhttp依赖
+            "retrofit"                     : "com.squareup.retrofit2:retrofit:${versions["retrofitVersion"]}",
+            "retrofitConverterGson"        : "com.squareup.retrofit2:converter-gson:${versions["retrofitVersion"]}",
+            "okhttpLoggingInterceptor"     : "com.squareup.okhttp3:logging-interceptor:${versions["okhttpLoggingInterceptorVersion"]}",
+            //dbflow数据库
+            "dbflowProcessor"              : "com.github.Raizlabs.DBFlow:dbflow-processor:${versions["dbflowVersion"]}",
+            "dbflow"                       : "com.github.Raizlabs.DBFlow:dbflow:${versions["dbflowVersion"]}",
+            "dbflowCore"                   : "com.github.Raizlabs.DBFlow:dbflow-core:${versions["dbflowVersion"]}",
+            "dbflowKotlinextensions"       : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${versions["dbflowVersion"]}",
+            //glide图片加载相关
+            "glide"                        : "com.github.bumptech.glide:glide:${versions["glideVersion"]}",
+            "glideCompiler"                : "com.github.bumptech.glide:compiler:${versions["glideVersion"]}",
+            "glideOkhttp3Integration"      : "com.github.bumptech.glide:okhttp3-integration:${versions["glideVersion"]}",
+            "glideAnnotations"             : "com.github.bumptech.glide:annotations:${versions["glideVersion"]}",
+            //工具集
+            "utilcodex"                    : "com.blankj:utilcodex:${versions["utilcodexVersion"]}",
+            //lottie动画
+            "lottie"                       : "com.airbnb.android:lottie:${versions["lottieVersion"]}",
+            //下拉刷新
+            "smartRefreshLayout"           : "com.scwang.smartrefresh:SmartRefreshLayout:${versions["smartRefreshLayoutVersion"]}",
+            //一个强大的recyclerView适配器 ，文档见：http://www.jianshu.com/p/b343fcff51b0
+            "baseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:${versions["baseRecyclerViewAdapterHelperVersion"]}",
+            //大图片查看（不支持gif），文档https://github.com/davemorrissey/subsampling-scale-image-view
+            "subsamplingScaleImageView"    : "com.davemorrissey.labs:subsampling-scale-image-view:${versions["subsamplingScaleImageViewVersion"]}",
+    ]
+}

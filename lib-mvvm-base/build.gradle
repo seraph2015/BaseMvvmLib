@@ -1,0 +1,93 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply plugin: 'com.alibaba.arouter'
+
+android {
+    compileSdkVersion rootProject.ext.versions["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.versions["buildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.versions["minSdkVersion"]
+        targetSdkVersion rootProject.ext.versions["targetSdkVersion"]
+        versionCode rootProject.ext.versions["versionCode"]
+        versionName rootProject.ext.versions["versionName"]
+        //ARouter 框架配置
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api rootProject.ext.dependencies["kotlinStdlibJdk8"]
+    kapt rootProject.ext.dependencies["databindingCompiler"]
+
+    api rootProject.ext.dependencies["multidex"]
+
+    api rootProject.ext.dependencies["coreKtx"]
+    api rootProject.ext.dependencies["appcompat"]
+    api rootProject.ext.dependencies["material"]
+    api rootProject.ext.dependencies["lifecycleExtensions"]
+    api rootProject.ext.dependencies["lifecycleViewmodelKtx"]
+    api rootProject.ext.dependencies["fragmentKtx"]
+
+    api rootProject.ext.dependencies["utilcodex"]
+    api rootProject.ext.dependencies["lottie"]
+    api rootProject.ext.dependencies["smartRefreshLayout"]
+    api rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
+
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofitConverterGson"]
+    api rootProject.ext.dependencies["okhttpLoggingInterceptor"]
+
+    api rootProject.ext.dependencies["kotlinxCoroutinesCore"]
+    api rootProject.ext.dependencies["kotlinxCoroutinesAndroid"]
+    api rootProject.ext.dependencies["arouterApi"]
+    kapt rootProject.ext.dependencies["arouterCompiler"]
+
+    api rootProject.ext.dependencies["hiltAndroid"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+    api rootProject.ext.dependencies["glide"]
+    kapt rootProject.ext.dependencies["glideCompiler"]
+    api rootProject.ext.dependencies["glideOkhttp3Integration"]
+    api rootProject.ext.dependencies["glideAnnotations"]
+
+    api rootProject.ext.dependencies["dbflow"]
+    kapt rootProject.ext.dependencies["dbflowProcessor"]
+    api rootProject.ext.dependencies["dbflowCore"]
+    api rootProject.ext.dependencies["dbflowKotlinextensions"]
+
+}
