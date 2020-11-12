@@ -1,0 +1,7 @@
+<resources>
+    <!--欢迎页设置背景为欢迎图片，防止白屏-->
+    <style name="module_welcome_AppTheme.WelcomeTheme" parent="LibTheme">
+        <item name="android:windowBackground">@drawable/module_welcome_w_bg</item>
+    </style>
+
+</resources>

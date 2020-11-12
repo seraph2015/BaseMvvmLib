@@ -1,0 +1,11 @@
+apply from: "../lib.build.gradle"
+
+dependencies {
+    implementation project(path: ':lib-base-core')
+
+    implementation rootProject.ext.dependencies["hiltAndroid"]
+    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+}

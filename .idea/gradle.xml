@@ -10,10 +10,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/demo" />
-            <option value="$PROJECT_DIR$/lib-mvvm-base" />
-            <option value="$PROJECT_DIR$/module-image-preview" />
-            <option value="$PROJECT_DIR$/module-install-wxapk" />
+            <option value="$PROJECT_DIR$/lib-base-core" />
+            <option value="$PROJECT_DIR$/lib-image-preview" />
+            <option value="$PROJECT_DIR$/lib-install-wxapk" />
+            <option value="$PROJECT_DIR$/module-image-search" />
             <option value="$PROJECT_DIR$/module-welcome" />
           </set>
         </option>

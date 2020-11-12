@@ -1,0 +1,29 @@
+apply from: "../module.build.gradle"
+android {
+    defaultConfig{
+        if (isBuildModule.toBoolean()) {
+            applicationId "org.seraph.module_image_search"
+        }
+    }
+    //统一资源前缀，规范资源引用
+    resourcePrefix "module_image_search_"
+}
+
+dependencies {
+    implementation project(path: ':lib-base-core')
+    implementation project(path: ':lib-image-preview')
+
+    implementation rootProject.ext.dependencies["hiltAndroid"]
+    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+    kapt rootProject.ext.dependencies["arouterCompiler"]
+
+
+    kapt rootProject.ext.dependencies["glideCompiler"]
+
+    kapt rootProject.ext.dependencies["dbflowProcessor"]
+
+
+}
