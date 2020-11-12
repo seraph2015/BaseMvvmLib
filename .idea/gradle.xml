@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/lib-base-core" />
+            <option value="$PROJECT_DIR$/lib-comm" />
             <option value="$PROJECT_DIR$/lib-image-preview" />
             <option value="$PROJECT_DIR$/lib-install-wxapk" />
             <option value="$PROJECT_DIR$/module-image-search" />

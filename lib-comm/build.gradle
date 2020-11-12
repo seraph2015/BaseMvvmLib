@@ -1,0 +1,12 @@
+apply from: "../lib.build.gradle"
+
+dependencies {
+    api project(path: ':lib-base-core')
+
+    api rootProject.ext.dependencies["hiltAndroid"]
+    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+    kapt rootProject.ext.dependencies["dbflowProcessor"]
+}

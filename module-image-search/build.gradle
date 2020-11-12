@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':lib-base-core')
+    implementation project(path: ':lib-comm')
     implementation project(path: ':lib-image-preview')
 
     implementation rootProject.ext.dependencies["hiltAndroid"]
@@ -19,7 +19,6 @@ dependencies {
     kapt rootProject.ext.dependencies["hiltCompiler"]
 
     kapt rootProject.ext.dependencies["arouterCompiler"]
-
 
     kapt rootProject.ext.dependencies["glideCompiler"]
 

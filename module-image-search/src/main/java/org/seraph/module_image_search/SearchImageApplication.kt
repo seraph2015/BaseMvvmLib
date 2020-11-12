@@ -9,7 +9,7 @@ import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import dagger.hilt.android.HiltAndroidApp
-import org.seraph.module_image_search.data.db.AppDatabase
+import org.seraph.module_image_search.data.db.ModuleSearchImageDatabase
 
 /**
  * app初始化
@@ -46,7 +46,7 @@ class SearchImageApplication : Application() {
         FlowManager.init(
             FlowConfig.builder(this)
                 .addDatabaseConfig(
-                    DatabaseConfig.builder(AppDatabase::class.java)
+                    DatabaseConfig.builder(ModuleSearchImageDatabase::class.java)
                         .databaseName(SearchImageConstants.DB_NAME) //设置数据库名
                         .build()
                 ).build()

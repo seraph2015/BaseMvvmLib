@@ -3,7 +3,7 @@ package org.seraph.module_image_search.data.db.table
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
-import org.seraph.module_image_search.data.db.AppDatabase
+import org.seraph.module_image_search.data.db.ModuleSearchImageDatabase
 
 /**
  * 搜索历史
@@ -11,7 +11,7 @@ import org.seraph.module_image_search.data.db.AppDatabase
  * author：xiongj
  * mail：417753393@qq.com
  **/
-@Table(database = AppDatabase::class)
+@Table(database = ModuleSearchImageDatabase::class)
 data class SearchHistory(
     /**
      * 主键

@@ -18,7 +18,7 @@ import javax.inject.Singleton
  **/
 @Module
 @InstallIn(ApplicationComponent::class)
-object AppModule {
+object ModuleImageSearchAppModule {
     @Provides
     @Singleton
     fun apiBaiduService(apiBuild: ApiBuild): ApiBaiduService {
