@@ -2,7 +2,7 @@ apply from: "../lib.build.gradle"
 
 dependencies {
     implementation project(path: ':lib-base-core')
-
+    kapt rootProject.ext.dependencies["databindingCompiler"]
     implementation rootProject.ext.dependencies["hiltAndroid"]
     implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
     kapt rootProject.ext.dependencies["hiltAndroidCompiler"]

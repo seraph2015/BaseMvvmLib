@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+
+    compileSdkVersion rootProject.ext.versions["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.versions["buildToolsVersion"]
+
+    defaultConfig {
+        applicationId "org.seraph.demo"
+        minSdkVersion rootProject.ext.versions["minSdkVersion"]
+        targetSdkVersion rootProject.ext.versions["targetSdkVersion"]
+        versionCode rootProject.ext.versions["versionCode"]
+        versionName rootProject.ext.versions["versionName"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+
+}
+dependencies {
+    implementation project(path: ':module-welcome')
+    implementation project(path: ':module-image-search')
+
+    implementation rootProject.ext.dependencies["hiltAndroid"]
+    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+    kapt rootProject.ext.dependencies["databindingCompiler"]
+
+}

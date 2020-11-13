@@ -10,11 +10,11 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':lib-comm')
-    implementation project(path: ':lib-image-preview')
+    api project(path: ':lib-comm')
+    api project(path: ':lib-image-preview')
 
-    implementation rootProject.ext.dependencies["hiltAndroid"]
-    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    api rootProject.ext.dependencies["hiltAndroid"]
+    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
     kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
     kapt rootProject.ext.dependencies["hiltCompiler"]
 

@@ -39,8 +39,8 @@ ext {
 
             "glideVersion"                        : "4.11.0",
             "arouterRegisterVersion"              : "1.0.2",
-            "arouterCompilerVersion"              : "1.2.2",
-            "arouterApiVersion"                   : "1.5.0",
+            "arouterCompilerVersion"              : "1.5.1",
+            "arouterApiVersion"                   : "1.5.1",
             "retrofitVersion"                     : "2.6.0",
             "okhttpLoggingInterceptorVersion"     : "4.0.0",
             "dbflowVersion"                       : "4.2.4",

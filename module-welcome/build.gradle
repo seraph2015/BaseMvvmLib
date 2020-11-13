@@ -10,8 +10,8 @@ android {
 }
 
 dependencies {
-    api project(path: ':lib-base-core')
-
+    api project(path: ':lib-comm')
+    kapt rootProject.ext.dependencies["databindingCompiler"]
     api rootProject.ext.dependencies["hiltAndroid"]
     api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
     kapt rootProject.ext.dependencies["hiltAndroidCompiler"]

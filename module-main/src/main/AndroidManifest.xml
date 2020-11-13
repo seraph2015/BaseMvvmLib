@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="org.seraph.module_main">
+
+    <application
+            android:name=".MainApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/lib_comm_ic_launcher"
+            android:label="@string/lib_comm_app_name"
+            android:supportsRtl="true"
+            android:theme="@style/LibTheme"
+            tools:ignore="GoogleAppIndexingWarning"
+            tools:targetApi="n">
+
+    </application>
+
+</manifest>
