@@ -21,8 +21,13 @@ import javax.inject.Singleton
 object ModuleImageSearchAppModule {
     @Provides
     @Singleton
-    fun apiBaiduService(apiBuild: ApiBuild): ApiBaiduService {
-        return apiBuild.buildApiInterface(ApiBaiduService.BASE_URL, SearchImageConstants.DEBUG)
+    fun apiBaiduService(
+        apiBuild: ApiBuild
+    ): ApiBaiduService {
+        return apiBuild.buildApiInterface(
+            ApiBaiduService.BASE_URL,
+            SearchImageConstants.DEBUG
+        )
     }
 
 }

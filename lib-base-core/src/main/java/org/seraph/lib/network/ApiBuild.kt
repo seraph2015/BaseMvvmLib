@@ -1,5 +1,6 @@
 package org.seraph.lib.network
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.seraph.lib.LibConfig
@@ -17,13 +18,16 @@ import javax.inject.Inject
  **/
 class ApiBuild @Inject constructor() {
 
-    fun builder(isDebug: Boolean = false): OkHttpClient.Builder {
+    fun builder(isDebug: Boolean = false, interceptor: Interceptor? = null): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
         //log输出
         if (isDebug) {
             builder.addInterceptor(HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             })
+        }
+        interceptor?.let {
+            builder.addInterceptor(it)
         }
         builder.connectTimeout(LibConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
         return builder
@@ -35,12 +39,13 @@ class ApiBuild @Inject constructor() {
      */
     inline fun <reified T : Any> buildApiInterface(
         apiBaseUrl: String,
-        isDebug: Boolean = false
+        isDebug: Boolean = false,
+        interceptor: Interceptor? = null
     ): T {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(apiBaseUrl)
-            .client(builder(isDebug).build()).build()
+            .client(builder(isDebug, interceptor).build()).build()
             .create(T::class.java)
     }
 
