@@ -4,6 +4,7 @@ apply from: "../lib.build.gradle"
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
+    api rootProject.ext.dependencies["arouterApi"]
     kapt rootProject.ext.dependencies["arouterCompiler"]
     api rootProject.ext.dependencies["kotlinStdlibJdk8"]
     kapt rootProject.ext.dependencies["databindingCompiler"]
@@ -28,8 +29,6 @@ dependencies {
 
     api rootProject.ext.dependencies["kotlinxCoroutinesCore"]
     api rootProject.ext.dependencies["kotlinxCoroutinesAndroid"]
-
-    api rootProject.ext.dependencies["arouterApi"]
 
     api rootProject.ext.dependencies["hiltAndroid"]
     kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
