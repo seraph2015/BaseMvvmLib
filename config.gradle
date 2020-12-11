@@ -25,7 +25,6 @@ ext {
 
             "multidexVersion"                     : "2.0.1",
             "coreKtxVersion"                      : "1.5.0-alpha04",
-            "constraintlayoutVersion"             : "2.0.4",
             "appcompatVersion"                    : "1.2.0",
             "fragmentKtxVersion"                  : "1.2.5",
             "hiltAndroidXVersion"                 : "1.0.0-alpha02",
@@ -62,7 +61,6 @@ ext {
             "lifecycleExtensions"          : "androidx.lifecycle:lifecycle-extensions:${versions["lifecycleVersion"]}",
             "lifecycleViewmodelKtx"        : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions["lifecycleVersion"]}",
             "coreKtx"                      : "androidx.core:core-ktx:${versions["coreKtxVersion"]}",
-            "constraintlayout"             : "androidx.constraintlayout:constraintlayout:${versions["constraintlayoutVersion"]}",
             "appcompat"                    : "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
             //Kotlin相关
             "kotlinGradlePlugin"           : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions["kotlinVersion"]}",
