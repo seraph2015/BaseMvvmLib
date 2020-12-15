@@ -20,24 +20,30 @@ class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context)
 
     private val valueAnimator: ValueAnimator?
 
+    /**
+     * 返回是否可以取消
+     */
+    private var _isBackCancel: Boolean = true
 
     init {
         setContentView(R.layout.comm_dialog_loading)
         val lottieAnimationView = findViewById<LottieAnimationView>(R.id.lav_loading)
-        setCanceledOnTouchOutside(true)
-        window!!.attributes.gravity = Gravity.CENTER
+        setCanceledOnTouchOutside(false)
         setCancelable(false)
+        window?.attributes?.gravity = Gravity.CENTER
         valueAnimator = ValueAnimator.ofFloat(0f, 1f).setDuration(1200)
-        valueAnimator!!.repeatCount = ValueAnimator.INFINITE
-        valueAnimator.interpolator = LinearInterpolator()
-        valueAnimator.addUpdateListener { animation ->
-            lottieAnimationView.progress = animation.animatedValue as Float
+        valueAnimator?.let {
+            it.repeatCount = ValueAnimator.INFINITE
+            it.interpolator = LinearInterpolator()
+            it.addUpdateListener { animation ->
+                lottieAnimationView.progress = animation.animatedValue as Float
+            }
         }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> dismiss()
+            KeyEvent.KEYCODE_BACK -> if (_isBackCancel) dismiss()
         }
         return true
     }
@@ -47,10 +53,15 @@ class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context)
         valueAnimator?.start()
     }
 
-    fun start(assetName: String? = null): CustomLoadingDialog {
+    /**
+     * @param assetName 动画文件json路径
+     * @param isBackCancel 是否返回可以取消
+     */
+    fun start(assetName: String? = null, isBackCancel: Boolean = true): CustomLoadingDialog {
         assetName?.let {
             findViewById<LottieAnimationView>(R.id.lav_loading).setAnimation(it)
         }
+        _isBackCancel = isBackCancel
         show()
         return this
     }

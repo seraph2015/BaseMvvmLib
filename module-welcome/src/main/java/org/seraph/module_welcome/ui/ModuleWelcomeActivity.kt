@@ -30,7 +30,6 @@ class ModuleWelcomeActivity :
         vm.count.observe(this, Observer { t ->
             if (t <= 0) {
                 vm.startJump()
-                finish()
             }
         })
         vm.start()
