@@ -47,22 +47,23 @@ public class CustomImageViewGroup extends ViewGroup implements OnLongClickListen
 
     private void init() {
         removeAllViews();
-        showAddIcon();
+        showDefaultView();
+    }
+
+    /**
+     * 添加默认图片
+     */
+    private void showDefaultView() {
+        CustomImageLayout mAddIconView = new CustomImageLayout(getContext(), getMeasuredWidth());
+        mAddIconView.setImageResource(addImageResource);
+        mAddIconView.setTag(0);
+        mAddIconView.setOnClickListener(new ClickListener(getChildCount()));
+        addView(mAddIconView);
+        requestLayout();
     }
 
     private void showAddIcon() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                CustomImageLayout mAddIconView = new CustomImageLayout(getContext(), getMeasuredWidth());
-                mAddIconView.setImageResource(addImageResource);
-                mAddIconView.setTag(0);
-                mAddIconView.setOnClickListener(new ClickListener(getChildCount()));
-                addView(mAddIconView);
-                requestLayout();
-            }
-        });
-
+        post(this::showDefaultView);
     }
 
     /**
@@ -93,7 +94,7 @@ public class CustomImageViewGroup extends ViewGroup implements OnLongClickListen
      */
     private void refreshLayout() {
         removeAllViews();
-        for (int i = 0; i < (selectedPaths.size() > maxSize ? maxSize : selectedPaths.size()); i++) {
+        for (int i = 0; i < (Math.min(selectedPaths.size(), maxSize)); i++) {
             addImageView(selectedPaths.get(i));
         }
 
@@ -111,19 +112,16 @@ public class CustomImageViewGroup extends ViewGroup implements OnLongClickListen
 
 
     private void addImageView(final String path) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                CustomImageLayout view = new CustomImageLayout(getContext(), getMeasuredWidth());
-                ImageView ivDelete = view.getDeleteView();
-                view.setImagePath(path);
-                ivDelete.setTag(path);
-                view.setOnDeleteListener(deleteListener);
-                view.setTag(1);
-                view.setOnClickListener(new ClickListener(getChildCount()));
-                view.setOnLongClickListener(CustomImageViewGroup.this);
-                addView(view);
-            }
+        post(() -> {
+            CustomImageLayout view = new CustomImageLayout(getContext(), getMeasuredWidth());
+            ImageView ivDelete = view.getDeleteView();
+            view.setImagePath(path);
+            ivDelete.setTag(path);
+            view.setOnDeleteListener(deleteListener);
+            view.setTag(1);
+            view.setOnClickListener(new ClickListener(getChildCount()));
+            view.setOnLongClickListener(CustomImageViewGroup.this);
+            addView(view);
         });
 
     }

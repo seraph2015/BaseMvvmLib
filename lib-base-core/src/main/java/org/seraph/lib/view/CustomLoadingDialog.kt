@@ -6,7 +6,9 @@ import android.content.Context
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
 import com.airbnb.lottie.LottieAnimationView
+import com.blankj.utilcode.util.SizeUtils
 import dagger.hilt.android.qualifiers.ActivityContext
 import org.seraph.lib.R
 import javax.inject.Inject
@@ -57,10 +59,17 @@ class CustomLoadingDialog @Inject constructor(@ActivityContext context: Context)
      * @param assetName 动画文件json路径
      * @param isBackCancel 是否返回可以取消
      */
-    fun start(assetName: String? = null, isBackCancel: Boolean = true): CustomLoadingDialog {
+    fun start(
+        assetName: String? = null,
+        size: Float = 90f,
+        isBackCancel: Boolean = true
+    ): CustomLoadingDialog {
+        val view = findViewById<LottieAnimationView>(R.id.lav_loading)
         assetName?.let {
-            findViewById<LottieAnimationView>(R.id.lav_loading).setAnimation(it)
+            view.setAnimation(it)
         }
+        val sizeDp = SizeUtils.dp2px(size)
+        view.layoutParams = FrameLayout.LayoutParams(sizeDp, sizeDp)
         _isBackCancel = isBackCancel
         show()
         return this
