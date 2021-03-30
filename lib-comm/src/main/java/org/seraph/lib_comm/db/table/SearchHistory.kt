@@ -1,17 +1,14 @@
-package org.seraph.module_image_search.data.db.table
+package org.seraph.lib_comm.db.table
 
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
-import org.seraph.module_image_search.data.db.ModuleSearchImageDatabase
+import org.seraph.lib_comm.db.AppDatabase
 
 /**
  * 搜索历史
- * date：2019/7/1 14:29
- * author：xiongj
- * mail：417753393@qq.com
  **/
-@Table(database = ModuleSearchImageDatabase::class)
+@Table(database = AppDatabase::class)
 data class SearchHistory(
     /**
      * 主键

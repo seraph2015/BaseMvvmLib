@@ -6,6 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.ToastUtils
 import org.seraph.lib.ui.base.ABaseViewModel
+import org.seraph.lib_comm.db.help.UserInfoHelp
 import org.seraph.module_image_preview.ui.ImagePreviewActivity
 import org.seraph.module_image_preview.ui.ImagePreviewBean
 import org.seraph.module_image_search.R
@@ -136,6 +137,8 @@ class ImageSearchVm @ViewModelInject constructor(
      * 开始搜索图片
      */
     fun startSearchImage() {
+        ToastUtils.showShort("token->" + (UserInfoHelp.getToken() ?: "null"))
+
         if (inputStr.value.isNullOrBlank()) {
             ToastUtils.showShort("请输入需要搜索的图片关键字")
             return

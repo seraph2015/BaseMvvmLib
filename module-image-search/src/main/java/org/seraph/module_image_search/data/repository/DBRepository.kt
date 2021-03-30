@@ -1,8 +1,8 @@
 package org.seraph.module_image_search.data.repository
 
 import org.seraph.module_image_search.SearchImageConstants
-import org.seraph.module_image_search.data.db.help.SHHelp
 import org.seraph.lib.ui.base.ABaseRepository
+import org.seraph.lib_comm.db.help.SHHelp
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -8,7 +8,7 @@ ext {
      * true：module作为application，可单独打包为apk
      * false：module作为library，可作为宿主application的组件
      */
-    isBuildModule = false
+    isBuildModule = true
 
     /**
      * 版本统一管理

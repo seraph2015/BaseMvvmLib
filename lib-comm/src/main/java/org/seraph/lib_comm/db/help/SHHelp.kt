@@ -1,14 +1,12 @@
-package org.seraph.module_image_search.data.db.help
+package org.seraph.lib_comm.db.help
 
 import com.raizlabs.android.dbflow.kotlinextensions.*
-import org.seraph.module_image_search.data.db.table.SearchHistory
-import org.seraph.module_image_search.data.db.table.SearchHistory_Table
+import org.seraph.lib_comm.db.table.SearchHistory
+import org.seraph.lib_comm.db.table.SearchHistory_Table
 
 /**
  * org.seraph.demo.data.db.help
  * date：2019/7/1 16:16
- * author：xiongj
- * mail：417753393@qq.com
  **/
 object SHHelp {
 
@@ -61,7 +59,11 @@ object SHHelp {
     fun querySearchDB(userId: Int, type: String): List<SearchHistory> {
         return (
                 select from SearchHistory::class
-                        where (SearchHistory_Table.userId.eq(userId)).and(SearchHistory_Table.type.eq(type))
+                        where (SearchHistory_Table.userId.eq(userId)).and(
+                    SearchHistory_Table.type.eq(
+                        type
+                    )
+                )
                 )
             .orderBy(SearchHistory_Table.searchTime, false)
             .queryList()

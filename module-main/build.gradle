@@ -49,4 +49,5 @@ dependencies {
 
     kapt rootProject.ext.dependencies["databindingCompiler"]
 
+    kapt rootProject.ext.dependencies["dbflowProcessor"]
 }

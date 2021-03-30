@@ -17,15 +17,6 @@ object SearchImageConstants {
      */
     const val PAGE_SIZE: Int = 32
 
-    /**
-     * 数据库名称
-     */
-    const val DB_NAME = "db_search_image"
-
-    /**
-     * 数据库版本
-     */
-    const val DB_VERSION = 1
 
     /////////////////////////////界面路径/////////////////////////////////////////
 
