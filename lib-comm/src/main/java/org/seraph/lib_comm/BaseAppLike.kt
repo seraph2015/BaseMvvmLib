@@ -11,7 +11,7 @@ import org.seraph.lib_comm.db.AppDatabase
 /**
  * 一些通用的初始化
  */
-abstract class BaseAppLike(private val mContext: Application) {
+abstract class BaseAppLike(val mContext: Application){
 
     /**
      * 一些公用的初始化

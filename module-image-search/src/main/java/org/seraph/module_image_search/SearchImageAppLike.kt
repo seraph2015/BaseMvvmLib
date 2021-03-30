@@ -14,6 +14,7 @@ class SearchImageAppLike @Inject constructor(@ApplicationContext context: Contex
 
     fun onCreate() {
         super.onCreate(SearchImageConstants.DEBUG)
+
     }
 
 }
