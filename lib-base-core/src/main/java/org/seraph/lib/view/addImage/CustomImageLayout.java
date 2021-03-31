@@ -90,7 +90,7 @@ public class CustomImageLayout extends LinearLayout {
         if (temp == null) {
             temp = "";
         }
-        if (temp.contains("http://") || temp.contains("content://")) {
+        if (temp.contains("http://") || temp.contains("https://") || temp.contains("content://")) {
             GlideApp.with(mContext).load(temp).into(imageView);
         } else {
             GlideApp.with(mContext).load(new File(temp)).into(imageView);
