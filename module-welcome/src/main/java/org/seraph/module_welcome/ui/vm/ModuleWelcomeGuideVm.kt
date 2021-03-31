@@ -1,13 +1,15 @@
 package org.seraph.module_welcome.ui.vm
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.SPUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.module_welcome.R
 import org.seraph.module_welcome.WelcomeConstants
+import javax.inject.Inject
 
-class ModuleWelcomeGuideVm @ViewModelInject constructor() :
+@HiltViewModel
+class ModuleWelcomeGuideVm  @Inject constructor() :
         ABaseViewModel() {
 
     val images : MutableLiveData<List<Int>>  by lazy {

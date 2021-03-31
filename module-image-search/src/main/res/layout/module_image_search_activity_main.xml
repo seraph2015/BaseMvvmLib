@@ -6,7 +6,7 @@
 
         <variable
                 name="vm"
-                type="org.seraph.module_image_search.ui.vm.ImageSearchVm"/>
+                type="org.seraph.module_image_search.ui.vm.ImageSearchVm" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                android:visibility="gone">
 
             <org.seraph.lib.view.StatusBarView
                     android:id="@+id/statusBarView3"
@@ -25,7 +26,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                     android:id="@+id/textView"
@@ -39,7 +40,7 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3"/>
+                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3" />
 
             <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -74,7 +75,7 @@
                         android:text="@={vm.inputStr}"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                 <ImageView
                         android:id="@+id/iv_clear_input"
@@ -83,7 +84,7 @@
                         android:onClick="@{vm::onClick}"
                         android:scaleType="center"
                         android:src="@mipmap/module_image_search_comm_ic_xx_w"
-                        android:visibility='@{vm.showStartSearch ? "visible" : "gone"}'/>
+                        android:visibility='@{vm.showStartSearch ? "visible" : "gone"}' />
             </LinearLayout>
 
             <ImageView
@@ -99,7 +100,7 @@
                     android:visibility='@{vm.showStartSearch ? "visible" : "gone"}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3"/>
+                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3" />
 
             <TextView
                     android:id="@+id/tv_cancel"
@@ -113,19 +114,28 @@
                     android:visibility='@{vm.showStartSearch ? "gone" : "visible"}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3"/>
+                    app:layout_constraintTop_toBottomOf="@+id/statusBarView3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <org.seraph.lib.view.StatusBarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="图片" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical" />
     </LinearLayout>
 
 

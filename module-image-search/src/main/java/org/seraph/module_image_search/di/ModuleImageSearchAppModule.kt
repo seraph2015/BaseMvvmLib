@@ -3,10 +3,10 @@ package org.seraph.module_image_search.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import org.seraph.lib.network.ApiBuild
 import org.seraph.module_image_search.SearchImageConstants
-import org.seraph.module_image_search.data.network.service.ApiBaiduService
+import org.seraph.module_image_search.data.network.service.ApiGanKService
 import javax.inject.Singleton
 
 
@@ -17,15 +17,16 @@ import javax.inject.Singleton
  * mail：417753393@qq.com
  **/
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ModuleImageSearchAppModule {
+
     @Provides
     @Singleton
-    fun apiBaiduService(
+    fun apiGanKService(
         apiBuild: ApiBuild
-    ): ApiBaiduService {
+    ): ApiGanKService {
         return apiBuild.buildApiInterface(
-            ApiBaiduService.BASE_URL,
+            ApiGanKService.BASE_URL,
             SearchImageConstants.DEBUG
         )
     }

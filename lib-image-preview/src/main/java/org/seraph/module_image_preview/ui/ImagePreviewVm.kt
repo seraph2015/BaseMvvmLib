@@ -1,25 +1,24 @@
 package org.seraph.module_image_preview.ui
 
 import android.content.Context
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.request.FutureTarget
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import org.seraph.lib.network.glide.GlideApp
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib.utlis.saveFileToDisk
-import org.seraph.lib.view.CustomLoadingDialog
 import org.seraph.module_image_preview.PreviewConstants
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
 /**
  * 图片预览界面
@@ -27,11 +26,8 @@ import java.util.*
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class ImagePreviewVm @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val appContext: Context,
-    private var customLoadingDialog: CustomLoadingDialog
-) : ABaseViewModel() {
+@HiltViewModel
+class ImagePreviewVm @Inject constructor(@ApplicationContext val appContext: Context,) : ABaseViewModel() {
 
 
     companion object {
@@ -60,6 +56,11 @@ class ImagePreviewVm @ViewModelInject constructor(
          */
         const val DOWNLOAD_IMAGE = "downloadImage"
     }
+
+    /**
+     * 当前的协程列表
+     */
+    private var jobList = arrayListOf<Job?>()
 
     /**
      * 标题
@@ -118,8 +119,14 @@ class ImagePreviewVm @ViewModelInject constructor(
     /**
      * 当前页面
      */
-    val currentPosition: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
+    private var mCurrentPositionLiveData: Int = 0
+
+
+    /**
+     * 是否网络等待框
+     */
+    val showLoadingDialogLiveData: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
     }
 
 
@@ -130,9 +137,6 @@ class ImagePreviewVm @ViewModelInject constructor(
         showDownload.value = showDownloadUi
         //默认显示功能栏
         showBar.value = true
-        currentPosition.observeForever {
-            upDateCurrentPosition(it)
-        }
     }
 
 
@@ -147,20 +151,21 @@ class ImagePreviewVm @ViewModelInject constructor(
     /**
      * 更新显示当前位置的状态
      */
-    private fun upDateCurrentPosition(currentPosition: Int = 0) {
+    fun upDateCurrentPosition(currentPosition: Int = 0) {
+        this.mCurrentPositionLiveData = currentPosition
         //标题
-        titleStr.value =
-            "${currentPosition + 1}/${tempImageList.value!!.size}"
+        titleStr.value = "${mCurrentPositionLiveData + 1}/${tempImageList.value!!.size}"
 
         //是否可以查看原图
         if (showMaxImageUi) {
             //是否显示查看原图
-            isOriginalImageOk(currentPosition)
+            isOriginalImageOk(mCurrentPositionLiveData)
         }
         //是否可以下载图片
         if (showDownloadUi) {
             //是否是本地图片，本地图片不显示下载
-            showDownload.value = tempImageList.value!![currentPosition].fromType != IMAGE_TYPE_LOCAL
+            showDownload.value =
+                tempImageList.value!![mCurrentPositionLiveData].fromType != IMAGE_TYPE_LOCAL
         }
 
     }
@@ -195,7 +200,7 @@ class ImagePreviewVm @ViewModelInject constructor(
      */
     fun onDownloadOriginalImage() {
         val mSavePhoto =
-            tempImageList.value!![currentPosition.value!!]
+            tempImageList.value!![mCurrentPositionLiveData]
         if (mSavePhoto.imageUrl.isEmpty()) {
             return
         }
@@ -206,17 +211,16 @@ class ImagePreviewVm @ViewModelInject constructor(
             withContext(Dispatchers.IO) {
                 futureTarget?.get()
             }
-            onUpdatePage.value = currentPosition.value
+            onUpdatePage.value = mCurrentPositionLiveData
             showMaxImage.value = false
         }, {
             ToastUtils.showShort(it)
         }, {
             GlideApp.with(appContext).clear(futureTarget)
-            customLoadingDialog.dismiss()
+            showLoadingDialogLiveData.value = false
         })
-        customLoadingDialog.start().setOnDismissListener {
-            job.cancel()
-        }
+        showLoadingDialogLiveData.value = true
+        jobList.add(job)
     }
 
 
@@ -230,7 +234,7 @@ class ImagePreviewVm @ViewModelInject constructor(
 
                 override fun onGranted() {
                     //获取权限成功
-                    val mSavePhoto = tempImageList.value!![currentPosition.value!!]
+                    val mSavePhoto = tempImageList.value!![mCurrentPositionLiveData]
                     //先尝试保存大图
                     saveMaxImage(mSavePhoto)
                 }
@@ -261,7 +265,7 @@ class ImagePreviewVm @ViewModelInject constructor(
                         previewBean.imageUrl
                     )
                 }
-                customLoadingDialog.dismiss()
+                showLoadingDialogLiveData.value = false
                 ToastUtils.showShort(msg)
             }, {
                 //图片没有缓存，显示下载原图，加载当前图片
@@ -269,9 +273,8 @@ class ImagePreviewVm @ViewModelInject constructor(
             }, {
                 GlideApp.with(appContext).clear(futureTarget)
             })
-            customLoadingDialog.start().setOnDismissListener {
-                job.cancel()
-            }
+            showLoadingDialogLiveData.value = true
+            jobList.add(job)
         } else {
             saveMinPhoto(previewBean)
         }
@@ -302,10 +305,18 @@ class ImagePreviewVm @ViewModelInject constructor(
             ToastUtils.showShort("保存失败")
         }, {
             GlideApp.with(appContext).clear(fileFutureTarget)
-            customLoadingDialog.dismiss()
+            showLoadingDialogLiveData.value = false
         })
-        customLoadingDialog.start().setOnDismissListener {
-            job.cancel()
+        showLoadingDialogLiveData.value = true
+        jobList.add(job)
+    }
+
+    /**
+     * 等待框消失 (取消所有协程)
+     */
+    fun onLoadingDialogDismiss() {
+        jobList.forEach {
+            it?.cancel()
         }
     }
 

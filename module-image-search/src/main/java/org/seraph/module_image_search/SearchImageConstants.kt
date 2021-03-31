@@ -15,7 +15,7 @@ object SearchImageConstants {
     /**
      * 默认数据查询数量
      */
-    const val PAGE_SIZE: Int = 32
+    const val PAGE_SIZE: Int = 48
 
 
     /////////////////////////////界面路径/////////////////////////////////////////

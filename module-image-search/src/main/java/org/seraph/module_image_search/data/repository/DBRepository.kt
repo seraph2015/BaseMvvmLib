@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class DBRepository @Inject constructor() : ABaseRepository() {
 
     /**
-     * 获取百度搜索历史
+     * 获取搜索历史
      */
     suspend fun getBaiduSearch(): ArrayList<String> {
         return apiIoCall {

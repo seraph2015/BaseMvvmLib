@@ -1,8 +1,8 @@
 package org.seraph.module_image_search.data.repository
 
-import org.seraph.module_image_search.data.network.service.ApiBaiduService
-import org.seraph.module_image_search.ui.b.BaiduImage
 import org.seraph.lib.ui.base.ABaseRepository
+import org.seraph.module_image_search.data.network.service.ApiGanKService
+import org.seraph.module_image_search.ui.b.CategoryDataBean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,25 +14,18 @@ import javax.inject.Singleton
  **/
 @Singleton
 class OtherRepository @Inject constructor(
-    private val apiBaiduService: ApiBaiduService
+    private val apiGanKService: ApiGanKService
 ) : ABaseRepository() {
 
 
     /**
-     * 度娘搜索图片
+     * 测试
      */
-    suspend fun doSearch(
-        pageNo: Int,
-        pageSize: Int,
-        keyWordStr: String
-    ): List<BaiduImage> {
-        return apiBaiduService.doSearchAsync(
-            word = keyWordStr,
-            start = (pageNo - 1) * pageSize,
-            pageSize = pageSize
-        ).data
-
+    suspend fun doSearch2(
+        page: Int,
+        count: Int
+    ): List<CategoryDataBean> {
+        return apiGanKService.doCategoryAsync(page, count).data
     }
-
 
 }

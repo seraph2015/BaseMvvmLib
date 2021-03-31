@@ -1,18 +1,17 @@
 package org.seraph.module_install_wxapk.ui
 
 import android.view.View
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.seraph.lib.LibConfig
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.module_install_wxapk.R
 import java.io.File
+import javax.inject.Inject
 
 /**
  * wxapkinstall
@@ -20,9 +19,8 @@ import java.io.File
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class WxApkInstallVm @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ABaseViewModel() {
+@HiltViewModel
+class WxApkInstallVm @Inject constructor() : ABaseViewModel() {
 
     /**
      * apk路径

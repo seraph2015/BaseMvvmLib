@@ -1,12 +1,13 @@
 package org.seraph.module_welcome.ui.vm
 
 import android.content.Context
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -15,8 +16,10 @@ import org.seraph.lib.utlis.copyTextToClip
 import org.seraph.module_welcome.WelcomeConstants
 import org.seraph.module_welcome.network.repository.WelcomeRepository
 import org.seraph.module_welcome.ui.b.WelcomeYiYanBean
+import javax.inject.Inject
 
-class ModuleWelcomeVm @ViewModelInject constructor(
+@HiltViewModel
+class ModuleWelcomeVm @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val repository: WelcomeRepository
 ) :

@@ -2,9 +2,9 @@ package org.seraph.module_image_search.ui.vm
 
 import android.view.View
 import androidx.databinding.ObservableField
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.ToastUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.seraph.lib.ui.base.ABaseViewModel
 import org.seraph.lib_comm.db.help.UserInfoHelp
 import org.seraph.module_image_preview.ui.ImagePreviewActivity
@@ -13,9 +13,10 @@ import org.seraph.module_image_search.R
 import org.seraph.module_image_search.SearchImageConstants
 import org.seraph.module_image_search.data.repository.DBRepository
 import org.seraph.module_image_search.data.repository.OtherRepository
-import org.seraph.module_image_search.ui.a.ImageListBaiduAdapter
+import org.seraph.module_image_search.ui.a.ImageListAdapter
 import org.seraph.module_image_search.ui.a.SearchListAdapter
-import org.seraph.module_image_search.ui.b.BaiduImage
+import org.seraph.module_image_search.ui.b.CategoryDataBean
+import javax.inject.Inject
 
 /**
  * 主页
@@ -23,20 +24,20 @@ import org.seraph.module_image_search.ui.b.BaiduImage
  * author：xiongj
  * mail：417753393@qq.com
  **/
-class ImageSearchVm @ViewModelInject constructor(
+@HiltViewModel
+class ImageSearchVm @Inject constructor(
     private var otherRepository: OtherRepository,
     private var dbRepository: DBRepository,
-    var mAdapter: ImageListBaiduAdapter,
+    var mAdapter: ImageListAdapter,
     var searchListAdapter: SearchListAdapter
-) :
-    ABaseViewModel() {
+) : ABaseViewModel() {
 
 
     /**
      * 获取到的图片列表
      */
-    val imageList: MutableLiveData<List<BaiduImage>> by lazy {
-        MutableLiveData<List<BaiduImage>>()
+    val imageList: MutableLiveData<List<CategoryDataBean>> by lazy {
+        MutableLiveData<List<CategoryDataBean>>()
     }
 
     /**
@@ -68,6 +69,7 @@ class ImageSearchVm @ViewModelInject constructor(
 
     override fun start(vararg any: Any?) {
         showSearch.value = false
+        getOnePage()
     }
 
     /**
@@ -94,9 +96,9 @@ class ImageSearchVm @ViewModelInject constructor(
         val photoList = ArrayList<ImagePreviewBean>()
         for (baiduImage in mAdapter.data) {
             val photoPreviewBean = ImagePreviewBean()
-            photoPreviewBean.objURL = baiduImage.objURL
-            photoPreviewBean.width = baiduImage.width
-            photoPreviewBean.height = baiduImage.height
+            photoPreviewBean.objURL = baiduImage.url
+//            photoPreviewBean.width = baiduImage.width
+//            photoPreviewBean.height = baiduImage.height
             photoList.add(photoPreviewBean)
         }
         ImagePreviewActivity.startPhotoPreview(photoList, position)
@@ -161,8 +163,7 @@ class ImageSearchVm @ViewModelInject constructor(
      */
     private fun doSearch(pageNo: Int) {
         launchOnUI({
-            imageList.value =
-                otherRepository.doSearch(pageNo, SearchImageConstants.PAGE_SIZE, inputStr.value!!)
+            imageList.value = otherRepository.doSearch2(pageNo,SearchImageConstants.PAGE_SIZE)
         }, {
             imageList.value = null
         })

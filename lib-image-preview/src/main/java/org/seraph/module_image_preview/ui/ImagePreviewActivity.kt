@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ActivityScoped
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.ui.base.ABasePagerAdapter
+import org.seraph.lib.view.CustomLoadingDialog
 import org.seraph.module_image_preview.PreviewConstants
 import org.seraph.module_image_preview.R
 import org.seraph.module_image_preview.databinding.ModuleImagePreviewActPhotoPreviewBinding
@@ -54,6 +55,9 @@ class ImagePreviewActivity :
     @Inject
     lateinit var imagePreviewAdapter: ImagePreviewAdapter
 
+    @Inject
+    lateinit var customLoadingDialog: CustomLoadingDialog
+
 
     override fun init() {
         BarUtils.setStatusBarLightMode(this, false)
@@ -62,7 +66,7 @@ class ImagePreviewActivity :
             imagePreviewAdapter.setList(it)
             //加载数据完了，再到指定位置
             if (currentPosition == 0) {
-                vm.currentPosition.value = currentPosition
+                vm.upDateCurrentPosition(currentPosition)
             } else {
                 //设置当前翻页
                 binding.vpPhotoPreview.currentItem = currentPosition
@@ -71,8 +75,17 @@ class ImagePreviewActivity :
         vm.onUpdatePage.observe(this, {
             imagePreviewAdapter.setUpdatePage(it)
         })
+        vm.showLoadingDialogLiveData.observe(this, {
+            if (it) {
+                customLoadingDialog.start().setOnDismissListener {
+                    vm.onLoadingDialogDismiss()
+                }
+            } else {
+                customLoadingDialog.dismiss()
+            }
+        })
         initView()
-        vm.start(showMaxImage,downloadImage)
+        vm.start(showMaxImage, downloadImage)
     }
 
     private fun initView() {
@@ -94,7 +107,7 @@ class ImagePreviewActivity :
             }
 
             override fun onPageSelected(position: Int) {
-                vm.currentPosition.value = position
+                vm.upDateCurrentPosition(position)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -146,7 +159,6 @@ class ImagePreviewActivity :
             isDownLoad: Boolean = true,
             isShowMaxImage: Boolean = true
         ) {
-
             val beanList = ArrayList<ImagePreviewBean>()
             imageList.forEach {
                 when (it) {

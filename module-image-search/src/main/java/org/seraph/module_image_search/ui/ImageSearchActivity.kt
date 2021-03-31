@@ -10,19 +10,20 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import org.seraph.module_image_search.SearchImageConstants
-import org.seraph.module_image_search.R
-import org.seraph.module_image_search.ui.vm.ImageSearchVm
 import org.seraph.lib.ui.base.ABaseActivity
 import org.seraph.lib.utlis.LLayoutManager
 import org.seraph.lib.utlis.SGLayoutManager
 import org.seraph.lib.view.NoDataView
+import org.seraph.module_image_search.R
+import org.seraph.module_image_search.SearchImageConstants
 import org.seraph.module_image_search.databinding.ModuleImageSearchActivityMainBinding
+import org.seraph.module_image_search.ui.vm.ImageSearchVm
 
 
 @Route(path = SearchImageConstants.PATH_APP_MAIN)
 @AndroidEntryPoint
-class ImageSearchActivity : ABaseActivity<ModuleImageSearchActivityMainBinding, ImageSearchVm>(R.layout.module_image_search_activity_main) {
+class ImageSearchActivity :
+    ABaseActivity<ModuleImageSearchActivityMainBinding, ImageSearchVm>(R.layout.module_image_search_activity_main) {
 
     override fun bindVM(): ImageSearchVm {
         return viewModels<ImageSearchVm>().value
@@ -64,14 +65,13 @@ class ImageSearchActivity : ABaseActivity<ModuleImageSearchActivityMainBinding, 
         })
         //刷新图片数据
         vm.imageList.observe(this, { t ->
-            vm.mAdapter.onUpdateList(t,SearchImageConstants.PAGE_SIZE)
+            vm.mAdapter.onUpdateList(t, SearchImageConstants.PAGE_SIZE)
         })
         //搜索的文字内容
         vm.inputStr.observe(this, { t ->
             //如果不是null则显示开始搜索按钮
             vm.showStartSearch.set(t.isNotEmpty())
         })
-
         vm.start()
 
     }
@@ -80,12 +80,11 @@ class ImageSearchActivity : ABaseActivity<ModuleImageSearchActivityMainBinding, 
      * 初始化view
      */
     private fun initView() {
-
         //初始化适配器
         binding.rvSearch.layoutManager = LLayoutManager(this)
         binding.rvSearch.adapter = vm.searchListAdapter
 
-        binding.rvImage.layoutManager = SGLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.rvImage.layoutManager = SGLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.rvImage.adapter = vm.mAdapter
 
         vm.searchListAdapter.setNoDataView(
@@ -97,8 +96,8 @@ class ImageSearchActivity : ABaseActivity<ModuleImageSearchActivityMainBinding, 
         vm.searchListAdapter.onItemClickListener =
             BaseQuickAdapter.OnItemClickListener { _, _, position -> vm.onSearchItemClick(position) }
         vm.mAdapter.setNoDataView(
-            NoDataView(this,type = NoDataView.NO_DATE)
-                .setNoDataMsg("快来度娘一下你喜欢图片吧！")
+            NoDataView(this)
+                .setNoDataMsg("暂无数据！")
                 .setNoDateIsListener(false)
                 .setOnClickListener(object : NoDataView.OnNoDataClickListener {
                     override fun onClick() {
