@@ -27,7 +27,7 @@ import javax.inject.Inject
  * mail：417753393@qq.com
  **/
 @HiltViewModel
-class ImagePreviewVm @Inject constructor(@ApplicationContext val appContext: Context,) : ABaseViewModel() {
+class ImagePreviewVm @Inject constructor(@ApplicationContext val appContext: Context) : ABaseViewModel() {
 
 
     companion object {

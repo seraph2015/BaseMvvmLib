@@ -1,12 +1,12 @@
 package org.seraph.lib.ui.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import org.seraph.lib.R
@@ -38,7 +38,7 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private v
         initVMtoUI()
         //绑定生命周期
         binding.lifecycleOwner = this
-        initTitleBar()
+        initStatusBarMode()
         init()
     }
 
@@ -46,7 +46,7 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private v
      * 初始化一些vm通用的ui操作
      */
     private fun initVMtoUI() {
-        vm.onCloseActivity.observe(this, Observer {
+        vm.onCloseActivity.observe(this, {
             when (it) {
                 0 -> onBackPressed()
                 1 -> finish()
@@ -61,8 +61,8 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private v
     /**
      * 初始化标题bar
      */
-    private fun initTitleBar() {
-        BarUtils.setStatusBarLightMode(this, true)
+    protected fun initStatusBarMode(isLightMode: Boolean = true) {
+        BarUtils.setStatusBarLightMode(this, isLightMode)
     }
 
     /**
@@ -70,13 +70,24 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private v
      */
     protected fun initToolbar(
         toolbar: Toolbar,
-        @DrawableRes resId: Int? = R.mipmap.comm_ic_back2
+        @DrawableRes navigationResId: Int? = R.mipmap.comm_ic_back2,
+        onNavigationClickListener: View.OnClickListener? = View.OnClickListener { onBackPressed() },
+        @DrawableRes menuResId: Int? = null,
+        onMenuItemListener: Toolbar.OnMenuItemClickListener? = null
     ): Toolbar {
-        setSupportActionBar(toolbar)
-        resId?.let {
+       // setSupportActionBar(toolbar)
+        navigationResId?.let {
             toolbar.setNavigationIcon(it)
         }
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener {
+            onNavigationClickListener?.onClick(it)
+        }
+        menuResId?.let {
+            toolbar.inflateMenu(it)
+        }
+        onMenuItemListener?.let {
+            toolbar.setOnMenuItemClickListener(it)
+        }
         return toolbar
     }
 

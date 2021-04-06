@@ -59,7 +59,6 @@ ext {
             "multidex"                     : "androidx.multidex:multidex:${versions["multidexVersion"]}",
             //androidX
             "lifecycleExtensions"          : "androidx.lifecycle:lifecycle-extensions:${versions["lifecycleVersion"]}",
-            "lifecycleViewmodelKtx"        : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions["lifecycleVersion"]}",
             "coreKtx"                      : "androidx.core:core-ktx:${versions["coreKtxVersion"]}",
             "appcompat"                    : "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
             //Kotlin相关

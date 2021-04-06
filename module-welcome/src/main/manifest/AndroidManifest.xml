@@ -8,7 +8,7 @@
             android:icon="@mipmap/module_welcome_ic_launcher"
             android:label="@string/module_welcome_app_name"
             android:supportsRtl="true"
-            android:theme="@style/LibTheme">
+            android:theme="@style/LibThemeWhite">
         <!--欢迎页-->
         <activity
                 android:name=".ui.ModuleWelcomeActivity"

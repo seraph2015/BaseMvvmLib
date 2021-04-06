@@ -3,6 +3,14 @@
 
     <!-- Base application theme. -->
     <style name="LibTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 状态栏是否透明 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--允许内容过度。-->
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="LibThemeWhite" parent="LibTheme">
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!-- toolbar（actionbar）颜色 -->
@@ -13,11 +21,19 @@
         <item name="colorAccent">@color/app_default_color1</item>
         <!--toolbar menu文字颜色-->
         <item name="actionMenuTextColor">@color/app_default_title_text</item>
-        <!-- 状态栏是否透明 -->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!--允许内容过度。-->
-        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="LibThemeBlack" parent="LibTheme">
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/app_default_title_text</item>
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/app_default_title_text</item>
+        <!-- toolbar标题颜色 -->
+        <item name="titleTextColor">@color/app_default_title_bg</item>
+        <!-- 控件选中后颜色 -->
+        <item name="colorAccent">@color/app_default_color1</item>
+        <!--toolbar menu文字颜色-->
+        <item name="actionMenuTextColor">@color/app_default_title_bg</item>
     </style>
 
 
@@ -42,7 +58,6 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-
 
 
     <style name="toolbar_theme" parent="Theme.AppCompat.Light">

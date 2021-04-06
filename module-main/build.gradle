@@ -10,7 +10,7 @@ android {
     buildToolsVersion rootProject.ext.versions["buildToolsVersion"]
 
     defaultConfig {
-        applicationId "org.seraph.demo"
+        applicationId rootProject.ext.versions["applicationId"]
         minSdkVersion rootProject.ext.versions["minSdkVersion"]
         targetSdkVersion rootProject.ext.versions["targetSdkVersion"]
         versionCode rootProject.ext.versions["versionCode"]

@@ -10,7 +10,7 @@
             android:icon="@mipmap/lib_comm_ic_launcher"
             android:label="@string/module_image_search_app_name"
             android:supportsRtl="true"
-            android:theme="@style/LibTheme"
+            android:theme="@style/LibThemeWhite"
             tools:ignore="GoogleAppIndexingWarning"
             tools:targetApi="n">
 
