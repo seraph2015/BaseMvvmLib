@@ -19,7 +19,8 @@ dependencies {
 
     api rootProject.ext.dependencies["utilcodex"]
     api rootProject.ext.dependencies["lottie"]
-    api rootProject.ext.dependencies["smartRefreshLayout"]
+    api rootProject.ext.dependencies["refreshLayoutKernel"]
+    api rootProject.ext.dependencies["refreshHeaderMaterial"]
     api rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
 
     api rootProject.ext.dependencies["retrofit"]
