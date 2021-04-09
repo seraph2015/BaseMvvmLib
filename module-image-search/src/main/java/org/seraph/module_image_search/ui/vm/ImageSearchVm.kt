@@ -139,7 +139,6 @@ class ImageSearchVm @Inject constructor(
      * 开始搜索图片
      */
     fun startSearchImage() {
-        ToastUtils.showShort("token->" + (UserInfoHelp.getToken() ?: "null"))
 
         if (inputStr.value.isNullOrBlank()) {
             ToastUtils.showShort("请输入需要搜索的图片关键字")
