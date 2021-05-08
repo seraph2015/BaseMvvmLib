@@ -9,8 +9,6 @@ import java.util.*
 
 /**
  * ABasePagerAdapter
- * date：2017/5/4 15:47
- * author：Seraph
  */
 abstract class ABasePagerAdapter<T> constructor(@LayoutRes var resource: Int) : PagerAdapter() {
 

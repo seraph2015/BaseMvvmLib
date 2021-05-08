@@ -11,9 +11,6 @@ import org.seraph.lib.utlis.onCodeToMessage
 
 /**
  * ABaseViewModel
- * date：2019/4/25 13:04
- * author：xiongj
- * mail：417753393@qq.com
  **/
 abstract class ABaseViewModel : ViewModel() {
 

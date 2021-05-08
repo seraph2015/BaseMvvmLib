@@ -8,9 +8,6 @@ import org.seraph.lib.view.NoDataView
 
 /**
  * ABaseAdapter
- * date：2019/4/19 18:24
- * author：xiongj
- * mail：417753393@qq.com
  **/
 abstract class ABaseAdapter<T : Any?, K : BaseViewHolder?> constructor(
     layoutResId: Int = 0,

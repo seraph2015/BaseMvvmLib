@@ -11,9 +11,6 @@ import javax.inject.Inject
 
 /**
  * ABaseFragment
- * date：2019/4/18 15:41
- * author：xiongj
- * mail：417753393@qq.com
  **/
 abstract class ABaseFragment<T : ViewDataBinding>(private val layoutResID: Int) :
     Fragment() {

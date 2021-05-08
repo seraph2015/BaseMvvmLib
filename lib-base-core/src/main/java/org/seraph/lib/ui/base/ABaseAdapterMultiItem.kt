@@ -1,6 +1,5 @@
 package org.seraph.lib.ui.base
 
-import android.view.View
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
@@ -10,9 +9,6 @@ import org.seraph.lib.view.NoDataView
 
 /**
  * 多视图适配器
- * date：2019/4/19 18:24
- * author：xiongj
- * mail：417753393@qq.com
  **/
 abstract class ABaseAdapterMultiItem<T : MultiItemEntity?, K : BaseViewHolder?>(data: List<T>? = null) :
     BaseMultiItemQuickAdapter<T, K>(data) {

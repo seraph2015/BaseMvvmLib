@@ -13,9 +13,6 @@ import org.seraph.lib.R
 
 /**
  * ABaseActivity
- * date：2019/4/18 15:41
- * author：xiongj
- * mail：417753393@qq.com
  **/
 abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private val layoutResID: Int) :
     AppCompatActivity() {
@@ -29,7 +26,6 @@ abstract class ABaseActivity<T : ViewDataBinding, VM : ABaseViewModel>(private v
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //一处声明，处处依赖注入
         //初始化ARouter
         ARouter.getInstance().inject(this)
         // 初始化 Binding
