@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
@@ -10,11 +10,11 @@ android {
     buildToolsVersion rootProject.ext.versions["buildToolsVersion"]
 
     defaultConfig {
-        applicationId rootProject.ext.versions["applicationId"]
+        applicationId "org.seraph.demo"
+        versionCode 1
+        versionName "1.0"
         minSdkVersion rootProject.ext.versions["minSdkVersion"]
         targetSdkVersion rootProject.ext.versions["targetSdkVersion"]
-        versionCode rootProject.ext.versions["versionCode"]
-        versionName rootProject.ext.versions["versionName"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

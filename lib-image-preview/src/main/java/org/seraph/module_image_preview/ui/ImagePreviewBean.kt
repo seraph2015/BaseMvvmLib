@@ -1,7 +1,7 @@
 package org.seraph.module_image_preview.ui
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * 图片预览数据

@@ -14,9 +14,6 @@ ext {
      * 版本统一管理
      */
     versions = [
-            applicationId                         : "org.seraph.demo",      //应用ID
-            versionCode                           : 1,                      //版本号
-            versionName                           : "1.0",                  //版本名称
 
             buildToolsVersion                     : "30.0.3",
             compileSdkVersion                     : 30,
@@ -24,7 +21,7 @@ ext {
             targetSdkVersion                      : 30,
 
             "multidexVersion"                     : "2.0.1",
-            "coreKtxVersion"                      : "1.5.0-alpha04",
+            "coreKtxVersion"                      : "1.3.2",
             "appcompatVersion"                    : "1.2.0",
             "fragmentKtxVersion"                  : "1.2.5",
             "hiltAndroidXVersion"                 : "1.0.0-alpha03",

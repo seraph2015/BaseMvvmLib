@@ -6,9 +6,8 @@ if (Boolean.valueOf(rootProject.ext.isBuildModule)) {
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
-
 apply plugin: 'com.alibaba.arouter'
 
 android {
@@ -17,10 +16,10 @@ android {
     buildToolsVersion rootProject.ext.versions["buildToolsVersion"]
 
     defaultConfig {
+        versionCode 1
+        versionName "1.0"
         minSdkVersion rootProject.ext.versions["minSdkVersion"]
         targetSdkVersion rootProject.ext.versions["targetSdkVersion"]
-        versionCode rootProject.ext.versions["versionCode"]
-        versionName rootProject.ext.versions["versionName"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //阿里路由配置
         kapt {

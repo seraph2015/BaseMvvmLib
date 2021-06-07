@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import kotlinx.android.synthetic.main.comm_no_data_text.view.*
 import org.seraph.lib.R
 import org.seraph.lib.databinding.CommNoDataTextBinding
 
@@ -21,7 +20,7 @@ class NoDataView constructor(
     /**
      * 等待加载动画
      */
-    loadingAssetName :String? = null,
+    loadingAssetName: String? = null,
     private var type: Int = LOADING,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -64,7 +63,11 @@ class NoDataView constructor(
      */
     private var noDateIsListener = true
 
-    constructor(context: Context, attrs: AttributeSet?) : this(context, type = LOADING, attrs = attrs)
+    constructor(context: Context, attrs: AttributeSet?) : this(
+        context,
+        type = LOADING,
+        attrs = attrs
+    )
 
     private var binding: CommNoDataTextBinding? = null
 
@@ -174,37 +177,40 @@ class NoDataView constructor(
      * 设置状态
      */
     private fun setType() {
-        when (type) {
-            LOADING -> {
-                iv_icon.visibility = View.GONE
-                tv_show_str.visibility = View.GONE
-                lav_loading.visibility = View.VISIBLE
-                binding?.root?.setOnClickListener(null)
-                this.visibility = View.VISIBLE
-            }
-            NET_ERR -> {
-                lav_loading.visibility = View.GONE
-                iv_icon.visibility = View.VISIBLE
-                tv_show_str.visibility = View.VISIBLE
-                tv_show_str.text = "抱歉，你的网络走丢了\n点击重试"
-                binding?.root?.setOnClickListener(this)
-                this.visibility = View.VISIBLE
-            }
-            NO_DATE -> {
-                iv_icon.visibility = View.VISIBLE
-                tv_show_str.visibility = View.VISIBLE
-                lav_loading.visibility = View.GONE
-                if (noDataResId != -1) {
-                    iv_icon.setImageResource(noDataResId)
+        binding?.let {
+            when (type) {
+                LOADING -> {
+                    it.ivIcon.visibility = View.GONE
+                    it.tvShowStr.visibility = View.GONE
+                    it.lavLoading.visibility = View.VISIBLE
+                    it.root.setOnClickListener(null)
+
+                    this.visibility = View.VISIBLE
                 }
-                tv_show_str.text = if (noDataMsg.isNullOrBlank()) "暂无数据" else noDataMsg
-                //是否设置监听
-                binding?.root?.setOnClickListener(if (noDateIsListener) this else null)
-                this.visibility = View.VISIBLE
-            }
-            LOADING_OK -> {
-                binding?.root?.setOnClickListener(null)
-                this.visibility = View.GONE
+                NET_ERR -> {
+                    it.lavLoading.visibility = View.GONE
+                    it.ivIcon.visibility = View.VISIBLE
+                    it.tvShowStr.visibility = View.VISIBLE
+                    it.tvShowStr.text = "抱歉，你的网络走丢了\n点击重试"
+                    it.root.setOnClickListener(this)
+                    this.visibility = View.VISIBLE
+                }
+                NO_DATE -> {
+                    it.ivIcon.visibility = View.VISIBLE
+                    it.tvShowStr.visibility = View.VISIBLE
+                    it.lavLoading.visibility = View.GONE
+                    if (noDataResId != -1) {
+                        it.ivIcon.setImageResource(noDataResId)
+                    }
+                    it.tvShowStr.text = if (noDataMsg.isNullOrBlank()) "暂无数据" else noDataMsg
+                    //是否设置监听
+                    it.root.setOnClickListener(if (noDateIsListener) this else null)
+                    this.visibility = View.VISIBLE
+                }
+                LOADING_OK -> {
+                    it.root.setOnClickListener(null)
+                    this.visibility = View.GONE
+                }
             }
         }
     }
