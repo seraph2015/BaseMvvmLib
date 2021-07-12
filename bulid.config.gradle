@@ -1,0 +1,77 @@
+/**
+ *  全局统一配置
+ */
+ext {
+
+    /**
+     * module开关统一声明在此处（控制当前运行的工程是隔离状态还是合并状态）
+     * true：module作为application，可单独打包为apk
+     * false：module作为library，可作为宿主application的组件
+     */
+    isBuildModule = false
+
+    /**
+     * 版本统一管理
+     */
+    versions = [
+            buildToolsVersion                     : "30.0.3",
+            compileSdkVersion                     : 30,
+            minSdkVersion                         : 21,
+            targetSdkVersion                      : 30,
+    ]
+
+
+    dependencies = [
+            "material"                     : "com.google.android.material:material:1.3.0-alpha03",
+            "databindingCompiler"          : "com.android.databinding:compiler:3.2.0-alpha10",
+            //分包兼容
+            "multidex"                     : "androidx.multidex:multidex:2.0.1",
+            //androidX
+            "lifecycleExtensions"          : "androidx.lifecycle:lifecycle-extensions:2.2.0",
+            "coreKtx"                      : "androidx.core:core-ktx:1.3.2",
+            "appcompat"                    : "androidx.appcompat:appcompat:1.2.0",
+            //Kotlin相关
+            "kotlinGradlePlugin"           : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31",
+            "kotlinStdlibJdk8"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31",
+            //hilt框架
+            "hiltAndroidGradlePlugin"      : "com.google.dagger:hilt-android-gradle-plugin:2.31.2-alpha",
+            "hiltAndroid"                  : "com.google.dagger:hilt-android:2.31.2-alpha",
+            "hiltAndroidCompiler"          : "com.google.dagger:hilt-android-compiler:2.31.2-alpha",
+            "hiltLifecycleViewmodel"       : "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03",
+            "hiltCompiler"                 : "androidx.hilt:hilt-compiler:1.0.0-alpha03",
+            //fragment扩展
+            "fragmentKtx"                  : "androidx.fragment:fragment-ktx:1.2.5",
+            //协程
+            "kotlinxCoroutinesCore"        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8",
+            "kotlinxCoroutinesAndroid"     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8",
+            //ARouter路由框架
+            "arouterRegister"              : "com.alibaba:arouter-register:1.0.2",
+            "arouterApi"                   : "com.alibaba:arouter-api:1.5.1",
+            "arouterCompiler"              : "com.alibaba:arouter-compiler:1.5.1",
+            //retrofit网络请求框架,添加这个依赖就默认添加了okhttp依赖
+            "retrofit"                     : "com.squareup.retrofit2:retrofit:2.9.0",
+            "retrofitConverterGson"        : "com.squareup.retrofit2:converter-gson:2.9.0",
+            "okhttpLoggingInterceptor"     : "com.squareup.okhttp3:logging-interceptor:4.9.0",
+            //dbflow数据库
+            "dbflowProcessor"              : "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4",
+            "dbflow"                       : "com.github.Raizlabs.DBFlow:dbflow:4.2.4",
+            "dbflowCore"                   : "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4",
+            "dbflowKotlinextensions"       : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.2.4",
+            //glide图片加载相关
+            "glide"                        : "com.github.bumptech.glide:glide:4.11.0",
+            "glideCompiler"                : "com.github.bumptech.glide:compiler:4.11.0",
+            "glideOkhttp3Integration"      : "com.github.bumptech.glide:okhttp3-integration:4.11.0",
+            "glideAnnotations"             : "com.github.bumptech.glide:annotations:4.11.0",
+            //工具集
+            "utilcodex"                    : "com.blankj:utilcodex:1.30.4",
+            //lottie动画
+            "lottie"                       : "com.airbnb.android:lottie:3.4.1",
+            //下拉刷新
+            "refreshLayoutKernel"          : "com.scwang.smart:refresh-layout-kernel:2.0.1",
+            "refreshHeaderMaterial"        : "com.scwang.smart:refresh-header-material:2.0.1",
+            //一个强大的recyclerView适配器 ，文档见：http://www.jianshu.com/p/b343fcff51b0
+            "baseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47",
+            //大图片查看（不支持gif），文档https://github.com/davemorrissey/subsampling-scale-image-view
+            "subsamplingScaleImageView"    : "com.davemorrissey.labs:subsampling-scale-image-view:3.10.0",
+    ]
+}

@@ -1,6 +1,6 @@
 buildscript {
 
-    apply from: "config.gradle"
+    apply from: "bulid.config.gradle"
 
     repositories {
         maven {

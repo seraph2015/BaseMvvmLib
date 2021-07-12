@@ -41,6 +41,7 @@ android {
 dependencies {
     implementation project(path: ':module-welcome')
     implementation project(path: ':module-image-search')
+    implementation project(path: ':lib-install-wxapk')
 
     implementation rootProject.ext.dependencies["hiltAndroid"]
     implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
