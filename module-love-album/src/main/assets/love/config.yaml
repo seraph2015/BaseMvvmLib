@@ -1,0 +1,5 @@
+name: love
+version: 1
+handle:
+- directoryindex: Love.html
+- rewrite:  if ( !is_dir() && !is_file() && path ~ "http://1.love.applinzi.com" ) goto "http://love.applinzi.com"

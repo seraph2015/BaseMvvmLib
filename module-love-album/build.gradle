@@ -1,0 +1,35 @@
+apply from: "../build.module.gradle"
+android {
+    defaultConfig{
+        if (isBuildModule.toBoolean()) {
+            applicationId "org.seraph.love"
+        }
+    }
+    //统一资源前缀，规范资源引用
+    resourcePrefix "module_love_album_"
+}
+
+dependencies {
+    implementation project(path: ':lib-comm')
+
+    implementation rootProject.ext.dependencies["hiltAndroid"]
+    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
+    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
+    kapt rootProject.ext.dependencies["hiltCompiler"]
+
+    kapt rootProject.ext.dependencies["arouterCompiler"]
+
+    kapt rootProject.ext.dependencies["glideCompiler"]
+
+    kapt rootProject.ext.dependencies["dbflowProcessor"]
+
+    //事件总线
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //viewpager切换
+    implementation "com.alibaba.android:ultraviewpager:1.0.7.7"
+
+    //基于的 Android WebView
+    implementation 'com.just.agentweb:agentweb:4.0.2'
+
+}

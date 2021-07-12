@@ -8,9 +8,6 @@ import javax.inject.Inject
 
 /**
  * app初始化
- * date：2019/4/18 14:35
- * author：xiongj
- * mail：417753393@qq.com
  **/
 @HiltAndroidApp
 class SearchImageApplication : Application() {

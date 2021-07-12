@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Love</title>
+    <link type="text/css" rel="stylesheet" href="./Love_files/default.css">
+    <script type="text/javascript" src="./Love_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex.min.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex-parser.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex-jit.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./Love_files/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./Love_files/functions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./Love_files/love.js" charset="utf-8"></script>
+
+</head>
+<body>
+<div id="main">
+    <div id="error">亲，您使用的浏览器无法支持即将显示的内容，请换成谷歌(<a
+            href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a
+            href="http://firefox.com.cn/download/">Firefox</a>)浏览器哟~
+    </div>
+    <br/>
+    <div id="wrap">
+        <div id="text">
+            <div id="code">
+                <span class="say">命运的安排让我们相遇，缘分的使然让我们相识，</span><br>
+                <span class="say">你的出现如同隆冬寒夜升起的太阳，</span><br>
+                <span class="say">我的世界因你而倍感温暖。</span><br>
+                <span class="say">我想牵着你的手，与你从青丝走到暮雪。</span><br>
+                <span class="say">我想守护在你身边一路相伴而行，</span><br>
+                <span class="say">我想每天醒来就能同你说一声早安，</span><br>
+                <span class="say">我想每晚与你道一声晚安再入梦乡，</span><br>
+                <span class="say">我想为你去做每一件能让你开心的事情，</span><br>
+                <span class="say">我想带你去所有想去的地方。</span><br>
+                <span class="say">我期待着成为你的避风港，</span><br>
+                <span class="say">陪着你闹看着你笑。</span><br>
+                <span class="say">我期待着与你一起经历所有的点点滴滴，</span><br>
+                <br>
+                <span class="say">没有我在你身边的日子里，</span><br>
+                <span class="say">我愿将对你的思恋寄予散落的星星，</span><br>
+                <span class="say">随着点点星光挥洒到你的窗前伴你好梦。</span><br>
+                <span class="say">林深时见鹿，海蓝时见鲸。</span><br>
+                <span class="say">而我只愿，梦醒时见你。</span><br>
+                <span class="say">愿有岁月可回首，且以深情共白头。</span><br>
+                <br>
+                <span class="say"><span class="space"></span><span class="space"></span> -- Yours, 熊健.</span>
+            </div>
+        </div>
+        <div id="clock-box">
+            <br>
+            XXX 与 <a href="javascript:onClickShe();">XXX</a> 认识的
+            <div id="clock"></div>
+        </div>
+        <canvas id="canvas" width="550" height="340"></canvas>
+    </div>
+    <audio src="Take me hand.mp3" autoplay="autoplay" autoplay preload="auto"></audio>
+</div>
+
+<script>
+</script>
+
+<script>
+    function onClickShe(){
+        onClick("1");
+    }
+
+    (function(){
+        var canvas = $('#canvas');
+
+        if (!canvas[0].getContext) {
+            $("#error").show();
+            return false;
+        }
+
+        var width = canvas.width();
+        var height = canvas.height();
+        
+        canvas.attr("width", width);
+        canvas.attr("height", height);
+
+        var opts = {
+            seed: {
+                x: width / 2 - 20/2,
+                color: "rgb(190, 26, 37)",
+                scale: 2
+            },
+            branch: [
+                [535/2, 680/2, 570/2, 250/2, 500/2, 200/2, 30/2, 100/2, [
+                    [540/2, 500/2, 455/2, 417/2, 340/2, 400/2, 13/2, 100/2, [
+                        [450/2, 435/2, 434/2, 430/2, 394/2, 395/2, 2/2, 40/2]
+                    ]],
+                    [550/2, 445/2, 600/2, 356/2, 680/2, 345/2, 12/2, 100/2, [
+                        [578/2, 400/2, 648/2, 409/2, 661/2, 426/2, 3/2, 80/2]
+                    ]],
+                    [539/2, 281/2, 537/2, 248/2, 534/2, 217/2, 3/2, 40/2],
+                    [546/2, 397/2, 413/2, 247/2, 328/2, 244/2, 9/2, 80/2, [
+                        [427/2, 286/2, 383/2, 253/2, 371/2, 205/2, 2/2, 40/2],
+                        [498/2, 345/2, 435/2, 315/2, 395/2, 330/2, 4/2, 60/2]
+                    ]],
+                    [546/2, 357/2, 608/2, 252/2, 678/2, 221/2, 6/2, 100/2, [
+                        [590/2, 293/2, 646/2, 277/2, 648/2, 271/2, 2/2, 80/2]
+                    ]]
+                ]]
+            ],
+            bloom: {
+                num: 700,
+                width: 1080/2,
+                height: 650/2,
+            },
+            footer: {
+                width: 1200/2,
+                height: 5/2,
+                speed: 6,
+            }
+        }
+
+        var tree = new Tree(canvas[0], width, height, opts);
+        var seed = tree.seed;
+        var foot = tree.footer;
+        var hold = 1;
+
+        canvas.click(function(e) {
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            if (seed.hover(x, y)) {
+                hold = 0; 
+                canvas.unbind("click");
+                canvas.unbind("mousemove");
+                canvas.removeClass('hand');
+            }
+        }).mousemove(function(e){
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            canvas.toggleClass('hand', seed.hover(x, y));
+        });
+
+        var seedAnimate = eval(Jscex.compile("async", function () {
+            seed.draw();
+            while (hold) {
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canScale()) {
+                seed.scale(0.95);
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canMove()) {
+                seed.move(0, 2);
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+        }));
+
+        var growAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.grow();
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canGrow());
+        }));
+
+        var flowAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.flower(2);
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canFlower());
+        }));
+
+        var moveAnimate = eval(Jscex.compile("async", function () {
+            tree.snapshot("p1", 240/2, 0, 610/2, 680/2);
+            while (tree.move("p1", 500/2, 0)) {
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+            foot.draw();
+            tree.snapshot("p2", 500/2, 0, 610/2, 680/2);
+
+            // 会有闪烁不得意这样做, (＞﹏＜)
+            canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+            canvas.css("background", "#ffe");
+            $await(Jscex.Async.sleep(300));
+            canvas.css("background", "none");
+        }));
+
+        var jumpAnimate = eval(Jscex.compile("async", function () {
+            var ctx = tree.ctx;
+            while (true) {
+                tree.ctx.clearRect(0, 0, width, height);
+                tree.jump();
+                foot.draw();
+                $await(Jscex.Async.sleep(25));
+            }
+        }));
+
+        var textAnimate = eval(Jscex.compile("async", function () {
+            var together = new Date();
+            together.setFullYear(2020, 6, 12);
+            together.setHours(13);
+            together.setMinutes(44);
+            together.setSeconds(0);
+            together.setMilliseconds(0);
+
+            $("#code").show().typewriter();
+            $("#clock-box").fadeIn(500);
+            while (true) {
+                timeElapse(together);
+                $await(Jscex.Async.sleep(1000));
+            }
+        }));
+
+        var runAsync = eval(Jscex.compile("async", function () {
+            $await(seedAnimate());
+            $await(growAnimate());
+            $await(flowAnimate());
+            $await(moveAnimate());
+
+            textAnimate().start();
+
+            $await(jumpAnimate());
+        }));
+
+        runAsync().start();
+    })();
+
+
+</script>
+
+
+</body>
+</html>

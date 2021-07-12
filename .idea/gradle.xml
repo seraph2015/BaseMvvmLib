@@ -15,7 +15,9 @@
             <option value="$PROJECT_DIR$/lib-image-preview" />
             <option value="$PROJECT_DIR$/lib-install-wxapk" />
             <option value="$PROJECT_DIR$/module-image-search" />
+            <option value="$PROJECT_DIR$/module-love-album" />
             <option value="$PROJECT_DIR$/module-main" />
+            <option value="$PROJECT_DIR$/module-tools-bcy" />
             <option value="$PROJECT_DIR$/module-welcome" />
           </set>
         </option>

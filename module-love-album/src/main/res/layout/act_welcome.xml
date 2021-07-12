@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="vm"
+                type="org.seraph.demo.ui.welcome.vm.WelcomeVm" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:src="@mipmap/a111"
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/tv1"
+                android:layout_width="14dp"
+                android:layout_height="wrap_content"
+                android:text="星空下璀璨闪烁的星辰，"
+                android:textSize="14sp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="#ffffff"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv2"
+                app:layout_constraintTop_toBottomOf="@+id/statusBarView" />
+
+        <TextView
+                android:id="@+id/tv2"
+                android:layout_width="14dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="16dp"
+                android:text="时光里弥足珍贵的印记。"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/statusBarView" />
+
+        <org.seraph.lib.view.StatusBarView
+                android:id="@+id/statusBarView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/btn_jump"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/act_welcome_jump_icon_bg"
+                android:text='@{String.format(" %ds ",vm.count)}'
+                android:textColor="@android:color/white"
+                android:visibility='@{vm.count != null ? "visible" : "gone"}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/statusBarView"
+                tools:layout_conversion_absoluteHeight="30dp"
+                tools:layout_conversion_absoluteWidth="52dp"
+                tools:text="跳过" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
