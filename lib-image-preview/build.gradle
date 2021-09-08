@@ -2,14 +2,14 @@ apply from: "../build.lib.gradle"
 
 dependencies {
     implementation project(path: ':lib-base-core')
-    kapt rootProject.ext.dependencies["databindingCompiler"]
-    implementation rootProject.ext.dependencies["hiltAndroid"]
-    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    kapt "com.android.databinding:compiler:$databinding_version"
+    implementation "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
-    kapt rootProject.ext.dependencies["glideCompiler"]
-    kapt rootProject.ext.dependencies["arouterCompiler"]
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.alibaba:arouter-compiler:$arouter_version"
 
-    implementation rootProject.ext.dependencies["subsamplingScaleImageView"]
+    implementation "com.davemorrissey.labs:subsampling-scale-image-view:3.10.0"
 }

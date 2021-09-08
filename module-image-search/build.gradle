@@ -13,15 +13,16 @@ dependencies {
     api project(path: ':lib-comm')
     api project(path: ':lib-image-preview')
 
-    api rootProject.ext.dependencies["hiltAndroid"]
-    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    api "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
 
-    kapt rootProject.ext.dependencies["arouterCompiler"]
+    api "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
-    kapt rootProject.ext.dependencies["glideCompiler"]
+    kapt "com.alibaba:arouter-compiler:$arouter_version"
 
-    kapt rootProject.ext.dependencies["dbflowProcessor"]
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
 
 }

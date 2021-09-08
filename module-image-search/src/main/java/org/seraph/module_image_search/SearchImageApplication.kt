@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * app初始化
  **/
-@HiltAndroidApp
+//@HiltAndroidApp
 class SearchImageApplication : Application() {
 
     override fun attachBaseContext(base: Context?) {

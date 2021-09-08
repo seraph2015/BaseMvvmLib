@@ -4,45 +4,45 @@ apply from: "../build.lib.gradle"
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
-    api rootProject.ext.dependencies["arouterApi"]
-    kapt rootProject.ext.dependencies["arouterCompiler"]
-    api rootProject.ext.dependencies["kotlinStdlibJdk8"]
-    kapt rootProject.ext.dependencies["databindingCompiler"]
+    api "com.alibaba:arouter-api:$arouter_version"
+    kapt "com.alibaba:arouter-compiler:$arouter_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    kapt "com.android.databinding:compiler:$databinding_version"
 
-    api rootProject.ext.dependencies["multidex"]
+    api "androidx.multidex:multidex:2.0.1"
 
-    api rootProject.ext.dependencies["coreKtx"]
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["material"]
-    api rootProject.ext.dependencies["lifecycleExtensions"]
-    api rootProject.ext.dependencies["fragmentKtx"]
+    api "androidx.core:core-ktx:1.5.0"
+    api "androidx.appcompat:appcompat:1.3.0"
+    api "com.google.android.material:material:1.4.0-alpha02"
+    api "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    api "androidx.fragment:fragment-ktx:1.3.5"
 
-    api rootProject.ext.dependencies["utilcodex"]
-    api rootProject.ext.dependencies["lottie"]
-    api rootProject.ext.dependencies["refreshLayoutKernel"]
-    api rootProject.ext.dependencies["refreshHeaderMaterial"]
-    api rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
+    api "com.blankj:utilcodex:1.30.6"
+    api "com.airbnb.android:lottie:3.6.1"
+    api "com.scwang.smart:refresh-layout-kernel:2.0.1"
+    api "com.scwang.smart:refresh-header-material:2.0.1"
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47"
 
-    api rootProject.ext.dependencies["retrofit"]
-    api rootProject.ext.dependencies["retrofitConverterGson"]
-    api rootProject.ext.dependencies["okhttpLoggingInterceptor"]
+    api "com.squareup.retrofit2:retrofit:2.9.0"
+    api "com.squareup.retrofit2:converter-gson:2.9.0"
+    api "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
-    api rootProject.ext.dependencies["kotlinxCoroutinesCore"]
-    api rootProject.ext.dependencies["kotlinxCoroutinesAndroid"]
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
-    api rootProject.ext.dependencies["hiltAndroid"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    api "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
+    api "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
-    api rootProject.ext.dependencies["glide"]
-    kapt rootProject.ext.dependencies["glideCompiler"]
-    api rootProject.ext.dependencies["glideOkhttp3Integration"]
-    api rootProject.ext.dependencies["glideAnnotations"]
+    api "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    api "com.github.bumptech.glide:okhttp3-integration:$glide_version"
+    api "com.github.bumptech.glide:annotations:$glide_version"
 
-    api rootProject.ext.dependencies["dbflow"]
-    kapt rootProject.ext.dependencies["dbflowProcessor"]
-    api rootProject.ext.dependencies["dbflowCore"]
-    api rootProject.ext.dependencies["dbflowKotlinextensions"]
+    api "com.github.Raizlabs.DBFlow:dbflow:$dbflow_version"
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
+    api "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow_version"
+    api "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$dbflow_version"
 
 }

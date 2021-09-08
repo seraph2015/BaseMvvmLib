@@ -12,7 +12,7 @@ import javax.inject.Inject
  * author：xiongj
  * mail：417753393@qq.com
  **/
-@HiltAndroidApp
+//@HiltAndroidApp
 class WelcomeApplication : Application() {
 
     override fun attachBaseContext(base: Context?) {

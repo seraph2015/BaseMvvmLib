@@ -3,10 +3,9 @@ apply from: "../build.lib.gradle"
 dependencies {
     api project(path: ':lib-base-core')
 
-    api rootProject.ext.dependencies["hiltAndroid"]
-    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
-
-    kapt rootProject.ext.dependencies["dbflowProcessor"]
+    api "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
+    api "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
 }

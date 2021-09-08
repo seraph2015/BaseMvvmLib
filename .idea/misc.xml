@@ -5,6 +5,15 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/StudioProjects/BaseMvvmLib/module-welcome/src/main/res/layout/module_welcome_act_guide.xml" value="0.55" />
+        <entry key="..\:/StudioProjects/BaseMvvmLib/module-welcome/src/main/res/layout/module_welcome_act_guide_item.xml" value="0.55" />
+        <entry key="..\:/StudioProjects/BaseMvvmLib/module-welcome/src/main/res/layout/module_welcome_act_welcome.xml" value="0.328125" />
+      </map>
+    </option>
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>

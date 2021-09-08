@@ -43,12 +43,13 @@ dependencies {
     implementation project(path: ':module-image-search')
     implementation project(path: ':lib-install-wxapk')
 
-    implementation rootProject.ext.dependencies["hiltAndroid"]
-    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    implementation "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
 
-    kapt rootProject.ext.dependencies["databindingCompiler"]
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
-    kapt rootProject.ext.dependencies["dbflowProcessor"]
+    kapt "com.android.databinding:compiler:$databinding_version"
+
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
 }

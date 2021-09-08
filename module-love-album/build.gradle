@@ -12,19 +12,18 @@ android {
 dependencies {
     implementation project(path: ':lib-comm')
 
-    implementation rootProject.ext.dependencies["hiltAndroid"]
-    implementation rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    implementation "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
+    kapt "com.alibaba:arouter-compiler:$arouter_version"
 
-    kapt rootProject.ext.dependencies["arouterCompiler"]
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    kapt rootProject.ext.dependencies["glideCompiler"]
-
-    kapt rootProject.ext.dependencies["dbflowProcessor"]
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow_version"
 
     //事件总线
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.2.0'
 
     //viewpager切换
     implementation "com.alibaba.android:ultraviewpager:1.0.7.7"

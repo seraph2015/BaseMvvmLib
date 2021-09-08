@@ -11,13 +11,14 @@ android {
 
 dependencies {
     api project(path: ':lib-comm')
-    kapt rootProject.ext.dependencies["databindingCompiler"]
-    api rootProject.ext.dependencies["hiltAndroid"]
-    api rootProject.ext.dependencies["hiltLifecycleViewmodel"]
-    kapt rootProject.ext.dependencies["hiltAndroidCompiler"]
-    kapt rootProject.ext.dependencies["hiltCompiler"]
+    kapt "com.android.databinding:compiler:$databinding_version"
+    api "com.google.dagger:hilt-android:$hilt_plugin_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_plugin_version"
 
-    kapt rootProject.ext.dependencies["arouterCompiler"]
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
+
+    kapt "com.alibaba:arouter-compiler:$arouter_version"
     //viewpager切换
     implementation "com.alibaba.android:ultraviewpager:1.0.7.7"
 }
