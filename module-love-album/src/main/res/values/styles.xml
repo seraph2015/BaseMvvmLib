@@ -2,7 +2,7 @@
 
 
     <!--app主题-->
-    <style name="AppTheme" parent="LibTheme">
+    <style name="ModuleLoveAlbumAppTheme" parent="LibTheme">
     </style>
 
 </resources>

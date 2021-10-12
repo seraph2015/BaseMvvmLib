@@ -61,11 +61,11 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
 
         @JavascriptInterface
         fun onClick(type: String) {
-            act.runOnUiThread {
-                ARouter.getInstance().build(LoveConstants.PATH_LOVE_IMAGES).withString("type",type)
-                    .withTransition(R.anim.anim_go_center_gone_to_show,R.anim.anim_null)
-                    .navigation(act)
-            }
+//            act.runOnUiThread {
+//                ARouter.getInstance().build(LoveConstants.PATH_LOVE_IMAGES).withString("type",type)
+//                    .withTransition(R.anim.anim_go_center_gone_to_show,R.anim.anim_null)
+//                    .navigation(act)
+//            }
         }
     }
 
