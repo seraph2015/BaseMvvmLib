@@ -248,9 +248,8 @@ fun Context.copyTextToClip(textStr: String) {
  * 获取控件的宽/高
  */
 fun View?.getViewHeight(isHeight: Boolean): Int {
-    val result: Int
     if (this == null) return 0
-    result = if (isHeight) {
+    val result: Int = if (isHeight) {
         val h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         this.measure(h, 0)
         this.measuredHeight
