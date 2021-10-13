@@ -6,7 +6,7 @@ android {
         }
     }
     //统一资源前缀，规范资源引用
-    resourcePrefix "module_love_album_"
+   // resourcePrefix "module_love_album_"
 }
 
 dependencies {
