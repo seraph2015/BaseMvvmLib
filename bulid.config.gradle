@@ -20,7 +20,7 @@ ext {
             targetSdkVersion                      : 30,
     ]
 
-    kotlin_version = "1.5.30"
+    kotlin_version = "1.6.0"
     hilt_plugin_version = "2.38.1"
     hilt_compiler_version = "1.0.0"
     hilt_viewmodel_version = "1.0.0-alpha03"
