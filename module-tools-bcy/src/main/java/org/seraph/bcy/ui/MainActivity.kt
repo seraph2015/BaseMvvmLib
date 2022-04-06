@@ -5,14 +5,21 @@ import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.ResourceUtils
 import com.blankj.utilcode.util.SizeUtils
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONArray
+import org.json.JSONObject
 import org.seraph.bcy.BcyConstants
 import org.seraph.bcy.R
 import org.seraph.bcy.databinding.ActivityMainBinding
+import org.seraph.bcy.ui.b.VpnpzBean
 import org.seraph.bcy.ui.vm.MainVm
 import org.seraph.lib.ui.base.ABaseActivity
+import java.nio.charset.Charset
 import java.util.*
+import kotlin.text.Charsets.UTF_8
 
 
 @Route(path = BcyConstants.PATH_APP_MAIN)
@@ -58,11 +65,24 @@ class MainActivity : ABaseActivity<ActivityMainBinding, MainVm>(R.layout.activit
                 navBar
             )
         }
+        binding.btn111.setOnClickListener {
+            main1()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_text_input, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+     fun  main1() {
+         val s = ResourceUtils.readAssets2String("vpnpz.json")
+         val list = GsonUtils.fromJson(s, VpnpzBean::class.java).configs
+         val sb:StringBuilder = StringBuilder()
+         list.forEach {
+             sb.append( it.getSsrFormat()).append("\n")
+         }
+         System.err.println(sb.toString())
     }
 
 
